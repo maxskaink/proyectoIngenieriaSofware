@@ -1,0 +1,13 @@
+.catalogo-producto {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  .catalogo-producto:hover {
+    background-color: #e0e0e0;
+  }
+  

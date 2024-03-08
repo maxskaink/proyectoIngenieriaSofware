@@ -1,5 +1,6 @@
 import  { useState } from "react";
 import axios from "axios";
+import { API } from '../constants/API'
 import '../styles/createProduct.css';
 import {  infoForCreateProductoValid } from '../helpers/validations'
 
@@ -32,7 +33,7 @@ export const CreateProduct = () => {
     e.preventDefault();
     let response;
     try {
-      response = await axios.post('http://localhost:3001/agregar-producto', producto);
+      response = await axios.post(API.agregarProducto, producto);
       if (response.data.state === 'OK')
         setState({isValid:true, 
                   message: 'Se ha agregado el producto',

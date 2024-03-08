@@ -1,37 +1,59 @@
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API } from '../constants/API'
 import '../styles/catalogo.css';
 
-export const Catalogo = () => {
+import { ItemProduct } from './ItemProduct';
+import { SearchBar } from './searchBard';
+
+const handleSelectProductDefault = ( props ) => {
+  console.log(`cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`)
+  console.log(props)
+}
+
+
+// eslint-disable-next-line react/prop-types
+export const Catalogo = ( { handleSelectProduct = handleSelectProductDefault, }) => {
   const [productos, setProductos] = useState([]);
+
+  const [ search, setSearch ] = useState([]);
+
+const handleSearch = (value) => {
+  setSearch( value)
+}
+
+  const handleClick = ( info ) => {
+    handleSelectProduct( info );
+  }
 
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/consultar-productos');
+        const response = await axios.get(API.consultarProductos);
 
         if (response.status === 200) {
           setProductos(response.data);
         } else {
           console.error('Error al obtener la lista de productos');
         }
+
       } catch (error) {
         console.error('Error en la solicitud:', error);
       }
     };
 
     fetchProductos();
-  }, []); 
+  }, [search]); 
 
   return (
     <div className='catalogo'>
+      <SearchBar onSearch={handleSearch} />
       <h2 className='catalogo-titulo'>Lista de Productos</h2>
       <ul className='catalogo-lista'>
-        {productos && productos.length > 0 ? (
-          productos.map((producto) => (
-            <li key={producto[0]} className='catalogo-producto'>
-              <strong>ID:</strong> {producto[0]}, <strong>Nombre:</strong> {producto[1]}, <strong>Descripción:</strong> {producto[2]}, <strong>Precio:</strong> {producto[3]}
-            </li>
+        { (productos && productos.length > 0) ? (
+          productos.map((producto, index) => (
+            ((producto[1].toString().includes(search) || search.toString().length === 0))&&
+              <ItemProduct  key={index}  producto={producto} onClick={handleClick}/>  
           ))
         ) : (
           <li>No hay productos disponibles</li>
@@ -40,3 +62,4 @@ export const Catalogo = () => {
     </div>
   );
 };
+

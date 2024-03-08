@@ -1,11 +1,11 @@
 /* Estilos para el componente CreateProduct */
 .createProduct {
-    margin: 10% 20%;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: center;
+    width: -webkit-fill-available;
     
   }
   
