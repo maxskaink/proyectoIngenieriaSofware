@@ -1,0 +1,32 @@
+/* Estilos para el componente Catalogo */
+.catalogo {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .catalogo-titulo {
+    font-size: 2em;
+    color: #333;
+  }
+  
+  .catalogo-lista {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .catalogo-producto {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  .catalogo-producto:hover {
+    background-color: #e0e0e0;
+  }
+  

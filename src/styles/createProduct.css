@@ -1,0 +1,56 @@
+/* Estilos para el componente CreateProduct */
+.createProduct {
+    margin: 10% 20%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    
+  }
+  
+  .createProduct-titulo {
+    font-size: 2em;
+    color: #333;
+    text-align: center;
+  }
+  
+  .createProduct-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .createProduct-label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 40%;
+  }
+  
+  .createProduct-button {
+    padding: 10px;
+    font-size: 1.2em;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .createProduct-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .createProduct-message {
+    margin-top: 10px;
+    color: #555;
+    text-align: center;
+  }
+
+  .createProduct-message-error{
+    color: red;
+  }
+  
