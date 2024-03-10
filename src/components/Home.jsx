@@ -21,7 +21,7 @@ export function Home () {
     }
     return(
         <article className="home">
-            <div className="home-container">
+{/*             <div className="home-container">
                 <h1> Menu principal, seleccione alguna opcion</h1>
 
                 <div className="home-container-buttons">
@@ -32,7 +32,7 @@ export function Home () {
                         <button className="home-container-buttons-button">Presione aqui para ir a agregar producto</button>
                     </Link>
                 </div>
-            </div>
+            </div> */}
             <Catalogo productoAtributos={productoAtributos} handleSelectProduct={handleSelectProduct}></Catalogo>
             <div className="container-crud">
                 <ManageProduct handleUpdate={setProducto} handleManagement={addProduct}></ManageProduct>
