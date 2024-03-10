@@ -7,7 +7,7 @@ class Response{
     }
 }
 
-export const infoForCreateProductoValid = (atributo, valor) => {
+export const infoFormanageProductoValid = (atributo, valor) => {
 
     switch (atributo) {
         case 'id':

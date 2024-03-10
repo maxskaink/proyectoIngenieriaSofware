@@ -41,5 +41,15 @@ describe producto;
 insert into PRODUCTO (idProducto, nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values (1, 'pollito frito', 'Pollo clasico de toda la vida', 40000, 1, 0);
 
+
+
 select * from PRODUCTO;
 delete from producto where idProducto = 2;
+
+UPDATE PRODUCTO
+SET nombre = 'carne frita', 
+    DESCRIPCION = 'nueva descripcion', 
+    PrecioActual = 666, 
+    activado = 1, 
+    CANTIDADSTOCK = 0
+WHERE idProducto = 1;

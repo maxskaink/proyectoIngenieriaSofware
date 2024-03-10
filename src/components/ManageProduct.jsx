@@ -1,19 +1,9 @@
 import  { useState } from "react";
-import axios from "axios";
-import { API } from '../constants/API'
-import '../styles/createProduct.css';
-import {  infoForCreateProductoValid } from '../helpers/validations'
-
-const nada = () => {
-   console.log()
-}
-
-const addProduct = async(producto) => {
-    return await axios.post(API.agregarProducto, producto)
-};
+import '../styles/manageProduct.css';
+import {  infoFormanageProductoValid } from '../helpers/validations'
 
 // eslint-disable-next-line react/prop-types
-export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduct, product, title}) => {
+export const ManageProduct = ({handleUpdate, handleManagement, product, title, children}) => {
   const [producto, setProducto] = useState({
     id: (product)? product[0] : '',
     nombre: (product)? product[1] : '',
@@ -24,16 +14,16 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
   const [state, setState] = useState({
     isValid: true,
     message: '',
-    className:'createProduct-message'
+    className:'manageProduct-message'
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const validate = infoForCreateProductoValid(name, value)
+    const validate = infoFormanageProductoValid(name, value)
 
     setState({isValid:validate.isValid, 
               message: validate.message,
-              className: (validate.isValid) ?'createProduct-message' : 'createProduct-message-error' });
+              className: (validate.isValid) ?'manageProduct-message' : 'manageProduct-message-error' });
     if(validate.isValid && value.toString !='')
       setProducto((prevProducto) => ( {...prevProducto, [name]: value,} ));
   };
@@ -46,22 +36,23 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
       if (response.data.state === 'OK')
         setState({isValid:true, 
                   message: 'Se ha agregado el producto',
-                  className: 'createProduct-message' })
-        handleUpdate([]);
+                  className: 'manageProduct-message' });
+    (handleUpdate) && handleUpdate([]);
     } catch (error) {
       console.log(error);
       setState({isValid:false, 
                 message: error.response.data.message.toString(),
-                className: 'createProduct-message-error' })
+                className: 'manageProduct-message-error' })
     }
   };
 
+  //TODO recordar cambiar esto, para que no pida la id, y funcioine normalmente el title
   return (
-    <div className="createProduct">
-      <h2 className="createProduct-titulo"> {(title)? title : 'Agregar Producto'}</h2>
-      <form onSubmit={handleSubmit} className="createProduct-form">
+    <div className="manageProduct">
+      <h2 className="manageProduct-titulo"> {(title)? title : 'Agregar Producto'}</h2>
+      <form onSubmit={handleSubmit} className="manageProduct-form">
         {(!title)&&
-        <label className="createProduct-label">
+        <label className="manageProduct-label">
           <span>ID:</span>
           <input
             type="textq"
@@ -71,7 +62,7 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
           />
         </label>
         }
-        <label className="createProduct-label">
+        <label className="manageProduct-label">
           Nombre:
           <input
             type="text"
@@ -81,7 +72,7 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
           />
         </label>
 
-        <label className="createProduct-label">
+        <label className="manageProduct-label">
           Descripción:
           <textarea
             name="descripcion"
@@ -90,7 +81,7 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
           />
         </label>
 
-        <label className="createProduct-label">
+        <label className="manageProduct-label">
           Precio:
           <input
             type="number"
@@ -100,8 +91,9 @@ export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduc
           />
         </label>
 
-        <button type="submit" className="createProduct-button" disabled={!state.isValid}>{(title)? title : 'Agregar Producto'}</button>
+        <button type="submit" className="manageProduct-button" disabled={!state.isValid}>{(title)? title : 'Agregar Producto'}</button>
       </form>
+      {children}
       <label className={state.className}>{state.message}</label>
     </div>
   );

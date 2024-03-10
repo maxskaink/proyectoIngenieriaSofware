@@ -1,5 +1,5 @@
-/* Estilos para el componente CreateProduct */
-.createProduct {
+/* Estilos para el componente manageProduct */
+.manageProduct {
     padding: 2px 20px 5px 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -10,27 +10,27 @@
     
   }
   
-  .createProduct-titulo {
+  .manageProduct-titulo {
     font-size: 1.5em;
     color: #333;
     text-align: center;
   }
   
-  .createProduct-form {
+  .manageProduct-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
   
-  .createProduct-label {
+  .manageProduct-label {
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 40%;
   }
   
-  .createProduct-button {
+  .manageProduct-button {
     padding: 10px;
     font-size: 1em;
     background-color: #3498db;
@@ -41,17 +41,17 @@
     transition: background-color 0.3s ease;
   }
   
-  .createProduct-button:hover {
+  .manageProduct-button:hover {
     background-color: #2980b9;
   }
   
-  .createProduct-message {
+  .manageProduct-message {
     margin-top: 10px;
     color: #555;
     text-align: center;
   }
 
-  .createProduct-message-error{
+  .manageProduct-message-error{
     color: red;
   }
   
