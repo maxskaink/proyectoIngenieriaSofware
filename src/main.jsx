@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter , RouterProvider } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Home } from './components/Home';
-import { CreateProduct } from './components/CreateProduct';
+import { ManageProduct } from './components/ManageProduct';
 import { Catalogo } from './components/Catalogo';
 
 const router = createBrowserRouter([
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'crear-producto',
-    Component: CreateProduct
+    Component: ManageProduct
   },
   {
     path: '/catalago',

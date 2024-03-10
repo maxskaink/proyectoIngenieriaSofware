@@ -11,10 +11,9 @@ export const infoForCreateProductoValid = (atributo, valor) => {
 
     switch (atributo) {
         case 'id':
-            console.log(valor.toString().length)
             if( valor.toString().length === 0)
                 return new Response('Ingrese al menos un id', true)
-            const id = parseFloat(valor, 10);
+            const id = parseInt(valor, 10);
 
             if((isNaN(id) || !id) )
                 return new Response('Ingrese en id solo numeros y no letras o caracteres especiales', false)

@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom"
 import '../styles/home.css'
 import {  Catalogo } from './Catalogo.jsx'
-import { CreateProduct } from './CreateProduct.jsx'
+import { ManageProduct } from './ManageProduct.jsx'
+import { useState } from "react"
 
+const handleManagement = () => {
+
+} 
 
 export function Home () {
+    const [state, setState] = useState([]);
+    const handleSelectProduct = ( producto ) => {
+        setState(producto)
+    }
     return(
         <article className="home">
             <div className="home-container">
@@ -19,8 +27,17 @@ export function Home () {
                     </Link>
                 </div>
             </div>
-            <Catalogo></Catalogo>
-            <CreateProduct></CreateProduct>
+            <Catalogo state={state} handleSelectProduct={handleSelectProduct}></Catalogo>
+            <div className="container-crud">
+                <ManageProduct handleUpdate={setState}></ManageProduct>
+                {(state.length>0) && 
+                    <ManageProduct handleUpdate={setState}
+                                   handleManagement={handleManagement} 
+                                   title = "Actualizar producto"
+                                   product={state} 
+                                   key={state[0]}>
+                    </ManageProduct>}
+            </div>
         </article>
 
     )

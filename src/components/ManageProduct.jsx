@@ -4,12 +4,21 @@ import { API } from '../constants/API'
 import '../styles/createProduct.css';
 import {  infoForCreateProductoValid } from '../helpers/validations'
 
-export const CreateProduct = () => {
+const nada = () => {
+   console.log()
+}
+
+const addProduct = async(producto) => {
+    return await axios.post(API.agregarProducto, producto)
+};
+
+// eslint-disable-next-line react/prop-types
+export const ManageProduct = ({handleUpdate = nada, handleManagement = addProduct, product, title}) => {
   const [producto, setProducto] = useState({
-    id: '',
-    nombre: '',
-    descripcion: '',
-    precio: '',
+    id: (product)? product[0] : '',
+    nombre: (product)? product[1] : '',
+    descripcion: (product)? product[2] : '',
+    precio: (product)? product[3] : '',
   });
 
   const [state, setState] = useState({
@@ -33,11 +42,12 @@ export const CreateProduct = () => {
     e.preventDefault();
     let response;
     try {
-      response = await axios.post(API.agregarProducto, producto);
+      response = await handleManagement(producto);
       if (response.data.state === 'OK')
         setState({isValid:true, 
                   message: 'Se ha agregado el producto',
                   className: 'createProduct-message' })
+        handleUpdate([]);
     } catch (error) {
       console.log(error);
       setState({isValid:false, 
@@ -48,18 +58,19 @@ export const CreateProduct = () => {
 
   return (
     <div className="createProduct">
-      <h2 className="createProduct-titulo">Agregar Producto</h2>
+      <h2 className="createProduct-titulo"> {(title)? title : 'Agregar Producto'}</h2>
       <form onSubmit={handleSubmit} className="createProduct-form">
+        {(!title)&&
         <label className="createProduct-label">
           <span>ID:</span>
           <input
-            type="number"
+            type="textq"
             name="id"
             value={producto.id}
             onChange={handleChange}
           />
         </label>
-
+        }
         <label className="createProduct-label">
           Nombre:
           <input
@@ -89,7 +100,7 @@ export const CreateProduct = () => {
           />
         </label>
 
-        <button type="submit" className="createProduct-button" disabled={!state.isValid}>Agregar Producto</button>
+        <button type="submit" className="createProduct-button" disabled={!state.isValid}>{(title)? title : 'Agregar Producto'}</button>
       </form>
       <label className={state.className}>{state.message}</label>
     </div>

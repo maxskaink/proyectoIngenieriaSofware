@@ -14,8 +14,7 @@ export const agregarProducto = async ({ id, nombre, descripcion, precio }) => {
 
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
-
-    const query = `INSERT INTO Producto (id, nombre, descripcion, precio) VALUES (:id, :nombre, :descripcion, :precio)`;
+    const query = `insert into PRODUCTO (idProducto, nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) values (:id, :nombre, :descripcion, :precio, 1, 0)`
 
     await connection.execute(query, {
     id,
@@ -65,6 +64,6 @@ export const actualizarProducto = async() => {
 
     return result
   } catch (error) {
-    console.log(err)
+    console.log(error)
   }
 }
