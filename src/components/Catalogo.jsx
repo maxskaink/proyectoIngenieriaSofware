@@ -13,7 +13,7 @@ const handleSelectProductDefault = ( props ) => {
 
 
 // eslint-disable-next-line react/prop-types
-export const Catalogo = ( { handleSelectProduct = handleSelectProductDefault, productoSeleccionado}) => {
+export const Catalogo = ( { handleSelectProduct = handleSelectProductDefault, productoAtributos = []}) => {
   const [productos, setProductos] = useState([]);
 
   const [ search, setSearch ] = useState([]);
@@ -41,9 +41,9 @@ const handleSearch = (value) => {
         console.error('Error en la solicitud:', error);
       }
     };
-
+    console.log("Se ejecuta esto")
     fetchProductos();
-  }, [search, productoSeleccionado]); 
+  }, [search, productoAtributos]); 
 
   return (
     <div className='catalogo'>
