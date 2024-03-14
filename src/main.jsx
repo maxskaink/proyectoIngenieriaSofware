@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBrowserRouter , RouterProvider } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import { Home } from './components/CatalogoManager';
+
+import { Home } from './components/Home'
 import { ManageProduct } from './components/ManageProduct';
 import { CatalogoManager } from './components/CatalogoManager';
 
