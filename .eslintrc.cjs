@@ -3,9 +3,12 @@ module.exports = {
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
         "plugin:jest/recommended",
         "plugin:jest/style",
-        "plugin:testing-library/react"
+        "plugin:testing-library/react",
+        "prettier"
     ],
     "overrides": [
         {
@@ -27,8 +30,6 @@ module.exports = {
     "plugins": [
         "react"
     ],
-    "rules": {
-    },
     "settings": {
         "react": {
             "version": "detect"

@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "back": "nodemon Backend/index.js",
     "test": "jest",
-    "lint-staged": "lint-staged"
+    "test -ci": "jest --coverage --silent --ci",
+    "lint-staged": "lint-staged",
+    "format": "prettier --write ./src"
   },
   "dependencies": {
     "axios": "^1.6.7",
@@ -30,6 +32,7 @@
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",

@@ -1,30 +1,34 @@
-import  { useState, useEffect } from 'react';
-import axios from 'axios';
-import { API } from '../constants/API'
-import '../styles/catalogo.css';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { API } from "../constants/API";
+import "../styles/catalogo.css";
 
-import { ItemProduct } from './ItemProduct';
-import { SearchBar } from './searchBard';
+import { ItemProduct } from "./ItemProduct";
+import { SearchBar } from "./searchBard";
 
-const handleSelectProductDefault = ( props ) => {
-  console.log(`cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`)
-  console.log(props)
-}
-
+const handleSelectProductDefault = (props) => {
+  console.log(
+    `cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`
+  );
+  console.log(props);
+};
 
 // eslint-disable-next-line react/prop-types
-export const Catalogo = ( { handleSelectProduct = handleSelectProductDefault, productoAtributos = []}) => {
+export const Catalogo = ({
+  handleSelectProduct = handleSelectProductDefault,
+  productoAtributos = [],
+}) => {
   const [productos, setProductos] = useState([]);
 
-  const [ search, setSearch ] = useState([]);
+  const [search, setSearch] = useState([]);
 
-const handleSearch = (value) => {
-  setSearch( value)
-}
+  const handleSearch = (value) => {
+    setSearch(value);
+  };
 
-  const handleClick = ( info ) => {
-    handleSelectProduct( info );
-  }
+  const handleClick = (info) => {
+    handleSelectProduct(info);
+  };
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -34,27 +38,33 @@ const handleSearch = (value) => {
         if (response.status === 200) {
           setProductos(response.data);
         } else {
-          console.error('Error al obtener la lista de productos');
+          console.error("Error al obtener la lista de productos");
         }
-
       } catch (error) {
-        console.error('Error en la solicitud:', error);
+        console.error("Error en la solicitud:", error);
       }
     };
-    console.log("Se ejecuta esto")
+    console.log("Se ejecuta esto");
     fetchProductos();
-  }, [search, productoAtributos]); 
+  }, [search, productoAtributos]);
 
   return (
-    <div className='catalogo'>
+    <div className="catalogo">
       <SearchBar onSearch={handleSearch} />
-      <h2 className='catalogo-titulo'>Lista de Productos </h2>
-      <ul className='catalogo-lista'>
-        { (productos && productos.length > 0) ? (
-          productos.map((producto, index) => (
-            ((producto[1].toString().includes(search) || search.toString().length === 0))&&
-              <ItemProduct  key={index}  producto={producto} onClick={handleClick}/>  
-          ))
+      <h2 className="catalogo-titulo">Lista de Productos </h2>
+      <ul className="catalogo-lista">
+        {productos && productos.length > 0 ? (
+          productos.map(
+            (producto, index) =>
+              (producto[1].toString().includes(search) ||
+                search.toString().length === 0) && (
+                <ItemProduct
+                  key={index}
+                  producto={producto}
+                  onClick={handleClick}
+                />
+              )
+          )
         ) : (
           <li>No hay productos disponibles</li>
         )}
@@ -62,4 +72,3 @@ const handleSearch = (value) => {
     </div>
   );
 };
-

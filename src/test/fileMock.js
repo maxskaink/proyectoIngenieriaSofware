@@ -1,4 +1,4 @@
 export default {
-    _esModule: true,
-    default: 'test-file-stub'
-}
+  _esModule: true,
+  default: "test-file-stub",
+};
