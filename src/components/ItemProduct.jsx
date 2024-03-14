@@ -8,7 +8,7 @@ export const ItemProduct = ({ producto, onClick }) => {
     }
 
     return (
-        // eslint-disable-next-line react/no-unknown-property
+         
         <li key={producto[0]} className='catalogo-producto' onClick={handleClick}>
             <strong>ID:</strong> {producto[0]}, 
             <strong>Nombre:</strong> {producto[1]}, 
