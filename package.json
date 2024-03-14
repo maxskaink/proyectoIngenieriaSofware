@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "back": "nodemon Backend/index.js",
     "test": "jest",
-    "test -ci": "jest --coverage --silent --ci",
+    "test:ci": "jest --coverage --silent --ci",
     "lint-staged": "lint-staged",
     "format": "prettier --write ./src"
   },
