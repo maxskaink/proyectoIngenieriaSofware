@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
 import axios from "axios"
 import { API } from "../constants/API.js"
-import '../styles/home.css'
+import '../styles/catalogoManager.css'
 import {  Catalogo } from './Catalogo.jsx'
 import { ManageProduct } from './ManageProduct.jsx'
 import { useState } from "react"
@@ -14,25 +13,13 @@ const updateProduct = async(producto) => {
 const addProduct = async(producto) => {
     return await axios.post(API.agregarProducto, producto)
 };
-export function Home () {
+export function CatalogoManager () {
     const [productoAtributos, setProducto] = useState([]);
     const handleSelectProduct = ( newProducto ) => {
         setProducto(newProducto)
     }
     return(
         <article className="home">
-{/*             <div className="home-container">
-                <h1> Menu principal, seleccione alguna opcion</h1>
-
-                <div className="home-container-buttons">
-                    <Link to='/catalago' > 
-                        <button className="home-container-buttons-button">Presione aqui para ir a el catalogo</button>
-                    </Link>
-                    <Link to='/crear-producto' > 
-                        <button className="home-container-buttons-button">Presione aqui para ir a agregar producto</button>
-                    </Link>
-                </div>
-            </div> */}
             <Catalogo productoAtributos={productoAtributos} handleSelectProduct={handleSelectProduct}></Catalogo>
             <div className="container-crud">
                 <ManageProduct handleUpdate={setProducto} handleManagement={addProduct}></ManageProduct>

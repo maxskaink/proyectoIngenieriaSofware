@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBrowserRouter , RouterProvider } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import { Home } from './components/Home';
+import { Home } from './components/CatalogoManager';
 import { ManageProduct } from './components/ManageProduct';
-import { Catalogo } from './components/Catalogo';
+import { CatalogoManager } from './components/CatalogoManager';
 
 const router = createBrowserRouter([
   {
@@ -12,12 +12,12 @@ const router = createBrowserRouter([
   errorElement: <h1>404 Not found</h1>
   },
   {
-    path: 'crear-producto',
+    path: '/crear-producto',
     Component: ManageProduct
   },
   {
     path: '/catalago',
-    Component: Catalogo
+    Component: CatalogoManager
   }
 ]);
 

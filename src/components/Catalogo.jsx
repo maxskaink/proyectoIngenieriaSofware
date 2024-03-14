@@ -4,7 +4,7 @@ import { API } from '../constants/API'
 import '../styles/catalogo.css';
 
 import { ItemProduct } from './ItemProduct';
-import { SearchBar } from './searchBard';
+import { SearchBar } from './SearchBard';
 
 const handleSelectProductDefault = ( props ) => {
   console.log(`cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`)
