@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import "../styles/manageProduct.css";
 import { infoFormanageProductoValid } from "../helpers/validations";
 
-// eslint-disable-next-line react/prop-types
+
 export const ManageProduct = ({
   handleUpdate,
   handleManagement,

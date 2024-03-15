@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API } from "../constants/API";
@@ -13,7 +14,7 @@ const handleSelectProductDefault = (props) => {
   console.log(props);
 };
 
-// eslint-disable-next-line react/prop-types
+
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productoAtributos = [],
