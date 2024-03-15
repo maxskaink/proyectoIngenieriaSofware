@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import axios from "axios";
 import { API } from "../constants/API.js";
 import "../styles/home.css";
@@ -36,7 +36,7 @@ export function Home() {
       <Catalogo
         productoAtributos={productoAtributos}
         handleSelectProduct={handleSelectProduct}
-      ></Catalogo>
+      ></Catalogo> 
       <div className="container-crud">
         <ManageProduct
           handleUpdate={setProducto}
