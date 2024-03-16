@@ -64,6 +64,7 @@ export const ManageProduct = ({
   //TODO recordar cambiar esto, para que no pida la id, y funcioine normalmente el title
   return (
     <div className="manageProduct">
+            {children}
       <h2 className="manageProduct-titulo">
         {" "}
         {title ? title : "Agregar Producto"}
@@ -111,13 +112,12 @@ export const ManageProduct = ({
 
         <button
           type="submit"
-          className="manageProduct-button"
+          className="manageProduct-button button"
           disabled={!state.isValid}
         >
           {title ? title : "Agregar Producto"}
         </button>
       </form>
-      {children}
       <label className={state.className}>{state.message}</label>
     </div>
   );

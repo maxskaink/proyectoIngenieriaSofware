@@ -39,7 +39,7 @@ export const consultarProductos = async () => {
         const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
     
         // Consulta SELECT
-        const query = 'SELECT * FROM producto';
+        const query = 'select * from PRODUCTO WHERE ACTIVADO = 1';
         const result = await connection.execute(query);
     
         // Extraer filas del resultado

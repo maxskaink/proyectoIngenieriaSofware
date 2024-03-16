@@ -13,10 +13,26 @@ const updateProduct = async(producto) => {
 const addProduct = async(producto) => {
     return await axios.post(API.agregarProducto, producto)
 };
+
+const deleateProduct = async(producto) => {
+    const newProduct = {
+        id: producto[0], 
+        nombre: producto[1], 
+        descripcion: producto[2], 
+        precio: producto[3], 
+        activado:0 
+    }
+    return await axios.put(API.actualizarProducto, newProduct)
+}
+
 export function CatalogoManager () {
     const [productoAtributos, setProducto] = useState([]);
     const handleSelectProduct = ( newProducto ) => {
         setProducto(newProducto)
+    }
+    const handleDeleteProduct  = async() => {
+        await deleateProduct(productoAtributos);
+        setProducto([])
     }
     return(
         <article className="home">
@@ -29,7 +45,7 @@ export function CatalogoManager () {
                                    title = "Actualizar producto"
                                    product={productoAtributos} 
                                    key={productoAtributos[0]}>
-                        <button>Eliminar producto</button>
+                        <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
                     </ManageProduct>}
             </div>
         </article>
