@@ -1,4 +1,4 @@
-import { Home } from "../components/Home";
+import { Catalogo } from "../components/Catalogo";
 import { render, screen } from "@testing-library/react";
 
 it("always true test", () => {
@@ -6,7 +6,9 @@ it("always true test", () => {
 });
 
 it("renders<agregar producto>", () => {
-    render(<Home />);
-    const myElement = screen.getByText(/No hay productos disponibles/);
+    render(<Catalogo />);
+    const myElement = screen.getByText(/Lista de Productos/);
     expect(myElement).toBeInTheDocument();
 });
+
+
