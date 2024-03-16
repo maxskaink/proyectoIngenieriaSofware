@@ -1,20 +1,19 @@
 /* Estilos para el componente Catalogo */
 .catalogo {
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: -webkit-fill-available;
-  }
-  
-  .catalogo-titulo {
-    font-size: 2em;
-    color: #333;
-  }
-  
-  .catalogo-lista {
-    list-style: none;
-    padding: 0;
-  }
-  
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: -webkit-fill-available;
+}
+
+.catalogo-titulo {
+  font-size: 2em;
+  color: #333;
+}
+
+.catalogo-lista {
+  list-style: none;
+  padding: 0;
+}

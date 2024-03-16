@@ -1,57 +1,55 @@
 /* Estilos para el componente manageProduct */
 .manageProduct {
-    padding: 2px 20px 5px 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    width: -webkit-fill-available;
-    margin: 5px;
-    
-  }
-  
-  .manageProduct-titulo {
-    font-size: 1.5em;
-    color: #333;
-    text-align: center;
-  }
-  
-  .manageProduct-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .manageProduct-label {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 40%;
-  }
-  
-  .manageProduct-button {
-    padding: 10px;
-    font-size: 1em;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .manageProduct-button:hover {
-    background-color: #2980b9;
-  }
-  
-  .manageProduct-message {
-    margin-top: 10px;
-    color: #555;
-    text-align: center;
-  }
+  padding: 2px 20px 5px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  width: -webkit-fill-available;
+  margin: 5px;
+}
 
-  .manageProduct-message-error{
-    color: red;
-  }
-  
+.manageProduct-titulo {
+  font-size: 1.5em;
+  color: #333;
+  text-align: center;
+}
+
+.manageProduct-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.manageProduct-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 40%;
+}
+
+.manageProduct-button {
+  padding: 10px;
+  font-size: 1em;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manageProduct-button:hover {
+  background-color: #2980b9;
+}
+
+.manageProduct-message {
+  margin-top: 10px;
+  color: #555;
+  text-align: center;
+}
+
+.manageProduct-message-error {
+  color: red;
+}

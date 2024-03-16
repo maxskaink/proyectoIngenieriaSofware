@@ -8,9 +8,9 @@ import { CatalogoManager } from './components/CatalogoManager';
 
 const router = createBrowserRouter([
   {
-  path: '/',
-  Component:Home,
-  errorElement: <h1>404 Not found</h1>
+    path: "/",
+    Component: Home,
+    errorElement: <h1>404 Not found</h1>,
   },
   {
     path: '/crear-producto',
