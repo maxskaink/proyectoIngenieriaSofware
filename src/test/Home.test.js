@@ -1,4 +1,4 @@
-import { Home } from "./Home";
+import { Home } from "../components/Home";
 import { render, screen } from "@testing-library/react";
 
 it("always true test", () => {
