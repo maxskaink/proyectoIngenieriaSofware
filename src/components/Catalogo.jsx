@@ -4,8 +4,8 @@ import axios from "axios";
 import { API } from "../constants/API";
 import "../styles/catalogo.css";
 
-import { ItemProduct } from "./ItemProduct";
-import { SearchBar } from "./searchBard";
+import { ItemProduct } from './ItemProduct';
+import { SearchBar } from './SearchBard';
 
 const handleSelectProductDefault = (props) => {
   console.log(
