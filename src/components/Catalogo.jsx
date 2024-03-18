@@ -45,7 +45,6 @@ export const Catalogo = ({
         console.error("Error en la solicitud:", error);
       }
     };
-    console.log("Se ejecuta esto");
     fetchProductos();
   }, [search, productoAtributos]);
 

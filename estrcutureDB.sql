@@ -44,6 +44,7 @@ values (1, 'pollito frito', 'Pollo clasico de toda la vida', 40000, 1, 0);
 
 
 select * from PRODUCTO;
+update PRODUCTO set activado = 1;
 delete from producto where idProducto = 2;
 
 UPDATE PRODUCTO
