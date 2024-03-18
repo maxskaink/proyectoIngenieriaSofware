@@ -9,7 +9,7 @@ import { SearchBar } from './SearchBard';
 
 const handleSelectProductDefault = (props) => {
   console.log(
-    `cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`
+    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se clickea en los items`
   );
   console.log(props);
 };
