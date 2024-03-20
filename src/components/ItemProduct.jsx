@@ -1,6 +1,7 @@
 import "../styles/ItemProduct.css";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
+/* Es el componente donde se es tablece como se va a mostrar el producto, ademas tambien que va a hacer cuadno se le de click */
 export const ItemProduct = ({ producto, onClick }) => {
   const handleClick = () => {
     onClick(producto);
@@ -13,4 +14,10 @@ export const ItemProduct = ({ producto, onClick }) => {
       {producto[3]}
     </li>
   );
+};
+
+
+ItemProduct.propTypes = {
+  producto: PropTypes.array,
+  onClick: PropTypes.func,
 };

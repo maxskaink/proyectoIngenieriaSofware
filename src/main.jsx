@@ -9,6 +9,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       {/* Aqui deberia de ir el componente del sidebar para que este en todas las paginas, 
         recomiendo tener muy en cuenta como es la estructura del html para poder cuadrar bien las cosas 7u7
       */}
+      <Home /> {/* Provicionalmente dejo el home aqui para que funcione como el sidebar pero se deberia de quitar */}
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/catalogo" element={<CatalogoManager />} />

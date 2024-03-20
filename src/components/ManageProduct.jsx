@@ -67,7 +67,7 @@ export const ManageProduct = ({
             {children}
       <h2 className="manageProduct-titulo">
         {" "}
-        {title ? title : "Agregar Producto"}
+        {title}
       </h2>
       <form onSubmit={handleSubmit} className="manageProduct-form">
         {!title && (

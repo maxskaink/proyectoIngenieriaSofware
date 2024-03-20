@@ -5,15 +5,17 @@ import {  Catalogo } from './Catalogo.jsx'
 import { ManageProduct } from './ManageProduct.jsx'
 import { useState } from "react"
 
+/* Funcion que nos permite resibir el producto que se quiere actualizar com objeto para luego utilizar la api */
 const updateProduct = async(producto) => {
     const newProduct = {...producto, activado:1}
     return await axios.put(API.actualizarProducto, newProduct)
 } 
-
+/* Nos permite resibir el producto como objeto para enviarlo a la api y agregarlo */
 const addProduct = async(producto) => {
     return await axios.post(API.agregarProducto, producto)
 };
 
+/* Nos permite resibir el producto seleccionado para hace su acutalizacion clocando el activado en ce ro */
 const deleateProduct = async(producto) => {
     const newProduct = {
         id: producto[0], 
@@ -25,11 +27,15 @@ const deleateProduct = async(producto) => {
     return await axios.put(API.actualizarProducto, newProduct)
 }
 
+/* Componente donde podreamos ver, agregar, modificar y eliminar los productos del catalogo */
 export function CatalogoManager () {
+    /* el productoAtributos tiene la informacion del producto que se halla seleccionado en esta seccion, ademas de darnos la funcin para actualizarlo */
     const [productoAtributos, setProducto] = useState([]);
+    /* Definimos que hacer cuando se selecciona un producto */
     const handleSelectProduct = ( newProducto ) => {
         setProducto(newProducto)
     }
+    /* Definimos la accion cuando presiona el boton para elimnar el producto */
     const handleDeleteProduct  = async() => {
         await deleateProduct(productoAtributos);
         setProducto([])
@@ -38,14 +44,19 @@ export function CatalogoManager () {
         <article className="home">
             <Catalogo productoAtributos={productoAtributos} handleSelectProduct={handleSelectProduct}></Catalogo>
             <div className="container-crud">
-                <ManageProduct handleUpdate={setProducto} handleManagement={addProduct}></ManageProduct>
+                <ManageProduct 
+                    handleUpdate={setProducto} 
+                    handleManagement={addProduct}
+                    title="Agregar producto"
+                    />
                 {(productoAtributos.length>0) && 
-                    <ManageProduct handleUpdate={setProducto}
-                                   handleManagement={updateProduct} 
-                                   title = "Actualizar producto"
-                                   product={productoAtributos} 
-                                   key={productoAtributos[0]}>
-                        <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
+                    <ManageProduct 
+                        handleUpdate={setProducto}
+                        handleManagement={updateProduct} 
+                        title = "Actualizar producto"
+                        product={productoAtributos} 
+                        key={productoAtributos[0]}>
+                    <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
                     </ManageProduct>}
             </div>
         </article>

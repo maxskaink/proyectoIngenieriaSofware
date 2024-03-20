@@ -7,6 +7,7 @@ import "../styles/catalogo.css";
 import { ItemProduct } from './ItemProduct';
 import { SearchBar } from './SearchBard';
 
+/* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
   console.log(
     `cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`
@@ -14,23 +15,26 @@ const handleSelectProductDefault = (props) => {
   console.log(props);
 };
 
-
+/* Componente que nos muestra una lista de los productos */
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productoAtributos = [],
 }) => {
+  /* Array de todos los prodcutos de la base de datos */
   const [productos, setProductos] = useState([]);
 
+  /* Nos da la informacion de la barra de busqueda */
   const [search, setSearch] = useState([]);
 
+  /* Manjea uqe hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
     setSearch(value);
   };
-
+  /* cuando se hace click en algun produco se le manda la info a la funcion que se resibio como parametro */
   const handleClick = (info) => {
     handleSelectProduct(info);
   };
-
+  /* Actualiza la lista de producos cada vez que se carga el componente, se hace una busqueda o se cambia el atributo seleccionado */
   useEffect(() => {
     const fetchProductos = async () => {
       try {
