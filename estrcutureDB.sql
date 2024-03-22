@@ -9,7 +9,8 @@ CREATE TABLE Producto (
     PrecioActual NUMBER NOT NULL,
     activado NUMBER NOT NULL, 
     cantidadStock number not null,
-    CONSTRAINT ckc_activado CHECK (activado IN (1,0))
+    CONSTRAINT ckc_activado CHECK (activado IN (1,0)),
+    CONSTRAINT AK_Producto_Nombre UNIQUE (nombre)
 );
 
 CREATE TABLE venta (
@@ -80,22 +81,14 @@ insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK
 values ('Cuy asado', 'Plato tradicional de cuy asado', 25000, 1, 0);
 
 insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
-values ('Champús', 'Bebida típica a base de maíz, piña y lulo', 6000, 1, 0);
-
-insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values ('Fritanga', 'Plato con diferentes carnes fritas', 18000, 1, 0);
 
 insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values ('Cholado', 'Postre a base de hielo raspado con frutas y leche condensada', 7000, 1, 0);
 
-insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
-values ('Carnes asadas', 'Diferentes cortes de carne asada', 20000, 1, 0);
 
 insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values ('Arepas de maíz pelao', 'Arepas hechas con maíz pelao', 5000, 1, 0);
-
-insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
-values ('Champusillo', 'Bebida típica a base de maíz, piña y lulo', 4000, 1, 0);
 
 insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values ('Aborrajados', 'Plátanos maduros rellenos de queso y fritos', 6000, 1, 0);
