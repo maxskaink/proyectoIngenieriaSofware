@@ -4,6 +4,7 @@ import "../styles/manageProduct.css";
 import { infoFormanageProductoValid } from "../helpers/validations";
 
 
+
 export const ManageProduct = ({
   handleUpdate,
   handleManagement,

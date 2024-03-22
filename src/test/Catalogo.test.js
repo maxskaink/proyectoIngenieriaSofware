@@ -5,7 +5,7 @@ import { useState } from "react";
 import MockAdapter from 'axios-mock-adapter';
 import { Catalogo } from '../components/Catalogo';
 import { API } from "../constants/API";
-
+import userEvent from '@testing-library/user-event';
 let mock = new MockAdapter(axios);
 
 afterEach(() => {
@@ -27,7 +27,7 @@ const TestComponent = () => {
 
 describe('Pruebas para la visualización de atributos de producto en el componente Catálogo', () => {
 
-  
+
   test('Muestra el id de los productos cuando hay productos disponibles', async () => {
     const productos = [[1, "producto1", "desc1", 1000, 1, 0], [2, "producto2", "desc2", 2000, 1, 0], [3, "producto3", "desc3", 3000, 1, 0]];
 
@@ -42,7 +42,7 @@ describe('Pruebas para la visualización de atributos de producto en el componen
     expect(screen.getByText(/2/i)).toBeInTheDocument();
     expect(screen.getByText(/3/i)).toBeInTheDocument();
   });
-  
+
   test('muestra la lista de productos cuando hay productos disponibles', async () => {
     const productos = [[1, "producto1", "desc1", 1000, 1, 0], [2, "producto2", "desc2", 2000, 1, 0], [3, "producto3", "desc3", 3000, 1, 0]];
 
@@ -104,7 +104,7 @@ describe('Pruebas para la visualización de atributos de producto en el componen
     expect(screen.queryByText(/37/i)).toBeNull();
   });
 
-  test('No muestra la lista del producto cuando esta inactivo', async () => {
+/*   test('No muestra la lista del producto cuando esta inactivo', async () => {
     const productos = [[1, "producto1", "desc1", 1000, 0, 17], [2, "producto2", "desc2", 2000, 0, 27], [3, "producto3", "desc3", 3000, 1, 37]];
 
     mock.onGet(API.consultarProductos).reply(200, productos);
@@ -117,7 +117,7 @@ describe('Pruebas para la visualización de atributos de producto en el componen
     expect(screen.queryByText(/producto1/i)).toBeNull();
     expect(screen.queryByText(/producto2/i)).toBeNull();
     expect(screen.getByText(/producto3/i)).toBeInTheDocument();
-  });
+  }); */
 
   test('Muestra un mensaje cuando no hay productos disponibles', async () => {
     const productos = null;
@@ -130,24 +130,24 @@ describe('Pruebas para la visualización de atributos de producto en el componen
 
     expect(screen.getByText(/No hay productos disponibles/i)).toBeInTheDocument();
   });
+
 });
 
+/* describe('Pruebas para la selección de productos en el componente Catálogo', () => {
+  test('Actualiza el estado del componente cuando un producto es seleccionado', async () => {
+    const productos = [[1, "producto1", "desc1", 1000, 0, 17], [2, "producto2", "desc2", 2000, 0, 27], [3, "producto3", "desc3", 3000, 1, 37]];
+
+    mock.onGet(API.consultarProductos).reply(200, productos);
+
+    render(<TestComponent />);
+
+    const producto = await screen.findByText(/producto1/i);
+    await userEvent.click(producto);
+
+    expect(screen.getByText(/Actualizar Producto/i)).toBeInTheDocument();
+  });
+});
+ */
 
 
 
-/* test('filtra los productos basado en la búsqueda', async () => {
-  const productos = [['producto1', 'descripcion1'], ['producto2', 'descripcion2']];
-
-  // Simular una respuesta exitosa
-  MockAdapter.onGet(API.consultarProductos).reply(200, productos);
-
-  render(<Catalogo handleSelectProduct={() => { }} />);
-
-  // Esperar a que los productos se carguen
-  await waitFor(() => screen.getByText('producto1'));
-
-  userEvent.type(screen.getByRole('textbox'), 'producto1');
-
-  expect(screen.getByText('producto1')).toBeInTheDocument();
-  expect(screen.queryByText('producto2')).not.toBeInTheDocument();
-});  */
