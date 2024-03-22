@@ -4,6 +4,7 @@ import axios from "axios";
 import { API } from "../constants/API";
 import "../styles/catalogo.css";
 
+
 import { ItemProduct } from './ItemProduct';
 import { SearchBar } from './SearchBard';
 
@@ -54,9 +55,15 @@ export const Catalogo = ({
 
   return (
     <div className="catalogo">
-      <SearchBar onSearch={handleSearch} />
       <h2 className="catalogo-titulo">Lista de Productos </h2>
-      <ul className="catalogo-lista">
+      <SearchBar onSearch={handleSearch} />
+      <div className="contenedor">
+          <div className="columnaHeader"> <strong> NOMBRE:</strong> </div>
+          <div className="columnaHeader"><strong>DESCRICION </strong></div>
+          <div className="columnaHeader"><strong> PRECIO </strong></div>
+        </div>
+      
+       <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>

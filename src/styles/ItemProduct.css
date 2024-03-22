@@ -10,3 +10,13 @@
 .catalogo-producto:hover {
   background-color: #e0e0e0;
 }
+.contenedor {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Divide el contenedor en tres columnas de igual tamaño */
+  gap: 10px; /* Espacio entre las columnas */
+}
+
+.columna {
+  background-color: #f0f0f0;
+  padding: 20px;
+}
