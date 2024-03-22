@@ -1,14 +1,9 @@
 
-import { Link } from 'react-router-dom';
 import '../styles/home.css';
+import { SideBar } from './SideBar';
 
 export const Home = () => {
   return (
-    <div className="main-menu">
-      <ul>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/catalago"> Manejar catologo </Link></li>
-      </ul>
-    </div>
-  );
+    <p>Este es el home</p>
+    );
 }

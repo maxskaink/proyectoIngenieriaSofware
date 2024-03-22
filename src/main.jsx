@@ -1,9 +1,11 @@
 import React from 'react';
-import { createBrowserRouter , RouterProvider } from 'react-router-dom';
+import { BrowserRouter, createBrowserRouter , Route, Routes } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Home } from './components/Home';
 import { ManageProduct } from './components/ManageProduct';
 import { CatalogoManager } from './components/CatalogoManager';
+import { SideBar } from './components/SideBar';
+
 
 const router = createBrowserRouter([
   {
@@ -16,14 +18,18 @@ const router = createBrowserRouter([
     Component: ManageProduct
   },
   {
-    path: '/catalago',
+    path: '/cataloWgo',
     Component: CatalogoManager
   }
 ]);
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode >
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+    <BrowserRouter>
+      <SideBar></SideBar>
+      <Routes>
+        <Route path="/" exact element={<Home />}/>
+        <Route path="/catalogo"  element={<CatalogoManager></CatalogoManager>}/>
+      </Routes>
+    </BrowserRouter>
 );

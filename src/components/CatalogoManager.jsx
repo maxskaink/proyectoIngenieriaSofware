@@ -4,6 +4,7 @@ import '../styles/catalogoManager.css'
 import {  Catalogo } from './Catalogo.jsx'
 import { ManageProduct } from './ManageProduct.jsx'
 import { useState } from "react"
+import { SideBar } from "./SideBar.jsx"
 
 const updateProduct = async(producto) => {
     const newProduct = {...producto, activado:1}
@@ -34,21 +35,23 @@ export function CatalogoManager () {
         await deleateProduct(productoAtributos);
         setProducto([])
     }
-    return(
+    return( 
+    <>
         <article className="home">
             <Catalogo productoAtributos={productoAtributos} handleSelectProduct={handleSelectProduct}></Catalogo>
             <div className="container-crud">
                 <ManageProduct handleUpdate={setProducto} handleManagement={addProduct}></ManageProduct>
                 {(productoAtributos.length>0) && 
                     <ManageProduct handleUpdate={setProducto}
-                                   handleManagement={updateProduct} 
-                                   title = "Actualizar producto"
-                                   product={productoAtributos} 
-                                   key={productoAtributos[0]}>
+                    handleManagement={updateProduct} 
+                    title = "Actualizar producto"
+                    product={productoAtributos} 
+                    key={productoAtributos[0]}>
                         <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
                     </ManageProduct>}
             </div>
         </article>
+    </>
 
     )
 }
