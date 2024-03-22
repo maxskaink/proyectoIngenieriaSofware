@@ -4,7 +4,6 @@ import '../styles/catalogoManager.css'
 import {  Catalogo } from './Catalogo.jsx'
 import { ManageProduct } from './ManageProduct.jsx'
 import { useState } from "react"
-import { SideBar } from "./SideBar.jsx"
 
 /* Funcion que nos permite resibir el producto que se quiere actualizar com objeto para luego utilizar la api */
 const updateProduct = async(producto) => {
@@ -52,14 +51,6 @@ export function CatalogoManager () {
                     title="Agregar producto"
                     />
                 {(productoAtributos.length>0) && 
-<<<<<<< HEAD
-                    <ManageProduct handleUpdate={setProducto}
-                    handleManagement={updateProduct} 
-                    title = "Actualizar producto"
-                    product={productoAtributos} 
-                    key={productoAtributos[0]}>
-                        <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
-=======
                     <ManageProduct 
                         handleUpdate={setProducto}
                         handleManagement={updateProduct} 
@@ -67,7 +58,6 @@ export function CatalogoManager () {
                         product={productoAtributos} 
                         key={productoAtributos[0]}>
                     <button className="button" onClick={handleDeleteProduct}>Eliminar producto</button>
->>>>>>> 3b09b60b93e118cb628ddc89edd0e0a3fa6ad53c
                     </ManageProduct>}
             </div>
         </article>

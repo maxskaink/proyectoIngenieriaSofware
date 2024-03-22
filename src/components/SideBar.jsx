@@ -7,9 +7,9 @@ export const SideBar =() =>{
                 <div className = "cont-menu">
                 <h1 className="titulo"> Control Total</h1>
                     <nav>
-                        <a><Link to="/">Home</Link></a>
-                        <a><Link to="/catalogo" >Catalogo</Link></a>
-                        <a><Link to="/catalogo" >Gestionar Catalogo</Link></a>
+                        <Link className='containerMenu-nav-link' to="/">Home</Link>
+
+                        <Link className="containerMenu-nav-link" to="/catalogo" >Gestionar Catalogo</Link>
                     </nav>
                 </div>
             </div>
