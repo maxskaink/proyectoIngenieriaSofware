@@ -10,7 +10,7 @@ import { SearchBar } from './SearchBard';
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
   console.log(
-    `cuando utilice el catalogo por favor ingrese una funcino para saber que hacer cuando se clicl en los items`
+    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se click en los items`
   );
   console.log(props);
 };
@@ -20,7 +20,7 @@ export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productoAtributos = [],
 }) => {
-  /* Array de todos los prodcutos de la base de datos */
+  /* Array de todos los productos de la base de datos */
   const [productos, setProductos] = useState([]);
 
   /* Nos da la informacion de la barra de busqueda */

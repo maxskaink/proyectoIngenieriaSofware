@@ -9,7 +9,7 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
 
     let result = {
         state: 'OK',
-        message: 'Se ha insertado con éxito la inserción',
+        message: 'La inserción termino de forma exitosa',
     }
 
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })

@@ -19,4 +19,4 @@ test('contiene enlaces a Inicio y Manejar catálogo', () => {
 
     expect(inicioLink.getAttribute('href')).toBe('/');
     expect(catalogoLink.getAttribute('href')).toBe('/catalogo');
-}); */
+}); */ 

@@ -15,8 +15,8 @@ const addProduct = async(producto) => {
     return await axios.post(API.agregarProducto, producto)
 };
 
-/* Nos permite resibir el producto seleccionado para hace su acutalizacion clocando el activado en ce ro */
-const deleateProduct = async(producto) => {
+/* Nos permite recibir el producto seleccionado para hacer su acutalizacion colocando el estado activado en cero */
+const deleteProduct = async(producto) => {
     const newProduct = {
         id: producto[0], 
         nombre: producto[1], 
@@ -37,7 +37,7 @@ export function CatalogoManager () {
     }
     /* Definimos la accion cuando presiona el boton para elimnar el producto */
     const handleDeleteProduct  = async() => {
-        await deleateProduct(productoAtributos);
+        await deleteProduct(productoAtributos);
         setProducto([])
     }
     return(
