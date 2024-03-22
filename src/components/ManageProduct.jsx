@@ -67,20 +67,9 @@ export const ManageProduct = ({
             {children}
       <h2 className="manageProduct-titulo">
         {" "}
-        {title ? title : "Agregar Producto"}
+        {title}
       </h2>
       <form onSubmit={handleSubmit} className="manageProduct-form">
-        {!title && (
-          <label className="manageProduct-label">
-            <span>ID:</span>
-            <input
-              type="textq"
-              name="id"
-              value={producto.id}
-              onChange={handleChange}
-            />
-          </label>
-        )}
         <label className="manageProduct-label">
           Nombre:
           <input

@@ -9,27 +9,6 @@ class Response {
 
 export const infoFormanageProductoValid = (atributo, valor) => {
   switch (atributo) {
-    case "id":
-      if (valor.toString().length === 0)
-        return new Response("Ingrese al menos un id", true);
-      const id = parseInt(valor, 10);
-
-      if (isNaN(id) || !id)
-        return new Response(
-          "Ingrese en id solo numeros y no letras o caracteres especiales",
-          false,
-        );
-
-      if (id.toString().length !== valor.toString().length)
-        return new Response(
-          "Ingrese en id solo numeros y no letras o caracteres especiales",
-          false,
-        );
-
-      if (id < 0) return new Response("Ingrese id mayor a cero", false);
-
-      return new Response("todo ok", true);
-
     case "precio":
       if (valor.toString().length === 0)
         return new Response("Ingrese al menos un precio", true);
