@@ -1,29 +1,18 @@
-import React from 'react';
-import { createBrowserRouter , RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Home } from './components/Home';
-import { ManageProduct } from './components/ManageProduct';
 import { CatalogoManager } from './components/CatalogoManager';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    Component: Home,
-    errorElement: <h1>404 Not found</h1>,
-  },
-  {
-    path: '/crear-producto',
-    Component: ManageProduct
-  },
-  {
-    path: '/catalago',
-    Component: CatalogoManager
-  }
-]);
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode >
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+  <BrowserRouter>
+      {/* Aqui deberia de ir el componente del sidebar para que este en todas las paginas, 
+        recomiendo tener muy en cuenta como es la estructura del html para poder cuadrar bien las cosas 7u7
+      */}
+      <Home /> {/* Provicionalmente dejo el home aqui para que funcione como el sidebar pero se deberia de quitar */}
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/catalogo" element={<CatalogoManager />} />
+    </Routes>
+  </BrowserRouter>
 );

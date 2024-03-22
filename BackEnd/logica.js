@@ -4,7 +4,7 @@ const user = 'BDDII'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
 
-export const agregarProducto = async ({ id, nombre, descripcion, precio }) => {
+export const agregarProducto = async ({nombre, descripcion, precio }) => {
     let connection;
 
     let result = {
@@ -14,10 +14,9 @@ export const agregarProducto = async ({ id, nombre, descripcion, precio }) => {
 
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
-    const query = `insert into PRODUCTO (idProducto, nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) values (:id, :nombre, :descripcion, :precio, 1, 0)`
+    const query = `insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) values (:nombre, :descripcion, :precio, 1, 0)`
 
     await connection.execute(query, {
-    id,
     nombre,
     descripcion,
     precio,
@@ -39,7 +38,7 @@ export const consultarProductos = async () => {
         const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
     
         // Consulta SELECT
-        const query = 'SELECT * FROM producto';
+        const query = 'select * from PRODUCTO WHERE ACTIVADO = 1';
         const result = await connection.execute(query);
     
         // Extraer filas del resultado

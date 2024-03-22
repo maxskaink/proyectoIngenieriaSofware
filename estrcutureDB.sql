@@ -1,10 +1,10 @@
+drop table compra;
+drop table venta;
 drop table PRODUCTO;
---Antiguo PRODUCTO id-nombre-descripcion-precio-cantidadStock
--- Se debe usar el usuario BDDII y la contraseña oracle para que funcione normalmente
 
 CREATE TABLE Producto (
     idProducto NUMBER PRIMARY KEY,
-    nombre VARCHAR2(20) NOT NULL,
+    nombre VARCHAR2(100) NOT NULL,
     Descripcion VARCHAR2(100) NOT NULL,
     PrecioActual NUMBER NOT NULL,
     activado NUMBER NOT NULL, 
@@ -13,43 +13,56 @@ CREATE TABLE Producto (
 );
 
 CREATE TABLE venta (
-    codigo NUMBER,
-    idProducto NUMBER NOT NULL,
-    cantidad NUMBER NOT NULL,
-    PrecioVenta NUMBER NOT NULL,
+    codigoVenta NUMBER,
     medioPago VARCHAR2(50) NOT NULL,
     fecha DATE,
-    CONSTRAINT pk_venta PRIMARY KEY (codigo, idProducto, fecha),
-    CONSTRAINT fk_producto_id FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+    precioTotalVenta NUMBER NOT NULL,
+    CONSTRAINT pk_venta PRIMARY KEY (codigoVenta)
+);
+
+CREATE TABLE ProductosVenta(
+    idProducto NUMBER NOT NULL,
+    codigoVenta NUMBER NOT NULL,
+    cantidad NUMBER NOT NULL,
+    precioUnitario NUMBER NOT NULL,
+    CONSTRAINT pk_proVen PRIMARY KEY (idProducto, codigoVenta),
+    CONSTRAINT fk_proVen FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
+    CONSTRAINT fk_venPro FOREIGN KEY (codigoVenta) REFERENCES venta(codigoVenta)
 );
 
 CREATE TABLE compra (
-    codigo NUMBER,
-    idProducto NUMBER NOT NULL,
+    codigoCompra NUMBER,
     fecha DATE,
     nombreProveedor VARCHAR2(255) NOT NULL,
     contacto VARCHAR2(50),
-    cantidad NUMBER NOT NULL,
     direccion VARCHAR2(255),
-    precioCompra NUMBER NOT NULL,
-    CONSTRAINT pk_compra PRIMARY KEY (codigo, idProducto, fecha),
-    CONSTRAINT fk_proComp FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+    precioTotalCompra NUMBER NOT NULL,
+    CONSTRAINT pk_compra PRIMARY KEY (codigoCompra)
 );
 
-describe producto;
+CREATE TABLE ProductosCompra(
+    idProducto NUMBER NOT NULL,
+    codigoCompra NUMBER NOT NULL,
+    cantidad NUMBER NOT NULL,
+    precioUnitario NUMBER NOT NULL,
+    CONSTRAINT pk_proCom PRIMARY KEY (idProducto, codigoCompra),
+    CONSTRAINT fk_proCom FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
+    CONSTRAINT fk_comPro FOREIGN KEY (codigoCompra) REFERENCES compra(codigoCompra)
+);
 
-insert into PRODUCTO (idProducto, nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
-values (1, 'pollito frito', 'Pollo clasico de toda la vida', 40000, 1, 0);
+/* Para que la id del producto se genere automaticamente */
+CREATE SEQUENCE SEQ_PRODUCTO
+  START WITH 1
+  INCREMENT BY 1;
 
+CREATE OR REPLACE TRIGGER TRG_PRODUCTO BEFORE
+    INSERT ON PRODUCTO FOR EACH ROW
+BEGIN
+    SELECT
+        SEQ_PRODUCTO.NEXTVAL INTO :NEW.IDPRODUCTO
+    FROM
+        DUAL;
+END;
 
-
-select * from PRODUCTO;
-delete from producto where idProducto = 2;
-
-UPDATE PRODUCTO
-SET nombre = 'carne frita', 
-    DESCRIPCION = 'nueva descripcion', 
-    PrecioActual = 666, 
-    activado = 1, 
-    CANTIDADSTOCK = 0
-WHERE idProducto = 1;
+insert into PRODUCTO ( nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
+values ('pollito frito segunda versi=', 'Pollo clasico de toda la vida', 40000, 1, 0);
