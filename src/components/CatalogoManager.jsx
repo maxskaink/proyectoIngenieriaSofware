@@ -24,6 +24,13 @@ const deleateProduct = async(producto) => {
         precio: producto[3], 
         activado:0 
     }
+
+
+    const productoCompleto  = await axios.get(API.consultarProductoId, { params: { id: newProduct.id } }).then(res => res.data[0]); 
+    if(productoCompleto[5] > 0){
+        alert("No se puede eliminar un producto con stock")
+        return
+    }
     return await axios.put(API.actualizarProducto, newProduct)
 }
 

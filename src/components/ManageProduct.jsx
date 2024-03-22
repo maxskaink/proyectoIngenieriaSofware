@@ -41,6 +41,18 @@ export const ManageProduct = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(producto.nombre === "" || producto.descripcion === "" || producto.precio === "") {
+      setState(
+        {
+          isValid: false,
+          message: "Ingrese al menos una descripcion, precio y nombre del producto",
+          className: "manageProduct-message-error",
+        }
+      );
+      return;
+    }
+
     let response;
     try {
       response = await handleManagement(producto);
@@ -64,7 +76,6 @@ export const ManageProduct = ({
   //TODO recordar cambiar esto, para que no pida la id, y funcioine normalmente el title
   return (
     <div className="manageProduct">
-            {children}
       <h2 className="manageProduct-titulo">
         {" "}
         {title}
@@ -106,6 +117,7 @@ export const ManageProduct = ({
         >
           {title ? title : "Agregar Producto"}
         </button>
+        {children}
       </form>
       <label className={state.className}>{state.message}</label>
     </div>
