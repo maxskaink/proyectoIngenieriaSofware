@@ -7,6 +7,7 @@ import { useState } from "react"
 
 /* Funcion que nos permite resibir el producto que se quiere actualizar com objeto para luego utilizar la api */
 const updateProduct = async(producto) => {
+    if(!window.confirm("¿Estas seguro que deseas actualizar el producto?")) return;
     const newProduct = {...producto, activado:1}
     return await axios.put(API.actualizarProducto, newProduct)
 } 
@@ -17,6 +18,7 @@ const addProduct = async(producto) => {
 
 /* Nos permite resibir el producto seleccionado para hace su acutalizacion clocando el activado en ce ro */
 const deleateProduct = async(producto) => {
+    if (!window.confirm("¿Estas seguro que deseas eliminar el producto?")) return;
     const newProduct = {
         id: producto[0], 
         nombre: producto[1], 
