@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API } from "../constants/API";
 import "../styles/catalogo.css";
 
-
-import { ItemProduct } from './ItemProduct';
-import { SearchBar } from './SearchBard';
+import { ItemProduct } from "./ItemProduct";
+import { SearchBar } from "./SearchBard";
 
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
@@ -16,10 +15,9 @@ const handleSelectProductDefault = (props) => {
   console.log(props);
 };
 
-/* Componente que nos muestra una lista de los productos */
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
-  productoAtributos = [],
+  productSelected = [],
 }) => {
   /* Array de todos los prodcutos de la base de datos */
   const [productos, setProductos] = useState([]);
@@ -51,19 +49,26 @@ export const Catalogo = ({
       }
     };
     fetchProductos();
-  }, [search, productoAtributos]);
+  }, [search, productSelected]);
 
   return (
     <div className="catalogo">
       <h2 className="catalogo-titulo">Lista de Productos </h2>
       <SearchBar onSearch={handleSearch} />
       <div className="contenedor">
-          <div className="columnaHeader"> <strong> NOMBRE:</strong> </div>
-          <div className="columnaHeader"><strong>DESCRICION </strong></div>
-          <div className="columnaHeader"><strong> PRECIO </strong></div>
+        <div className="columnaHeader">
+          {" "}
+          <strong> NOMBRE:</strong>{" "}
         </div>
-      
-       <ul className="catalogo-lista">
+        <div className="columnaHeader">
+          <strong>DESCRICION </strong>
+        </div>
+        <div className="columnaHeader">
+          <strong> PRECIO </strong>
+        </div>
+      </div>
+
+      <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
@@ -82,4 +87,9 @@ export const Catalogo = ({
       </ul>
     </div>
   );
+};
+
+Catalogo.propTypes = {
+  handleSelectProduct: PropTypes.func,
+  productSelected: PropTypes.array,
 };
