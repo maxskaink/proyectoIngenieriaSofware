@@ -6,20 +6,19 @@ import { infoFormanageProductoValid } from "../helpers/validations";
 
 
 export const ManageProduct = ({
-  handleUpdate,
   handleManagement,
   product,
   title,
   children,
 }) => {
-  const [producto, setProducto] = useState({
+  const [infoNewProduct, setInfoNewProducto] = useState({
     id: product ? product[0] : "",
     nombre: product ? product[1] : "",
     descripcion: product ? product[2] : "",
     precio: product ? product[3] : "",
   });
 
-  const [state, setState] = useState({
+  const [stateForm, setStateForm] = useState({
     isValid: true,
     message: "",
     className: "manageProduct-message",
@@ -29,7 +28,7 @@ export const ManageProduct = ({
     const { name, value } = e.target;
     const validate = infoFormanageProductoValid(name, value);
 
-    setState({
+    setStateForm({
       isValid: validate.isValid,
       message: validate.message,
       className: validate.isValid
@@ -37,24 +36,35 @@ export const ManageProduct = ({
         : "manageProduct-message-error",
     });
     if (validate.isValid && value.toString != "")
-      setProducto((prevProducto) => ({ ...prevProducto, [name]: value }));
+      setInfoNewProducto((prevProducto) => ({ ...prevProducto, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(infoNewProduct.nombre === "" || infoNewProduct.descripcion === "" || infoNewProduct.precio === "") {
+      setStateForm(
+        {
+          isValid: false,
+          message: "Ingrese al menos una descripcion, precio y nombre del producto",
+          className: "manageProduct-message-error",
+        }
+      );
+      return;
+    }
+
     let response;
     try {
-      response = await handleManagement(producto);
+      response = await handleManagement(infoNewProduct);
       if (response.data.state === "OK")
-        setState({
+        setStateForm({
           isValid: true,
           message: "Se ha agregado el producto",
           className: "manageProduct-message",
         });
-      handleUpdate && handleUpdate([]);
     } catch (error) {
       console.log(error);
-      setState({
+      setStateForm({
         isValid: false,
         message: error.response.data.message.toString(),
         className: "manageProduct-message-error",
@@ -65,7 +75,6 @@ export const ManageProduct = ({
   //TODO recordar cambiar esto, para que no pida la id, y funcioine normalmente el title
   return (
     <div className="manageProduct">
-            {children}
       <h2 className="manageProduct-titulo">
         {" "}
         {title}
@@ -76,7 +85,7 @@ export const ManageProduct = ({
           <input
             type="text"
             name="nombre"
-            value={producto.nombre}
+            value={infoNewProduct.nombre}
             onChange={handleChange}
           />
         </label>
@@ -85,7 +94,7 @@ export const ManageProduct = ({
           Descripción:
           <textarea
             name="descripcion"
-            value={producto.descripcion}
+            value={infoNewProduct.descripcion}
             onChange={handleChange}
           />
         </label>
@@ -95,7 +104,7 @@ export const ManageProduct = ({
           <input
             type="number"
             name="precio"
-            value={producto.precio}
+            value={infoNewProduct.precio}
             onChange={handleChange}
           />
         </label>
@@ -103,12 +112,13 @@ export const ManageProduct = ({
         <button
           type="submit"
           className="manageProduct-button button"
-          disabled={!state.isValid}
+          disabled={!stateForm.isValid}
         >
           {title ? title : "Agregar Producto"}
         </button>
+        {children}
       </form>
-      <label className={state.className}>{state.message}</label>
+      <label className={stateForm.className}>{stateForm.message}</label>
     </div>
   );
 };

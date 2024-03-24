@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@200..700&display=swap');
+
+.Container-Menu{
+    font-family: 'Oswald', Oswald;    
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;
+    color: aliceblue;
+}
+.cont-menu{
+    width: 100%;
+    max-width: 250px;
+    background: #1C4955;
+    height: 100vh;
+    transition: all 500ms ease;
+}
+.cont-menu nav{
+    transform: translateY(15%);
+    transition: all 400ms case;
+}
+.containerMenu-nav-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
+    border-left: 5px solid transparent;
+    text-decoration: none;
+    text-align: center;
+    color: #c7c7c7;
+    transition: .4s;
+}
+
+
+.containerMenu-nav-link:hover {
+    border-left: 2px solid white;
+    background-color: #B6D7E0;
+    color: #1C4955;
+    padding: 40px 20px;
+    margin-left: 5px;
+    box-shadow: 0 0 0.5rem rgba(0, 128, 0, 0.5);
+}
+
+.titulo {
+    transition: none !important;
+
+}
+
+.titulo{
+    text-align: center;
+    line-height: 70px;
+    background-color: #1a505f;
+}
+

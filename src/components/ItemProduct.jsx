@@ -8,13 +8,24 @@ export const ItemProduct = ({ producto, onClick }) => {
   };
 
   return (
-    <li key={producto[0]} className="catalogo-producto" onClick={handleClick}>
-      {/*  No creo que sea necesario mostrar esto <strong>ID:</strong> {producto[0]}, */}
-      <strong>Nombre:</strong> {producto[1]} - {" "}
-      <strong>Descripción:</strong> {producto[2]} - {" "}
-      <strong>Precio:</strong>{" "}
-      {producto[3]}
-    </li>
+     <div>
+
+      <li key={producto[0]} className="catalogo-producto" onClick={handleClick}>
+        {/*  No creo que sea necesario mostrar esto <strong>ID:</strong> {producto[0]}, */}
+        
+        <div className="contenedor">
+          <div className="columna">
+             {producto[1]}
+          </div>
+          <div className="columna">
+             {producto[2]}
+          </div>
+          <div className="columna">
+            {producto[3]}
+          </div>
+        </div>
+      </li>
+    </div>
   );
 };
 

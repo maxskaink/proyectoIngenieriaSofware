@@ -1,10 +1,21 @@
 /* Estilos base para el componente Home */
-.home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+*{
+  margin : 0;
+  padding: 0; 
+  box-sizing: border-box;
+  
+}
+
+.containerManagment {
+  align-items: center;
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
   }
   
   .home-container {
@@ -45,7 +56,7 @@
   .container-crud{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: start;
     align-items: center;
     width: -webkit-fill-available;
   }

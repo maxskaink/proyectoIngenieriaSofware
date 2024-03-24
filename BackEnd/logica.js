@@ -21,7 +21,7 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
     descripcion,
     precio,
     }, { autoCommit: true })
-    .catch( () => {result.state = 'ERROR'; result.message='No se ha hecho la insersion, puede que el id ya exista'});
+    .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, el nombre ya existe'});
 
     if (connection) {
         await connection.close()
@@ -72,8 +72,27 @@ export const actualizarProducto = async({ id, nombre, descripcion, precio, activ
     return result
   } catch (error) {
     result.state = 'ERROR';
-    result.message='No se ha hecho la insersion, puede que el id ya exista'
+    result.message='No se ha hecho la actualizacion, este nombre ya existe'
     console.log(error)
     return result;
+  }
+}
+
+export const consultarProductoId = async ({id}) => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from PRODUCTO WHERE idProducto = :id';
+    const result = await connection.execute(query, {id});
+    // Extraer filas del resultado
+    const productos = result.rows;
+    // Cerrar la conexión
+    await connection.close();
+  
+    return productos;
+  } catch (err) {
+    console.log(err)
   }
 }

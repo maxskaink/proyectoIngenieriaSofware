@@ -1,4 +1,4 @@
-import { agregarProducto, consultarProductos, actualizarProducto} from '../BackEnd/logica.js';
+import { agregarProducto, consultarProductos, actualizarProducto, consultarProductoId} from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
 
@@ -29,6 +29,19 @@ app.get('/consultar-productos', async (req, res) => {
     res.status(500).json({ error: 'Error al consultar productos' });
   }
 });
+app.get('/consultar-producto-id', async (req, res) => {
+  try {
+    // Llamar a la función que consulta producto por id
+
+    const producto = await consultarProductoId(req.query);
+
+    // Enviar los productos como respuesta
+    res.json(producto);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar productos' });
+  }
+});
+
 
 app.put('/actualizar-producto', async (req, res) => {
   const result = await actualizarProducto(req.body)

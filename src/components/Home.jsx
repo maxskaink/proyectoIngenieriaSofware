@@ -1,15 +1,12 @@
-
-import { Link } from 'react-router-dom';
+import { Catalogo } from './Catalogo';
 import '../styles/home.css';
 
 /* Es el componente principal que debe tener acceso al resto de funciones en la aplicacion */
 export const Home = () => {
   return (
-    <div className="main-menu">
-      <ul>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/catalogo"> Manejar catologo </Link></li>
-      </ul>
+    <div>
+      <Catalogo></Catalogo>
+      <p>Este es el home</p>
     </div>
-  );
+    );
 }
