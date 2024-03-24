@@ -85,11 +85,9 @@ export const consultarProductoId = async ({id}) => {
   
     // Consulta SELECT
     const query = 'select * from PRODUCTO WHERE idProducto = :id';
-    const result = await connection.execute(query, [id]);
-  
+    const result = await connection.execute(query, {id});
     // Extraer filas del resultado
     const productos = result.rows;
-  
     // Cerrar la conexión
     await connection.close();
   
