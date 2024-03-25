@@ -10,7 +10,7 @@ export const ItemProduct = ({ producto, onClick }) => {
   return (
      <div>
 
-      <li key={producto[0]} className="catalogo-producto" onClick={handleClick}>
+      <li key={producto[0]} id={producto[0]} className="catalogo-producto" onClick={handleClick}>
         {/*  No creo que sea necesario mostrar esto <strong>ID:</strong> {producto[0]}, */}
         
         <div className="contenedor">

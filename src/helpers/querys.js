@@ -30,3 +30,11 @@ export const deleteProduct = async(producto) => {
     }
     return await axios.put(API.actualizarProducto, newProduct)
 }
+
+export const getProducts = async() => {
+    return await axios.get(API.consultarProductos).then(res => res)
+}
+
+export const getProductsId = async(id) => {
+    return await axios.get(API.consultarProductoId, { params: { id: id } }).then(res => res)
+}

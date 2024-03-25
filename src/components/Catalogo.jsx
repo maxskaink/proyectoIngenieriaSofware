@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { API } from "../constants/API";
 import "../styles/catalogo.css";
 
 import { ItemProduct } from "./ItemProduct";
 import { SearchBar } from "./SearchBard";
+import { getProducts } from "../helpers/querys";
 
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
@@ -37,7 +36,7 @@ export const Catalogo = ({
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get(API.consultarProductos);
+        const response = await getProducts();
 
         if (response.status === 200) {
           setProductos(response.data);
