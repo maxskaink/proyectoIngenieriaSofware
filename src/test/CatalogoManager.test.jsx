@@ -1,21 +1,48 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import CatalogoManager from './CatalogoManager';
+import { render, screen,fireEvent } from '@testing-library/react';
+import {test, describe, vi, beforeEach} from 'vitest';
+import { CatalogoManager } from '../components/CatalogoManager';
+import { expect } from 'chai';
 
-let mock = new MockAdapter(axios);
 
-afterEach(() => {
-    // Limpiar todas las solicitudes pendientes
-    mock.reset();
-});
+describe('Agregar Form', () => {
+    const onSubmit = vi.fn();
 
-test('agrega un producto', async () => {
-    
-    render(<CatalogoManager />);
-    
-    const addButton = screen.getByText(/Agregar producto/i);
-    fireEvent.click(addButton);
-    
-    expect(axios.post).toHaveBeenCalled();
+    beforeEach(() => {
+        onSubmit.mockClear();
+    });
+
+    render(<CatalogoManager onSubmit={onSubmit} />);
+
+    test('onsSubmit is called with the correct values', async () => {
+        fireEvent.input(getNombre(), { target: { value: 'Nombre del producto' } })
+        fireEvent.input(getDescripcion(), { target: { value: 'Descripción del producto' } })
+        fireEvent.input(getPrecio(), { target: { value: '2700' } })
+
+        fireEvent.click(getButton());
+
+        expect(screen.getByText('Nombre del producto')).toBeInDocument();
+        expect(screen.getByText('Descripción del producto')).toBeInDocument();
+        expect(screen.getByText('2700')).toBeInDocument();
+    });
+
+    function getNombre()
+    {
+        return screen.getByLabelText('Nombre del producto');
+    }
+    function getDescripcion()
+    {
+        return screen.getByRole('textbox', {
+            name: /descripción:/i
+        })
+    }
+    function getPrecio()
+    {
+        return screen.getByLabelText('Precio del producto');
+    }
+    function getButton()
+    {
+        return screen.getByRole('button', {
+            name: /agregar producto/i
+        })
+    }
 });
