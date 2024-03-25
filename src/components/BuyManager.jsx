@@ -2,6 +2,7 @@ import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { getProductsId } from "../helpers/querys";
 import { useState } from "react";
+import "../styles/buyManager.css";
 
 export const BuyManager = () => {
 
@@ -59,21 +60,23 @@ export const BuyManager = () => {
     }
 
     return (
-        <div>
-            <h1>Compras</h1>
-            <SelectProductOrder 
-                onAddProduct={addProduct}
-            />
-            
-            <ProductsOrder 
-                productsInOrder={order}
-                onDeleteProduct={deleteProduct}
-            />
+        <div className="boardManageBuy">
+            <div className="manageBuy">
+                <h1 className="compras-titulo">Compras </h1>
+                <SelectProductOrder 
+                    onAddProduct={addProduct}
+                />
+                
+                <ProductsOrder 
+                    productsInOrder={order}
+                    onDeleteProduct={deleteProduct}
+                />
 
-            <div>
-                <form>
-                    <button type="button" onClick={handleSubmit}>Enviar</button>
-                </form>
+                <div>
+                    <form>
+                        <button className = "buttonA" type="button" onClick={handleSubmit}>Enviar</button>
+                    </form>
+                </div>
             </div>
         </div>
     );
