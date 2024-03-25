@@ -10,6 +10,7 @@ export const SideBar =() =>{
                         <Link className='containerMenu-nav-link' to="/">Home</Link>
                         <Link className="containerMenu-nav-link" to="/catalogo" >Gestionar Catalogo</Link>
                         <Link className="containerMenu-nav-link" to="/ventas" >Crear venta</Link>
+                        <Link className="containerMenu-nav-link" to="/compras" >Crear compra</Link>
                     </nav>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { CatalogoManager } from './components/CatalogoManager';
 import { SideBar } from './components/SideBar';
 import './styles/main.css';
 import {SaleManager} from './components/SaleManager';
+import { BuyManager } from './components/BuyManager';
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" exact element={<Home />}/>
         <Route path="/catalogo"  element={<CatalogoManager></CatalogoManager>}/>
         <Route path="/ventas"  element={ <SaleManager />}/>
+        <Route path="/compras"  element={ <BuyManager />}/>
       </Routes>
     </BrowserRouter>
 );

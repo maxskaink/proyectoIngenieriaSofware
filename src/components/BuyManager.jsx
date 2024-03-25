@@ -3,9 +3,9 @@ import { ProductsOrder } from "./ProductsOrder";
 import { getProductsId } from "../helpers/querys";
 import { useState } from "react";
 
-export const SaleManager = () => {
+export const BuyManager = () => {
 
-    const [order, setOrder] = useState({ products: [], medioPago:""});
+    const [order, setOrder] = useState({ products: []});
 
     const addProduct = (product) => {
         /* Falta validar:
@@ -41,24 +41,17 @@ export const SaleManager = () => {
         const productName = await getProductInfo(order.products[productIndex].product);
 
         const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar el producto ${productName}?`);
-
+        
         if (confirmDelete) {
             const updatedProducts = [...order.products];
             updatedProducts.splice(productIndex, 1);
             setOrder((prevOrder) => ({ ...prevOrder, products: updatedProducts }));
         }
     }
-    const handleMedioPagoChange = (event) => {
-        setOrder((prevOrder) => ({ ...prevOrder, medioPago: event.target.value }));
-    }
 
     const handleSubmit = () => {
         if (order.products.length === 0) {
             window.alert('Debe seleccionar al menos un producto');
-            return;
-        }
-        if(order.medioPago === "") {
-            window.alert('Debe seleccionar un medio de pago');
             return;
         }
         console.log(order);
@@ -67,7 +60,7 @@ export const SaleManager = () => {
 
     return (
         <div>
-            <h1>ventas</h1>
+            <h1>Compras</h1>
             <SelectProductOrder 
                 onAddProduct={addProduct}
             />
@@ -79,15 +72,6 @@ export const SaleManager = () => {
 
             <div>
                 <form>
-                    <label>
-                        Medio de Pago:
-                        <select value={order.medioPago} onChange={handleMedioPagoChange}>
-                            <option value="">Seleccione un medio de pago</option>
-                            <option value="tarjeta">Tarjeta</option>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="transferencia">Transferencia</option>
-                        </select>
-                    </label>
                     <button type="button" onClick={handleSubmit}>Enviar</button>
                 </form>
             </div>
