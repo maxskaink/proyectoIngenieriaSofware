@@ -3,7 +3,23 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getProductsId } from '../helpers/querys';
 
-export const ProductsOrder = ({ productsInOrder }) => {
+const Product = ({index, product, onHandleDelete, quantity}) => {
+    const handleDelete = () => {
+        onHandleDelete(index);
+    };
+    return(
+        <li 
+        key={index}
+        >
+            <p>
+                { "Nombre: " + product[1] + ". Cantidad: " + quantity}
+            </p>
+            <button onClick={handleDelete}>Eliminar</button>
+        </li>
+    );
+}
+
+export const ProductsOrder = ({ productsInOrder, onDeleteProduct }) => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -15,7 +31,6 @@ export const ProductsOrder = ({ productsInOrder }) => {
                 .filter(response => response.status === 200 && response.data.length > 0)
                 .map(response => response.data[0]);
             setProducts(validProducts);
-            console.log(validProducts);
         };
 
         fetchProducts();
@@ -25,9 +40,15 @@ export const ProductsOrder = ({ productsInOrder }) => {
         <div>
             <h2>Products Order</h2>
             <ul>
-                { products.length > 0 ?(                    
+                { (products.length > 0 )?(                    
                     products.map((product, index) => (
-                        <li key={index}>{product[1]}</li>
+                        <Product 
+                            key={index}
+                            product={product}
+                            quantity={productsInOrder.products[index] ? productsInOrder.products[index].quantity.toString() : ""}
+                            onHandleDelete={onDeleteProduct}
+                            index={index}
+                        />
                 ))): <p>No products in order</p>}
             </ul>
         </div>
@@ -35,5 +56,13 @@ export const ProductsOrder = ({ productsInOrder }) => {
 };
 
 ProductsOrder.propTypes = {
+    onDeleteProduct: PropTypes.func,
     productsInOrder: PropTypes.object,
+};
+
+Product.propTypes = {
+    index: PropTypes.number,
+    product: PropTypes.array,
+    onHandleDelete: PropTypes.func,
+    quantity: PropTypes.string
 };
