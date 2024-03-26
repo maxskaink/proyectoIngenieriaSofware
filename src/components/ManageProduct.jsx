@@ -10,6 +10,7 @@ export const ManageProduct = ({
   product,
   title,
   children,
+  testId,
 }) => {
   const [infoNewProduct, setInfoNewProducto] = useState({
     id: product ? product[0] : "",
@@ -87,6 +88,7 @@ export const ManageProduct = ({
             name="nombre"
             value={infoNewProduct.nombre}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -96,6 +98,7 @@ export const ManageProduct = ({
             name="descripcion"
             value={infoNewProduct.descripcion}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -106,6 +109,7 @@ export const ManageProduct = ({
             name="precio"
             value={infoNewProduct.precio}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -113,8 +117,10 @@ export const ManageProduct = ({
           type="submit"
           className="manageProduct-button button"
           disabled={!stateForm.isValid}
+          data-testid={testId}
         >
           {title ? title : "Agregar Producto"}
+          
         </button>
         {children}
       </form>
