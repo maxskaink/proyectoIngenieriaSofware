@@ -38,3 +38,6 @@ export const getProducts = async() => {
 export const getProductsId = async(id) => {
     return await axios.get(API.consultarProductoId, { params: { id: id } }).then(res => res)
 }
+export const getActualMoney = async() => {
+    return await axios.get(API.consultarDineroCaja).then(res => res)
+}

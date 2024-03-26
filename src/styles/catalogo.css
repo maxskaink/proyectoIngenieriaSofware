@@ -11,7 +11,7 @@
   overflow: auto;
   transition: .5s;
   font-family: 'Encode Sans Expanded', Encode Sans Expanded;
-  min-width: 80vh;
+  /* min-width: 80vh; */
 }
 .catalogo::-webkit-scrollbar {
   display: none; /* Oculta la barra de desplazamiento */

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getProductsId } from '../helpers/querys';
 
-const Product = ({index, product, onHandleDelete, quantity}) => {
+const Product = ({index, product, onHandleDelete, quantity, price}) => {
     const handleDelete = () => {
         onHandleDelete(index);
     };
@@ -12,7 +12,7 @@ const Product = ({index, product, onHandleDelete, quantity}) => {
         key={index}
         >
             <p>
-                { "Nombre: " + product[1] + ". Cantidad: " + quantity}
+                { "Nombre: " + product[1] + ". Cantidad: " + quantity + ((price) ? ". Precio: " + price : "")}
             </p>
             <button onClick={handleDelete}>Eliminar</button>
         </li>
@@ -48,6 +48,7 @@ export const ProductsOrder = ({ productsInOrder, onDeleteProduct }) => {
                             quantity={productsInOrder.products[index] ? productsInOrder.products[index].quantity.toString() : ""}
                             onHandleDelete={onDeleteProduct}
                             index={index}
+                            price={(productsInOrder.products[index] &&  productsInOrder.products[index].price) ? productsInOrder.products[index].price.toString() : undefined}
                         />
                 ))): <p>No products in order</p>}
             </ul>
@@ -64,5 +65,6 @@ Product.propTypes = {
     index: PropTypes.number,
     product: PropTypes.array,
     onHandleDelete: PropTypes.func,
-    quantity: PropTypes.string
+    quantity: PropTypes.string,
+    price: PropTypes.string,
 };

@@ -1,19 +1,38 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getProductsId } from "../helpers/querys";
+import { getActualMoney, getProductsId } from "../helpers/querys";
 import { useState } from "react";
 import "../styles/buyManager.css";
 
 export const BuyManager = () => {
 
-    const [order, setOrder] = useState({ products: []});
+    const [order, setOrder] = useState({ 
+        products: [],
+        providerName: "",
+        contact: "",
+        address: ""
+    });
 
-    const addProduct = (product) => {
+    const addProduct = async(product) => {
         /* Falta validar:
-            - que halla la cantidades del producto en stock
+            - que halla la cantidad de dinero para comprar
         */
-        if(product.product === 0 || product.quantity === 0) 
-            return window.alert('Producto o cantidad no válidos');
+
+        if(product.product === 0) 
+            return window.alert('Seleccione un producto');
+        if( product.quantity === 0)
+            return window.alert('Cantidad no válida');
+        if( product.price === 0)
+            return window.alert('Precio no válido');
+        
+        const dineroActual = await getActualMoney().then(res => res.data)
+        
+        let totalPrice = order.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+        totalPrice += product.price * product.quantity;
+
+        if (totalPrice > dineroActual) 
+            return window.alert('No hay dinero suficiente para comprar este producto');
+        
         /* Validar que no exista ya el producto,, y si existe suma las cantidades */
         const productIndex = order.products.findIndex(p => p.product === product.product);
         if (productIndex !== -1) {
@@ -51,12 +70,23 @@ export const BuyManager = () => {
     }
 
     const handleSubmit = () => {
-        if (order.products.length === 0) {
-            window.alert('Debe seleccionar al menos un producto');
-            return;
-        }
+        if (order.products.length === 0) 
+            return window.alert('Debe seleccionar al menos un producto');
+        
+        if(order.providerName.length === 0) 
+            return window.alert('Ingrese el nombre del proveedor');
+        
+        if(order.contact.length === 0)
+            return window.alert('Ingrese el contacto del proveedor');
+        if(order.address.length === 0)
+            return window.alert('Ingrese la dirección del proveedor');
         console.log(order);
         // Aquí puedes realizar las acciones necesarias al enviar el formulario
+    }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setOrder(prevOrder => ({ ...prevOrder, [name]: value }));
     }
 
     return (
@@ -65,6 +95,7 @@ export const BuyManager = () => {
                 <h1 className="compras-titulo">Compras </h1>
                 <SelectProductOrder 
                     onAddProduct={addProduct}
+                    price
                 />
                 
                 <ProductsOrder 
@@ -74,7 +105,10 @@ export const BuyManager = () => {
 
                 <div>
                     <form>
-                        <button className = "buttonA" type="button" onClick={handleSubmit}>Enviar</button>
+                        <input type="text" name="providerName" placeholder="Nombre del proveedor" onChange={handleInputChange} />
+                        <input type="text" name="contact" placeholder="Contacto" onChange={handleInputChange} />
+                        <input type="text" name="address" placeholder="Dirección" onChange={handleInputChange} />
+                        <button className="buttonA" type="button" onClick={handleSubmit}>Enviar</button>
                     </form>
                 </div>
             </div>

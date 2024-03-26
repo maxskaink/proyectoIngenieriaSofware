@@ -1,4 +1,4 @@
-import { agregarProducto, consultarProductos, actualizarProducto, consultarProductoId} from '../BackEnd/logica.js';
+import { agregarProducto, consultarProductos, actualizarProducto, consultarProductoId, constularDineroCaja} from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
 
@@ -39,6 +39,18 @@ app.get('/consultar-producto-id', async (req, res) => {
     res.json(producto);
   } catch (error) {
     res.status(500).json({ error: 'Error al consultar productos' });
+  }
+});
+
+app.get('/constular-dinero-caja', async (req, res) => {
+  try {
+    // Llamar a la función que consulta el dinero en caja
+    const dinero = await constularDineroCaja();
+
+    // Enviar el dinero como respuesta
+    res.json(dinero);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar dinero en caja' });
   }
 });
 

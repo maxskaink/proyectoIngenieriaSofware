@@ -7,10 +7,13 @@ export const SaleManager = () => {
 
     const [order, setOrder] = useState({ products: [], medioPago:""});
 
-    const addProduct = (product) => {
-        /* Falta validar:
-            - que halla la cantidades del producto en stock
-        */
+    const addProduct = async(product) => {
+        
+        const [, , , , , stockProduct] = await getProductsId(product.product).then(res =>res.data[0]);
+
+        if(stockProduct < product.quantity) 
+            return window.alert('No hay suficiente stock para este producto');
+
         if(product.product === 0 || product.quantity === 0) 
             return window.alert('Producto o cantidad no válidos');
         /* Validar que no exista ya el producto,, y si existe suma las cantidades */
@@ -21,6 +24,8 @@ export const SaleManager = () => {
             const updatedProduct = { ...updatedProducts[productIndex] };
             updatedProduct.quantity = Number(product.quantity) + Number(updatedProduct.quantity);
             updatedProducts[productIndex] = updatedProduct;
+            if(stockProduct < updatedProduct.quantity) 
+                return window.alert('No hay suficiente stock para este producto');
             setOrder(prevOrder => ({ ...prevOrder, products: updatedProducts }));
             return;
         } 

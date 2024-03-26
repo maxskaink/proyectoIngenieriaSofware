@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { getProducts } from '../helpers/querys';
 import PropTypes from 'prop-types';
 
-export const SelectProductOrder = ({ onAddProduct }) => {
+export const SelectProductOrder = ({ onAddProduct, price }) => {
     const [products, setProducts] = useState([]);
-    const [actualProduct, setActualProduct] = useState({ product: 0, quantity: 0 });
+    const [actualProduct, setActualProduct] = useState({ product: 0, quantity: 1 });
     
     const handleSelectChange = ( product) => {
         setActualProduct(prevOrder => ({ ...prevOrder, product: product.target.value }));
@@ -13,6 +13,9 @@ export const SelectProductOrder = ({ onAddProduct }) => {
     const handleQuantityChange = (event) => {
         setActualProduct(prevOrder => ({ ...prevOrder, quantity: event.target.value }));
     };
+    const handlePriceChange = (event) => {
+        setActualProduct(prevOrder => ({ ...prevOrder, price: event.target.value }));
+    }
     
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -47,7 +50,8 @@ export const SelectProductOrder = ({ onAddProduct }) => {
                     </option>
                 ))}
             </select>
-            <input type="number" placeholder="Cantidad" onChange={handleQuantityChange} defaultValue={0} />
+            <input type="number" placeholder="Cantidad" onChange={handleQuantityChange} defaultValue={1} />
+            {price && <input type="number" placeholder="Precio" onChange={handlePriceChange} defaultValue={0} />}
             <button type="submit">Agregar</button>
         </form>
         </>
@@ -55,4 +59,5 @@ export const SelectProductOrder = ({ onAddProduct }) => {
 }
 SelectProductOrder.propTypes = {
     onAddProduct: PropTypes.func.isRequired,
+    price: PropTypes.bool
 };
