@@ -51,6 +51,98 @@ CREATE TABLE ProductosCompra(
     CONSTRAINT fk_comPro FOREIGN KEY (codigoCompra) REFERENCES compra(codigoCompra)
 );
 
+CREATE TABLE Caja(
+    codigoCaja NUMBER NOT NULL,
+    dineroTotal NUMBER NOT NULL,
+    CONSTRAINT pk_Caja PRIMARY KEY (codigoCaja)
+)
+/* aqui se deberia de insertar el dinero base */
+INSERT INTO Caja (codigoCaja, dineroTotal) VALUES (1, 1000000);
+
+CREATE OR REPLACE PROCEDURE InsertarProductoEnVenta(
+    idProducto IN NUMBER,
+    codigoVenta IN NUMBER,
+    cantidad IN NUMBER
+)
+IS
+    precioProducto PRODUCTO.PrecioActual%TYPE;
+    PRECIOACTUALCAja Caja.dineroTotal%TYPE;
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = idProducto;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El código del producto no es válido');
+    END IF;
+
+    SELECT COUNT(*) INTO v_count FROM venta WHERE codigoVenta = codigoVenta;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El código de venta no es válido');
+    END IF;
+
+    SELECT P.PrecioActual
+    INTO precioProducto
+    FROM PRODUCTO P
+    WHERE P.idProducto = idProducto;
+
+    SELECT C.dineroTotal
+    into PRECIOACTUALCAja
+    FROM Caja C
+    WHERE C.codigoCaja = 1;
+
+    -- Asegúrate de proporcionar los valores correctos para la inserción
+    INSERT INTO ProductosVenta (idProducto, codigoVenta, cantidad, precioUnitario) 
+    VALUES (idProducto, codigoVenta, cantidad, precioProducto);
+
+    UPDATE Caja SET dineroTotal = PRECIOACTUALCAja + (precioProducto * cantidad)
+    WHERE codigoCaja = 1;
+
+    UPDATE PRODUCTO SET cantidadStock = cantidadStock - cantidad
+    WHERE idProducto = idProducto;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle the exceptions here
+        DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END InsertarProductoEnVenta;
+
+CREATE OR REPLACE PROCEDURE InsertarProductoEnCompra(
+    idProducto IN NUMBER,
+    CODIGOCOMPRA IN NUMBER,
+    cantidad IN NUMBER,
+    precioUnitario IN NUMBER
+)
+IS
+    PRECIOACTUALCAja Caja.dineroTotal%TYPE;
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = idProducto;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El código del producto no es válido');
+    END IF;
+
+    SELECT COUNT(*) INTO v_count FROM COMPRA WHERE CODIGOCOMPRA = CODIGOCOMPRA;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El código de compra no es válido');
+    END IF;
+
+    SELECT C.dineroTotal
+    INTO PRECIOACTUALCAja
+    FROM Caja C
+    WHERE C.codigoCaja = 1;
+
+    INSERT INTO PRODUCTOSCOMPRA (idProducto, CODIGOCOMPRA, cantidad, precioUnitario)
+    VALUES (idProducto, CODIGOCOMPRA, cantidad, precioUnitario);
+
+    UPDATE Caja SET dineroTotal = PRECIOACTUALCAja - (precioUnitario * cantidad)
+    WHERE codigoCaja = 1;
+
+    UPDATE PRODUCTO SET cantidadStock = cantidadStock + cantidad
+    WHERE idProducto = idProducto;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END InsertarProductoEnCompra;
+
+
 /* Para que la id del producto se genere automaticamente */
 CREATE SEQUENCE SEQ_PRODUCTO
   START WITH 1
@@ -64,6 +156,7 @@ BEGIN
     FROM
         DUAL;
 END;
+
 
 insert into PRODUCTO ( nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) 
 values ('pollito frito segunda versi=', 'Pollo clasico de toda la vida', 40000, 1, 0);

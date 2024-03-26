@@ -7,15 +7,22 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: -webkit-fill-available;
-  max-height: 90vh;  overflow: auto;
+  max-height: 90vh;  
+  overflow: auto;
   transition: .5s;
   font-family: 'Encode Sans Expanded', Encode Sans Expanded;
+  /* min-width: 80vh; */
 }
+.catalogo::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento */
+}
+
 
 .catalogo-titulo {
   font-size: 2em;
   color: #333;
+  padding: 18px;
+  text-align: center;
 }
 
 .catalogo-lista {
@@ -33,4 +40,13 @@
   flex-direction: row;
   align-content: center;
   justify-content: center;
-  align-items: center;}
+  align-items: center;
+}
+
+.cabecera{
+  position: sticky;
+  top: -21px;
+  z-index: 1; /* Para asegurarte de que esté por encima de las demás capas */
+  background-color: #fff;
+}
+

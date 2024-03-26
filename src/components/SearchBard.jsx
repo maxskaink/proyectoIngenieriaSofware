@@ -15,10 +15,7 @@ export const SearchBar = ({ onSearch }) => {
     };
 
     /* Cuando se le unde buscar hace simplemnete hace lo mismo que la otra funcion */
-    const handleSearch = () => {
-
-        onSearch(query);
-    };
+    
 
     return (
         <div className="search-bar">
@@ -28,7 +25,7 @@ export const SearchBar = ({ onSearch }) => {
                 value={query}
                 onChange={handleInputChange}
             />
-            <button onClick={handleSearch}>Buscar</button>
+           
         </div>
     );
 };

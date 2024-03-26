@@ -52,21 +52,26 @@ export const Catalogo = ({
 
   return (
     <div className="catalogo">
-      <h2 className="catalogo-titulo">Lista de Productos </h2>
-      <SearchBar onSearch={handleSearch} />
-      <div className="contenedor">
-        <div className="columnaHeader">
-          {" "}
-          <strong> NOMBRE:</strong>{" "}
-        </div>
-        <div className="columnaHeader">
-          <strong>DESCRICION </strong>
-        </div>
-        <div className="columnaHeader">
-          <strong> PRECIO </strong>
-        </div>
-      </div>
+      <div className="cabecera">  
 
+
+        <h2 className="catalogo-titulo">Lista de Productos </h2>
+        <SearchBar onSearch={handleSearch} />
+        <div className="contenedor">
+          <div className="columnaHeader">
+            {" "}
+            <strong> NOMBRE:</strong>{" "}
+          </div>
+          <div className="columnaHeader">
+            <strong>DESCRICION </strong>
+          </div>
+          <div className="columnaHeader">
+            <strong> PRECIO </strong>
+          </div>
+        </div>
+
+
+      </div>
       <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(

@@ -3,12 +3,13 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s ease;
+  background-color: #cad9dd;
+  transition: .5s;
 }
 
-.catalogo-producto:hover {
-  background-color: #e0e0e0;
+.catalogo-producto:hover{
+  padding: 25px;
+ 
 }
 .contenedor {
   display: grid;
@@ -17,6 +18,6 @@
 }
 
 .columna {
-  background-color: #f0f0f0;
+  background-color: #cad9dd;
   padding: 20px;
 }

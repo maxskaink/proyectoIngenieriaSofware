@@ -96,3 +96,23 @@ export const consultarProductoId = async ({id}) => {
     console.log(err)
   }
 }
+
+export const constularDineroCaja = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select dineroTOtal from caja where codigocaja = 1';
+    const result = await connection.execute(query);
+  
+    // Extraer filas del resultado
+    const dinero = result.rows[0][0];
+    // Cerrar la conexión
+    await connection.close();
+  
+    return dinero;
+  } catch (err) {
+    console.log(err)
+  }
+}

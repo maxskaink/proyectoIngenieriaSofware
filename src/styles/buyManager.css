@@ -1,0 +1,34 @@
+.boardManageBuy {
+    font-family: 'Encode Sans Expanded', Encode Sans Expanded;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+
+  }
+  .compras-titulo{
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+    margin: 25px
+  }
+  .manageBuy{
+    background-color: white;
+    height: 400px;
+    width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 50px;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+.buttonA{
+    background-color: #23f984;
+    width: 100%;
+    height: 33px;
+    border-color: #23f984;
+}

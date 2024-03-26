@@ -84,6 +84,7 @@ export const ManageProduct = ({
         <label className="manageProduct-label">
           Nombre:
           <input
+            className="cmBoxNombreProducto"
             type="text"
             name="nombre"
             value={infoNewProduct.nombre}
@@ -94,7 +95,7 @@ export const ManageProduct = ({
 
         <label className="manageProduct-label">
           Descripción:
-          <textarea
+          <textarea className="cmBoxDescripcion"
             name="descripcion"
             value={infoNewProduct.descripcion}
             onChange={handleChange}
@@ -105,6 +106,7 @@ export const ManageProduct = ({
         <label className="manageProduct-label">
           Precio:
           <input
+            className="cmBoxPrecio"
             type="number"
             name="precio"
             value={infoNewProduct.precio}
