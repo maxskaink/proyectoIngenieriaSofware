@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getProducts } from '../helpers/querys';
 import PropTypes from 'prop-types';
+import "../styles/selectProduct.css";
 
 export const SelectProductOrder = ({ onAddProduct, price }) => {
     const [products, setProducts] = useState([]);
@@ -39,22 +40,24 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
     },[]);
     
     return(
-        <>
-        <p>Se ha seleccionado el producto: { actualProduct.productId && actualProduct.productId }</p>
-        <form onSubmit={handleSubmit}>
-            <select onChange={handleSelectChange}>
+        <div className='ContendedorCompra'>
+            <>
+            <p className="selected-product">Se ha seleccionado el producto: {actualProduct.productId && actualProduct.productId}</p>
+            <form onSubmit={handleSubmit} className="add-product-form">
+                <select className="select-product" onChange={handleSelectChange}>
                 <option value="0">Seleccione un producto</option>
                 {products.map((product) => (
                     <option key={product[0]} value={product[0]}>
-                        {product[1]}
+                    {product[1]}
                     </option>
                 ))}
-            </select>
-            <input type="number" placeholder="Cantidad" onChange={handleQuantityChange} defaultValue={1} />
-            {price && <input type="number" placeholder="Precio" onChange={handlePriceChange} defaultValue={0} />}
-            <button type="submit">Agregar</button>
-        </form>
-        </>
+                </select>
+                <input className="quantity-input" type="number" placeholder="Cantidad" onChange={handleQuantityChange}  />
+                {price && <input className="price-input" type="number" placeholder="Precio" onChange={handlePriceChange}  />}
+                <button className="add-button" type="submit">Agregar</button>
+            </form>
+            </>
+        </div>
     )
 }
 SelectProductOrder.propTypes = {

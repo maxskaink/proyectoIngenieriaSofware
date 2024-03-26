@@ -3,15 +3,17 @@
 /* Estilos para el componente Catalogo */
 .catalogo {
   margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-height: 90vh;  
-  overflow: auto;
-  transition: .5s;
-  font-family: 'Encode Sans Expanded', Encode Sans Expanded;
-  /* min-width: 80vh; */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow: auto;
+    transition: .5s;
+    font-family: 'Encode Sans Expanded', Encode Sans Expanded;
+    min-width: 90vh;
+    width: -webkit-fill-available;
+    min-height: -webkit-fill-available;
 }
 .catalogo::-webkit-scrollbar {
   display: none; /* Oculta la barra de desplazamiento */
@@ -29,9 +31,10 @@
   list-style: none;
   padding: 0;
   transition: .5s;
+
 }
 .columnaHeader{
-  background-color: #1a505f;
+  background-color:   #1e9f40;
   border-radius: 10px;
   color: #fff;
   text-align: center;

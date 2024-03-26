@@ -1,0 +1,23 @@
+.products-order {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .products-order-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .products-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .products-list p {
+    margin: 0;
+    padding: 10px;
+    color: #777;
+  }

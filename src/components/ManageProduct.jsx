@@ -82,7 +82,7 @@ export const ManageProduct = ({
         <label className="manageProduct-label">
           Nombre:
           <input
-            className="cmBoxNombreProducto"
+            className="cmBoxDescripcion"
             type="text"
             name="nombre"
             value={infoNewProduct.nombre}
@@ -102,7 +102,7 @@ export const ManageProduct = ({
         <label className="manageProduct-label">
           Precio:
           <input
-            className="cmBoxPrecio"
+            className="cmBoxDescripcion"
             type="number"
             name="precio"
             value={infoNewProduct.precio}

@@ -15,8 +15,8 @@
   }
   .manageBuy{
     background-color: white;
-    height: 400px;
-    width: 500px;
+    height: 600px;
+    width: max-content;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     padding: 50px;
@@ -24,7 +24,7 @@
     align-content: stretch;
     flex-direction: column;
     justify-content: center;
-    align-items: stretch;
+    align-items: center;
 }
 .buttonA{
     background-color: #23f984;
