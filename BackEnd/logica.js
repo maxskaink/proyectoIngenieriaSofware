@@ -116,3 +116,36 @@ export const constularDineroCaja = async () => {
     console.log(err)
   }
 }
+
+export const crearCompra = async ({address = "", contact = "", providerName="",products = []}) => {
+  try{
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+
+
+    const query = `insert into COMPRA (direccion, contacto, nombreProveedor, preciototalcompra,fecha) values (:address, :contact, :providerName, 0,SYSDATE)`;
+    
+    await connection.execute(query, {address, contact, providerName}, { autoCommit: true });
+
+
+    const query2 = `select codigoCompra from compra order by fecha FETCH FIRST ROW ONLY`;
+    const result = await connection.execute(query2);
+    const idCompra = result.rows[0][0];
+
+    for (let i = 0; i < products.length; i++) {
+      const producto = products[i];
+      const query3 = `BEGIN InsertarProductoEnCompra(:idProducto, :idCompra,:cantidad, :precioUnitario); END;`;
+      await connection.execute(query3, {
+        idProducto: producto.product,
+        idCompra,
+        cantidad: producto.quantity,
+        precioUnitario: producto.price
+      }, { autoCommit: true });
+    }
+
+    await connection.close();
+    return {state: 'OK', message: 'Se ha creado la compra con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido crear la compra'};
+  }
+}

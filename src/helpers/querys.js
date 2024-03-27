@@ -41,3 +41,7 @@ export const getProductsId = async(id) => {
 export const getActualMoney = async() => {
     return await axios.get(API.consultarDineroCaja).then(res => res)
 }
+
+export const createBuy = async(order) => {
+    return await axios.post(API.agregarCompra, order)
+}

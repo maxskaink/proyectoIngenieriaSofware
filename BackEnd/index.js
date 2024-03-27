@@ -1,4 +1,10 @@
-import { agregarProducto, consultarProductos, actualizarProducto, consultarProductoId, constularDineroCaja} from '../BackEnd/logica.js';
+import {agregarProducto, 
+        consultarProductos, 
+        actualizarProducto, 
+        consultarProductoId, 
+        constularDineroCaja,
+        crearCompra
+      } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
 
@@ -57,6 +63,16 @@ app.get('/constular-dinero-caja', async (req, res) => {
 
 app.put('/actualizar-producto', async (req, res) => {
   const result = await actualizarProducto(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.post('/crear-compra', async (req, res) => {
+  const result = await crearCompra(req.body)
   .catch(err => console.log(err))
 
   if(result.state === 'OK')
