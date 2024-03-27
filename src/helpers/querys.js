@@ -45,3 +45,7 @@ export const getActualMoney = async() => {
 export const createBuy = async(order) => {
     return await axios.post(API.agregarCompra, order)
 }
+
+export const createSale = async(order) => {
+    return await axios.post(API.agregarVenta, order)
+}

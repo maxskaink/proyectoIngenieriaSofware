@@ -85,7 +85,7 @@ export const BuyManager = () => {
             const response = await createBuy(order);
             if (response.status === 200) {
                 window.alert('Compra realizada exitosamente');
-                setOrder({ products: [], providerName: "", contact: "", address: "" });
+                window.location.reload();
             } else {
                 window.alert('Error al realizar la compra');
             }

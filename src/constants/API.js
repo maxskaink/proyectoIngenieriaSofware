@@ -5,4 +5,5 @@ export const API = {
   consultarProductoId: "http://localhost:3001/consultar-producto-id",
   consultarDineroCaja: "http://localhost:3001/constular-dinero-caja",
   agregarCompra: "http://localhost:3001/crear-compra",
+  agregarVenta: "http://localhost:3001/crear-venta",
 };
