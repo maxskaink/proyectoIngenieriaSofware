@@ -4,13 +4,13 @@
 .manageProduct {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: 'Encode Sans Expanded', Encode Sans Expanded;
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin: 20px;
+  margin: 10px;
+  margin-top: 0;
+  width:  410px;
 }
 
 .manageProduct-titulo {
@@ -22,6 +22,7 @@
 .manageProduct-label {
   display: block;
   margin-bottom: 15px;
+  font-family: 'Encode Sans Expanded', Encode Sans Expanded;
 }
 
 .cmBoxDescripcion {
@@ -40,7 +41,7 @@
 .manageProduct-button {
   padding: 10px 20px;
   font-size: 18px;
-  background-color: #007bff;
+  background-color: #1aaf5e;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -49,10 +50,26 @@
 }
 
 .manageProduct-button:hover {
-  background-color: #0056b3;
+  background-color: #12743e;
 }
 
 .manageProduct-message {
   font-size: 14px;
   color: #dc3545;
+}
+
+.manageProduct-button-eliminar {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #df1616;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.manageProduct-button-eliminar:hover {
+  background-color: #b40000;
 }

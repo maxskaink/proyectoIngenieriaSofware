@@ -34,7 +34,7 @@
 
 }
 .columnaHeader{
-  background-color:   #1e9f40;
+  background-color: #02586f;
   border-radius: 10px;
   color: #fff;
   text-align: center;
@@ -45,6 +45,7 @@
   justify-content: center;
   align-items: center;
 }
+
 
 .cabecera{
   position: sticky;

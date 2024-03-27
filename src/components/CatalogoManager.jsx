@@ -56,7 +56,7 @@ export function CatalogoManager () {
                 product={productSelected}
                 key={productSelected[0]}
               >
-                <button className="button" onClick={handleDeleteProduct}>
+                <button className="manageProduct-button-eliminar" onClick={handleDeleteProduct}>
                   Eliminar producto
                 </button>
               </ManageProduct>
