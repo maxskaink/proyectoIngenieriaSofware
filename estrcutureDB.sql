@@ -1,3 +1,4 @@
+drop table caja;
 drop table ProductosVenta;
 drop table ProductosCompra;
 drop table compra;
@@ -18,7 +19,7 @@ CREATE TABLE Producto (
 CREATE TABLE venta (
     codigoVenta NUMBER,
     medioPago VARCHAR2(50) NOT NULL,
-    fecha DATE,
+    fecha TIMESTAMP,
     precioTotalVenta NUMBER NOT NULL,
     CONSTRAINT pk_venta PRIMARY KEY (codigoVenta)
 );
@@ -48,7 +49,7 @@ CREATE TABLE ProductosVenta(
 
 CREATE TABLE compra (
     codigoCompra NUMBER,
-    fecha DATE,
+    fecha TIMESTAMP,
     nombreProveedor VARCHAR2(255) NOT NULL,
     contacto VARCHAR2(50),
     direccion VARCHAR2(255),
@@ -83,35 +84,40 @@ CREATE TABLE Caja(
     codigoCaja NUMBER NOT NULL,
     dineroTotal NUMBER NOT NULL,
     CONSTRAINT pk_Caja PRIMARY KEY (codigoCaja)
-)
+);
 /* aqui se deberia de insertar el dinero base */
 INSERT INTO Caja (codigoCaja, dineroTotal) VALUES (1, 1000000);
 
 
 CREATE OR REPLACE PROCEDURE InsertarProductoEnVenta(
-    idProducto IN NUMBER,
-    codigoVenta IN NUMBER,
-    cantidad IN NUMBER
+    p_idProducto IN NUMBER,
+    p_codigoVenta IN NUMBER,
+    p_cantidad IN NUMBER
 )
 IS
     precioProducto PRODUCTO.PrecioActual%TYPE;
     PRECIOACTUALCAja Caja.dineroTotal%TYPE;
     v_count NUMBER;
 BEGIN
-    SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = idProducto;
+    SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = p_idProducto;
     IF v_count = 0 THEN
         RAISE_APPLICATION_ERROR(-20002, 'El código del producto no es válido');
     END IF;
 
-    SELECT COUNT(*) INTO v_count FROM venta WHERE codigoVenta = codigoVenta;
+    SELECT COUNT(*) INTO v_count FROM venta WHERE codigoVenta = p_codigoVenta;
     IF v_count = 0 THEN
         RAISE_APPLICATION_ERROR(-20003, 'El código de venta no es válido');
     END IF;
-
+    
+    select cantidadStock into v_count from producto where idproducto =p_idproducto;
+    IF (v_count - p_cantidad) < 0 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'No se puden vender una cantidad inexistente');
+    END IF;
+    
     SELECT P.PrecioActual
     INTO precioProducto
     FROM PRODUCTO P
-    WHERE P.idProducto = idProducto;
+    WHERE P.idProducto = p_idProducto;
 
     SELECT C.dineroTotal
     into PRECIOACTUALCAja
@@ -120,13 +126,16 @@ BEGIN
 
     -- Asegúrate de proporcionar los valores correctos para la inserción
     INSERT INTO ProductosVenta (idProducto, codigoVenta, cantidad, precioUnitario) 
-    VALUES (idProducto, codigoVenta, cantidad, precioProducto);
+    VALUES (p_idProducto, p_codigoVenta, p_cantidad, precioProducto);
 
-    UPDATE Caja SET dineroTotal = PRECIOACTUALCAja + (precioProducto * cantidad)
+    UPDATE Caja SET dineroTotal = PRECIOACTUALCAja + (precioProducto * p_cantidad)
     WHERE codigoCaja = 1;
 
-    UPDATE PRODUCTO SET cantidadStock = cantidadStock - cantidad
-    WHERE idProducto = idProducto;
+    UPDATE PRODUCTO SET cantidadStock = cantidadStock - p_cantidad
+    WHERE idProducto = p_idProducto;
+    
+    UPDATE VENTA SET preciototalventa = preciototalventa + (precioProducto * p_cantidad)
+    where codigoventa = p_codigoventa;
 EXCEPTION
     WHEN OTHERS THEN
         -- Handle the exceptions here

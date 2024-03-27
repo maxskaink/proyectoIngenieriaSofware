@@ -1,6 +1,6 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getProductsId } from "../helpers/querys";
+import { getProductsId, createSale } from "../helpers/querys";
 import { useState } from "react";
 
 export const SaleManager = () => {
@@ -9,14 +9,15 @@ export const SaleManager = () => {
 
     const addProduct = async(product) => {
         
+        if(product.product === 0 || product.quantity === 0) 
+            return window.alert('Producto o cantidad no válidos');
+        
         const [, , , , , stockProduct] = await getProductsId(product.product).then(res =>res.data[0]);
 
         if(stockProduct < product.quantity) 
             return window.alert('No hay suficiente stock para este producto');
-
-        if(product.product === 0 || product.quantity === 0) 
-            return window.alert('Producto o cantidad no válidos');
-        /* Validar que no exista ya el producto,, y si existe suma las cantidades */
+    
+            /* Validar que no exista ya el producto,, y si existe suma las cantidades */
         const productIndex = order.products.findIndex(p => p.product === product.product);
         if (productIndex !== -1) {
             const updatedProducts = [...order.products];
@@ -57,7 +58,7 @@ export const SaleManager = () => {
         setOrder((prevOrder) => ({ ...prevOrder, medioPago: event.target.value }));
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if (order.products.length === 0) {
             window.alert('Debe seleccionar al menos un producto');
             return;
@@ -67,7 +68,21 @@ export const SaleManager = () => {
             return;
         }
         console.log(order);
-        // Aquí puedes realizar las acciones necesarias al enviar el formulario
+        
+        try {
+            const response = await createSale(order);
+
+            if(response.data.state === 'OK') {
+                window.alert('Venta realizada con éxito');
+                //window.location.reload();
+            } else 
+                window.alert('Error al realizar la venta');
+            
+        } catch (error) {
+            console.error(error);
+            window.alert('Error al realizar la venta');
+        }
+
     }
 
     return (
