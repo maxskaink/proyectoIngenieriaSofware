@@ -8,6 +8,7 @@ class Response {
 }
 
 export const infoFormanageProductoValid = (atributo, valor) => {
+  if(valor.toString().length > 100) return new Response("Ingrese un nombre de producto menor a 100 caracteres", false);
   switch (atributo) {
     case "precio":
       if (valor.toString().length === 0)

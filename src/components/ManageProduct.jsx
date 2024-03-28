@@ -103,7 +103,7 @@ export const ManageProduct = ({
           Precio:
           <input
             className="cmBoxDescripcion"
-            type="number"
+            type="text"
             name="precio"
             value={infoNewProduct.precio}
             onChange={handleChange}
