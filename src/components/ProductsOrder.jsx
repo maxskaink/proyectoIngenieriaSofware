@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getProductsId } from '../helpers/querys';
+import "../styles/productsOrder.css";
 
 const Product = ({index, product, onHandleDelete, quantity, price}) => {
     const handleDelete = () => {
@@ -37,20 +38,23 @@ export const ProductsOrder = ({ productsInOrder, onDeleteProduct }) => {
     }, [productsInOrder]);
 
     return (
-        <div>
-            <h2>Products Order</h2>
-            <ul>
-                { (products.length > 0 )?(                    
-                    products.map((product, index) => (
-                        <Product 
-                            key={index}
-                            product={product}
-                            quantity={productsInOrder.products[index] ? productsInOrder.products[index].quantity.toString() : ""}
-                            onHandleDelete={onDeleteProduct}
-                            index={index}
-                            price={(productsInOrder.products[index] &&  productsInOrder.products[index].price) ? productsInOrder.products[index].price.toString() : undefined}
-                        />
-                ))): <p>No products in order</p>}
+        <div className="products-order">
+            <h2 className="products-order-title">Products Order</h2>
+            <ul className="products-list">
+                {products.length > 0 ? (
+                products.map((product, index) => (
+                    <Product 
+                    key={index}
+                    product={product}
+                    quantity={productsInOrder.products[index] ? productsInOrder.products[index].quantity.toString() : ""}
+                    onHandleDelete={onDeleteProduct}
+                    index={index}
+                    price={(productsInOrder.products[index] &&  productsInOrder.products[index].price) ? productsInOrder.products[index].price.toString() : undefined}
+                    />
+                ))
+                ) : (
+                <p>No products in order</p>
+                )}
             </ul>
         </div>
     );

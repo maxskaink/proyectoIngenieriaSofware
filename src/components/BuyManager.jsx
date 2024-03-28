@@ -1,6 +1,6 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getActualMoney, getProductsId } from "../helpers/querys";
+import { getActualMoney, getProductsId, createBuy } from "../helpers/querys";
 import { useState } from "react";
 import "../styles/buyManager.css";
 
@@ -69,7 +69,7 @@ export const BuyManager = () => {
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if (order.products.length === 0) 
             return window.alert('Debe seleccionar al menos un producto');
         
@@ -80,8 +80,19 @@ export const BuyManager = () => {
             return window.alert('Ingrese el contacto del proveedor');
         if(order.address.length === 0)
             return window.alert('Ingrese la dirección del proveedor');
-        console.log(order);
-        // Aquí puedes realizar las acciones necesarias al enviar el formulario
+        
+        try {
+            const response = await createBuy(order);
+            if (response.status === 200) {
+                window.alert('Compra realizada exitosamente');
+                window.location.reload();
+            } else {
+                window.alert('Error al realizar la compra');
+            }
+        } catch (error) {
+            console.error(error);
+            window.alert('Error al realizar la compra');
+        }
     }
 
     const handleInputChange = (e) => {
