@@ -14,7 +14,8 @@ export function CatalogoManager () {
         setProductSelected(newProducto)
     }
     /* Definimos la accion cuando presiona el boton para elimnar el producto */
-    const handleDeleteProduct  = async() => {
+    const handleDeleteProduct  = async(e) => {
+        e.preventDefault();
         return await deleteProduct(productSelected)
             .then( (res) => {
                 setProductSelected([])
