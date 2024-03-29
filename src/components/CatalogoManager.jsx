@@ -8,7 +8,7 @@ import { useState } from "react"
 /* Componente donde podreamos ver, agregar, modificar y eliminar los productos del catalogo */
 export function CatalogoManager () {
     /* el productSelected tiene la informacion del producto que se halla seleccionado en esta seccion, ademas de darnos la funcin para actualizarlo */
-    const [productSelected, setProductSelected] = useState([]);
+    const [productSelected, setProductSelected] = useState(undefined);
     /* Definimos que hacer cuando se selecciona un producto */
     const handleSelectProduct = ( newProducto ) => {
         setProductSelected(newProducto)
@@ -18,7 +18,7 @@ export function CatalogoManager () {
         e.preventDefault();
         return await deleteProduct(productSelected)
             .then( (res) => {
-                setProductSelected([])
+                setProductSelected(undefined)
                 return res
             });
     }
@@ -26,7 +26,7 @@ export function CatalogoManager () {
     const handleAddProduct = async(producto) => {
         return await addProduct(producto)
             .then((res) => {
-                setProductSelected([])
+                setProductSelected(undefined)
                 return res
             })
     }
@@ -34,7 +34,7 @@ export function CatalogoManager () {
     const handleUpdateProduct = async(producto) => {
         return await updateProduct(producto)
             .then( (res) => {
-                setProductSelected([])
+                setProductSelected(undefined)
                 return res
             });
     }
@@ -50,12 +50,12 @@ export function CatalogoManager () {
               handleManagement={handleAddProduct}
               title="Agregar producto"
             />
-            {productSelected.length > 0 && (
+            { productSelected !== undefined && (
               <ManageProduct
                 handleManagement={handleUpdateProduct}
                 title="Actualizar producto"
                 product={productSelected}
-                key={productSelected[0]}
+                key={productSelected.id}
               >
                 <button className="manageProduct-button-eliminar" onClick={handleDeleteProduct}>
                   Eliminar producto
