@@ -13,6 +13,8 @@ export const infoFormanageProductoValid = (atributo, valor) => {
     case "precio":
       if (valor.toString().length === 0)
         return new Response("Ingrese al menos un precio", true);
+      if(valor.toString().length > 20) return 
+        new Response("Ingrese un precio menor a 10 digitos", false);
       const precio = parseInt(valor, 10);
 
       if (isNaN(precio) || !precio)
