@@ -32,6 +32,9 @@ export const infoFormanageProductoValid = (atributo, valor) => {
         return new Response("Ingrese un precio mayor a cero", false);
 
       return new Response("todo ok", true);
+    default:
+      if(valor.toString().length === 0) 
+        return new Response(`Debe de ingresar un o una ${atributo}`, true);
+      return new Response("todo ok", true);
   }
-  return new Response("todo ok", true);
 };
