@@ -20,11 +20,11 @@ export const deleteProduct = async(producto = defaultProduct) => {
     if (!window.confirm("¿Estas seguro que deseas eliminar el producto?")) return;
     
     const newProduct = {...producto, activado:0}
-
-    if(newProduct.cantidad > 0){
+    if(newProduct.cantidadStock > 0){
         alert("No se puede eliminar un producto con stock")
         return
     }
+    
     return await axios.put(API.actualizarProducto, newProduct)
 }
 
