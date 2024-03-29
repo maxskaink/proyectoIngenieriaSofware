@@ -49,6 +49,7 @@ export const ManageProduct = ({
           isValid: false,
           message: "Ingrese al menos una descripcion, precio y nombre del producto",
           className: "manageProduct-message-error",
+
         }
       );
       return;
@@ -126,7 +127,7 @@ export const ManageProduct = ({
         </button>
         {children}
       </form>
-      <label className={stateForm.className}>{stateForm.message}</label>
+      <label className={stateForm.className} data-testid="result-message">{stateForm.message}</label>
     </div>
   );
 };
