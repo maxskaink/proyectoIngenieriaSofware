@@ -1,5 +1,5 @@
 import { getConnection } from "oracledb";
-import { Product } from "../../prueabFuncionalidades/src/class/product.js";
+import { Product } from "../src/class/product.js";
 
 const user = 'BDDII'
 const  password = 'oracle'
