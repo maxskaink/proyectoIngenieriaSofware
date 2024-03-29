@@ -1,6 +1,6 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getActualMoney, getProductsId, createBuy } from "../helpers/querys";
+import { getActualMoney, createBuy } from "../helpers/querys";
 import { useState } from "react";
 import "../styles/buyManager.css";
 
@@ -13,54 +13,41 @@ export const BuyManager = () => {
         address: ""
     });
 
-    const addProduct = async(product) => {
-        /* Falta validar:
-            - que halla la cantidad de dinero para comprar
-        */
+    const addProduct = async(newItem) => {
 
-        if(product.product === 0) 
+        if(newItem.product.id === 0) 
             return window.alert('Seleccione un producto');
-        if( product.quantity === 0)
+        if( newItem.quantity === 0)
             return window.alert('Cantidad no válida');
-        if( product.price === 0)
+        if( newItem.price === 0)
             return window.alert('Precio no válido');
         
         const dineroActual = await getActualMoney().then(res => res.data)
         
         let totalPrice = order.products.reduce((total, product) => total + (product.price * product.quantity), 0);
-        totalPrice += product.price * product.quantity;
+        totalPrice += newItem.price * newItem.quantity;
 
         if (totalPrice > dineroActual) 
             return window.alert('No hay dinero suficiente para comprar este producto');
         
         /* Validar que no exista ya el producto,, y si existe suma las cantidades */
-        const productIndex = order.products.findIndex(p => p.product === product.product);
+        const productIndex = order.products.findIndex(p => p.product === newItem.product);
         if (productIndex !== -1) {
             const updatedProducts = [...order.products];
             // Hacer una copia del producto antes de modificarlo
             const updatedProduct = { ...updatedProducts[productIndex] };
-            updatedProduct.quantity = Number(product.quantity) + Number(updatedProduct.quantity);
+            updatedProduct.quantity = Number(newItem.quantity) + Number(updatedProduct.quantity);
             updatedProducts[productIndex] = updatedProduct;
             setOrder(prevOrder => ({ ...prevOrder, products: updatedProducts }));
             return;
         } 
-        setOrder((prevOrder) => ({ ...prevOrder, products: [...prevOrder.products, product] }));
+        setOrder((prevOrder) => ({ ...prevOrder, products: [...prevOrder.products, newItem] }));
     }
 
-    const deleteProduct = async(productIndex) => {
-        const getProductInfo = async (productId) => {
-            try {
-                const product = await getProductsId(productId);
-                return product.data[0][1];
-            } catch (error) {
-                console.error(error);
-                return "";
-            }
-        };
+    const deleteProduct = async(product) => {
+        const productIndex = order.products.findIndex(p => p.product.id === product.id);
 
-        const productName = await getProductInfo(order.products[productIndex].product);
-
-        const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar el producto ${productName}?`);
+        const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar el producto ${product.nombre}?`);
         
         if (confirmDelete) {
             const updatedProducts = [...order.products];
@@ -80,15 +67,13 @@ export const BuyManager = () => {
             return window.alert('Ingrese el contacto del proveedor');
         if(order.address.length === 0)
             return window.alert('Ingrese la dirección del proveedor');
-        
+    
         try {
-            const response = await createBuy(order);
-            if (response.status === 200) {
-                window.alert('Compra realizada exitosamente');
-                window.location.reload();
-            } else {
-                window.alert('Error al realizar la compra');
-            }
+            await createBuy(order);
+
+            window.alert('Compra realizada exitosamente');
+            //window.location.reload();
+
         } catch (error) {
             console.error(error);
             window.alert('Error al realizar la compra');
@@ -110,7 +95,7 @@ export const BuyManager = () => {
                 />
                 
                 <ProductsOrder 
-                    productsInOrder={order}
+                    order={order}
                     onDeleteProduct={deleteProduct}
                 />
 

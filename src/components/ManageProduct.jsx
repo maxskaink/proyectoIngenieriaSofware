@@ -2,22 +2,18 @@
 import { useState } from "react";
 import "../styles/manageProduct.css";
 import { infoFormanageProductoValid } from "../helpers/validations";
+import { Product } from "../class/product";
 
-
+const defaultProduct = new Product(["", "", "", "", "", ""]); 
 
 export const ManageProduct = ({
   handleManagement,
-  product,
+  product = defaultProduct,
   title,
   children,
   testId,
 }) => {
-  const [infoNewProduct, setInfoNewProducto] = useState({
-    id: product ? product[0] : "",
-    nombre: product ? product[1] : "",
-    descripcion: product ? product[2] : "",
-    precio: product ? product[3] : "",
-  });
+  const [infoNewProduct, setInfoNewProducto] = useState(product && product);
 
   const [stateForm, setStateForm] = useState({
     isValid: true,
@@ -108,7 +104,7 @@ export const ManageProduct = ({
           Precio:
           <input
             className="cmBoxDescripcion"
-            type="number"
+            type="text"
             name="precio"
             value={infoNewProduct.precio}
             onChange={handleChange}
@@ -122,8 +118,7 @@ export const ManageProduct = ({
           disabled={!stateForm.isValid}
           data-testid={testId}
         >
-          {title ? title : "Agregar Producto"}
-          
+          {title}
         </button>
         {children}
       </form>

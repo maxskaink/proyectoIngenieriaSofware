@@ -1,8 +1,18 @@
 import { getConnection } from "oracledb";
+import { Product } from "../../prueabFuncionalidades/src/class/product.js";
 
 const user = 'BDDII'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
+
+const checkExistingProductAndDesactivaded = async (nombre) => {
+  const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  const query = 'SELECT COUNT(*) FROM PRODUCTO WHERE (nombre = :nombre) AND (activado = 0)';
+  const result = await connection.execute(query, { nombre });
+  const count = result.rows[0][0];
+  await connection.close();
+  return count > 0;
+};
 
 export const agregarProducto = async ({nombre, descripcion, precio }) => {
     let connection;
@@ -14,12 +24,16 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
 
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
-    const query = `insert into PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) values (:nombre, :descripcion, :precio, 1, 0)`
+
+    const existingProduct = await checkExistingProductAndDesactivaded(nombre);
+    const query = (existingProduct)
+      ? 'UPDATE PRODUCTO SET activado = 1, nombre = :nombre, DESCRIPCION = :descripcion, PrecioActual = :precio WHERE nombre = :nombre'
+      : 'INSERT INTO PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) VALUES (:nombre, :descripcion, :precio, 1, 0)';
 
     await connection.execute(query, {
-    nombre,
-    descripcion,
-    precio,
+      nombre,
+      descripcion,
+      precio,
     }, { autoCommit: true })
     .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, el nombre ya existe'});
 
@@ -40,9 +54,9 @@ export const consultarProductos = async () => {
         // Consulta SELECT
         const query = 'select * from PRODUCTO WHERE ACTIVADO = 1';
         const result = await connection.execute(query);
-    
+
         // Extraer filas del resultado
-        const productos = result.rows;
+        const productos = result.rows.map( (producto) => new Product(producto));
     
         // Cerrar la conexión
         await connection.close();
@@ -87,7 +101,7 @@ export const consultarProductoId = async ({id}) => {
     const query = 'select * from PRODUCTO WHERE idProducto = :id';
     const result = await connection.execute(query, {id});
     // Extraer filas del resultado
-    const productos = result.rows;
+    const productos = result.rows.length > 0 && new Product(result.rows[0]);
     // Cerrar la conexión
     await connection.close();
   
@@ -135,7 +149,7 @@ export const crearCompra = async ({address = "", contact = "", providerName="",p
       const producto = products[i];
       const query3 = `BEGIN InsertarProductoEnCompra(:idProducto, :idCompra,:cantidad, :precioUnitario); END;`;
       await connection.execute(query3, {
-        idProducto: producto.product,
+        idProducto: producto.product.id,
         idCompra,
         cantidad: producto.quantity,
         precioUnitario: producto.price
@@ -165,7 +179,7 @@ export const crearVenta = async ({medioPago = "", products = []}) => {
       const producto = products[i];
       const query3 = `BEGIN InsertarProductoEnVenta(:idProducto, :idVenta,:cantidad); END;`;
       await connection.execute(query3, {
-        idProducto: producto.product,
+        idProducto: producto.product.id,
         idVenta,
         cantidad: producto.quantity
       }, { autoCommit: true });

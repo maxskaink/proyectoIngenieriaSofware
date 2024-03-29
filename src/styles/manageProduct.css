@@ -10,7 +10,8 @@
   border-radius: 5px;
   margin: 10px;
   margin-top: 0;
-  width:  410px;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
 }
 
 .manageProduct-titulo {

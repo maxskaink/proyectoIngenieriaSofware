@@ -16,13 +16,13 @@ const handleSelectProductDefault = (props) => {
 
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
-  productSelected = [],
+  productSelected = undefined,
 }) => {
   /* Array de todos los productos de la base de datos */
   const [productos, setProductos] = useState([]);
 
   /* Nos da la informacion de la barra de busqueda */
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   /* Manjea uqe hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
@@ -37,12 +37,8 @@ export const Catalogo = ({
     const fetchProductos = async () => {
       try {
         const response = await getProducts();
+        setProductos(response.data);
 
-        if (response.status === 200) {
-          setProductos(response.data);
-        } else {
-          console.error("Error al obtener la lista de productos");
-        }
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
@@ -76,7 +72,7 @@ export const Catalogo = ({
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
-              (producto[1].toString().includes(search) ||
+              (producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
                 search.toString().length === 0) && (
                 <ItemProduct
                   key={index}
@@ -95,5 +91,5 @@ export const Catalogo = ({
 
 Catalogo.propTypes = {
   handleSelectProduct: PropTypes.func,
-  productSelected: PropTypes.array,
+  productSelected: PropTypes.object,
 };

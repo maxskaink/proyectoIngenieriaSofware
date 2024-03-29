@@ -1,54 +1,41 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getProductsId, createSale } from "../helpers/querys";
+import { createSale } from "../helpers/querys";
 import { useState } from "react";
 
 export const SaleManager = () => {
 
     const [order, setOrder] = useState({ products: [], medioPago:""});
 
-    const addProduct = async(product) => {
-        
-        if(product.product === 0 || product.quantity === 0) 
+    const addProduct = async(newItem) => {
+        if(newItem.product === undefined || newItem.quantity === 0) 
             return window.alert('Producto o cantidad no válidos');
         
-        const [, , , , , stockProduct] = await getProductsId(product.product).then(res =>res.data[0]);
-
-        if(stockProduct < product.quantity) 
+        if(newItem.product.cantidadStock < newItem.quantity) 
             return window.alert('No hay suficiente stock para este producto');
     
             /* Validar que no exista ya el producto,, y si existe suma las cantidades */
-        const productIndex = order.products.findIndex(p => p.product === product.product);
+        const productIndex = order.products.findIndex(p => p.id === newItem.id);
         if (productIndex !== -1) {
             const updatedProducts = [...order.products];
             // Hacer una copia del producto antes de modificarlo
             const updatedProduct = { ...updatedProducts[productIndex] };
-            updatedProduct.quantity = Number(product.quantity) + Number(updatedProduct.quantity);
+            updatedProduct.quantity = Number(newItem.quantity) + Number(updatedProduct.quantity);
             updatedProducts[productIndex] = updatedProduct;
-            if(stockProduct < updatedProduct.quantity) 
+            if(newItem.product.cantidadStock < updatedProduct.quantity) 
                 return window.alert('No hay suficiente stock para este producto');
             setOrder(prevOrder => ({ ...prevOrder, products: updatedProducts }));
             return;
         } 
-        setOrder((prevOrder) => ({ ...prevOrder, products: [...prevOrder.products, product] }));
+        setOrder((prevOrder) => ({ ...prevOrder, products: [...prevOrder.products, newItem] }));
     }
 
-    const deleteProduct = async(productIndex) => {
-        const getProductInfo = async (productId) => {
-            try {
-                const product = await getProductsId(productId);
-                return product.data[0][1];
-            } catch (error) {
-                console.error(error);
-                return "";
-            }
-        };
+    const deleteProduct = async(product) => {
 
-        const productName = await getProductInfo(order.products[productIndex].product);
-
-        const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar el producto ${productName}?`);
+        const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar el producto ${product.nombre}?`);
 
         if (confirmDelete) {
+            const productIndex = order.products.findIndex(p => p.id === product.id);
             const updatedProducts = [...order.products];
             updatedProducts.splice(productIndex, 1);
             setOrder((prevOrder) => ({ ...prevOrder, products: updatedProducts }));
@@ -67,8 +54,7 @@ export const SaleManager = () => {
             window.alert('Debe seleccionar un medio de pago');
             return;
         }
-        console.log(order);
-        
+    
         try {
             const response = await createSale(order);
 
@@ -93,7 +79,7 @@ export const SaleManager = () => {
             />
             
             <ProductsOrder 
-                productsInOrder={order}
+                order={order}
                 onDeleteProduct={deleteProduct}
             />
 
