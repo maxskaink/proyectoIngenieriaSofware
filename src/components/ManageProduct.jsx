@@ -118,7 +118,7 @@ export const ManageProduct = ({
           disabled={!stateForm.isValid}
           data-testid={testId}
         >
-          {title}
+          {title ? title : "Agregar Producto"}
         </button>
         {children}
       </form>

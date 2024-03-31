@@ -1,5 +1,5 @@
 import { getConnection } from "oracledb";
-import { Product } from "../../prueabFuncionalidades/src/class/product.js";
+import { Product } from "../src/class/product.js";
 
 const user = 'BDDII'
 const  password = 'oracle'
@@ -21,6 +21,7 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
         state: 'OK',
         message: 'La inserción termino de forma exitosa',
     }
+    
 
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
