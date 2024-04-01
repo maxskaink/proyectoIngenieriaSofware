@@ -51,7 +51,8 @@ export const ManageProduct = ({
 
     let response;
     try {
-      response = await handleManagement(infoNewProduct);
+      const formatedProducto = {...infoNewProduct, nombre: infoNewProduct.nombre.trim() };
+      response = await handleManagement(formatedProducto);
       if (response.data.state === "OK")
         setStateForm({
           isValid: true,
