@@ -3,9 +3,10 @@ import { createRoot } from "react-dom/client";
 import { Home } from "./components/Home";
 import { CatalogoManager } from "./components/CatalogoManager";
 import { SideBar } from "./components/SideBar";
-import "./styles/main.css";
 import { SaleManager } from "./components/SaleManager";
 import { BuyManager } from "./components/BuyManager";
+import { BusinessReport  } from "./components/BusinessReport ";
+import "./styles/main.css";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/catalogo" element={<CatalogoManager></CatalogoManager>} />
       <Route path="/ventas" element={<SaleManager />} />
       <Route path="/compras" element={<BuyManager />} />
+      <Route path="/informes" element={<BusinessReport />} />
     </Routes>
   </BrowserRouter>,
 );

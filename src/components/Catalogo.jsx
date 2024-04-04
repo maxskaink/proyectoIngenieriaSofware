@@ -17,6 +17,8 @@ const handleSelectProductDefault = (props) => {
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productSelected = undefined,
+  cantidadStock = false,
+  hanldeValition = () => true,
 }) => {
   /* Array de todos los prodcutos de la base de datos */
   const [productos, setProductos] = useState([]);
@@ -61,18 +63,25 @@ export const Catalogo = ({
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
+          {
+            cantidadStock && 
+            <div className="columnaHeader">
+              <strong> STOCK </strong>
+            </div>
+          }
         </div>
       </div>
       <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
-              (producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
-                search.toString().length === 0) && (
+              ((producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
+                search.toString().length === 0) && hanldeValition(producto)) && (
                 <ItemProduct
                   key={index}
                   producto={producto}
                   onClick={handleClick}
+                  cantidadStock={cantidadStock}
                 />
               ),
           )
@@ -85,6 +94,8 @@ export const Catalogo = ({
 };
 
 Catalogo.propTypes = {
+  hanldeValition: PropTypes.func,
+  cantidadStock: PropTypes.bool,
   handleSelectProduct: PropTypes.func,
   productSelected: PropTypes.object,
 };

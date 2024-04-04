@@ -4,7 +4,7 @@ import { Product } from "../class/product";
 
 const defaultProduct = new Product([]);
 /* Es el componente donde se es tablece como se va a mostrar el producto, ademas tambien que va a hacer cuadno se le de click */
-export const ItemProduct = ({ producto = defaultProduct, onClick }) => {
+export const ItemProduct = ({ producto = defaultProduct, onClick, cantidadStock }) => {
   const handleClick = () => {
     onClick(producto);
   };
@@ -21,6 +21,7 @@ export const ItemProduct = ({ producto = defaultProduct, onClick }) => {
           <div className="columna">{producto.nombre}</div>
           <div className="columna">{producto.descripcion}</div>
           <div className="columna">{producto.precio}</div>
+          {cantidadStock&&<div className="columna">{producto.cantidadStock}</div>}
         </div>
       </li>
     </div>
@@ -28,6 +29,7 @@ export const ItemProduct = ({ producto = defaultProduct, onClick }) => {
 };
 
 ItemProduct.propTypes = {
+  cantidadStock: PropTypes.bool,
   producto: PropTypes.object,
   onClick: PropTypes.func,
 };

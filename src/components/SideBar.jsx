@@ -32,6 +32,12 @@ export const SideBar = () => {
             >
               Crear compra
             </Link>
+            <Link
+              className={`containerMenu-nav-link ${location.pathname === "/informes" && "active"}`}
+              to="/informes"
+            >
+              Informes
+            </Link>
           </nav>
         </div>
       </div>
