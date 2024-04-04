@@ -10,25 +10,22 @@ export const ItemProduct = ({ producto = defaultProduct, onClick }) => {
   };
 
   return (
-     <div>
-
-      <li key={producto.id} id={producto.id} className="catalogo-producto" onClick={handleClick}>
+    <div>
+      <li
+        key={producto.id}
+        id={producto.id}
+        className="catalogo-producto"
+        onClick={handleClick}
+      >
         <div className="contenedor">
-          <div className="columna">
-             {producto.nombre}
-          </div>
-          <div className="columna">
-             {producto.descripcion}
-          </div>
-          <div className="columna">
-            {producto.precio}
-          </div>
+          <div className="columna">{producto.nombre}</div>
+          <div className="columna">{producto.descripcion}</div>
+          <div className="columna">{producto.precio}</div>
         </div>
       </li>
     </div>
   );
 };
-
 
 ItemProduct.propTypes = {
   producto: PropTypes.object,

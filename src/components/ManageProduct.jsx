@@ -4,7 +4,7 @@ import "../styles/manageProduct.css";
 import { infoFormanageProductoValid } from "../helpers/validations";
 import { Product } from "../class/product";
 
-const defaultProduct = new Product(["", "", "", "", "", ""]); 
+const defaultProduct = new Product(["", "", "", "", "", ""]);
 
 export const ManageProduct = ({
   handleManagement,
@@ -32,26 +32,35 @@ export const ManageProduct = ({
         : "manageProduct-message-error",
     });
     if (validate.isValid && value.toString != "")
-      setInfoNewProducto((prevProducto) => ({ ...prevProducto, [name]: value }));
+      setInfoNewProducto((prevProducto) => ({
+        ...prevProducto,
+        [name]: value,
+      }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(infoNewProduct.nombre === "" || infoNewProduct.descripcion === "" || infoNewProduct.precio === "") {
-      setStateForm(
-        {
-          isValid: false,
-          message: "Ingrese al menos una descripcion, precio y nombre del producto",
-          className: "manageProduct-message-error",
-        }
-      );
+    if (
+      infoNewProduct.nombre === "" ||
+      infoNewProduct.descripcion === "" ||
+      infoNewProduct.precio === ""
+    ) {
+      setStateForm({
+        isValid: false,
+        message:
+          "Ingrese al menos una descripcion, precio y nombre del producto",
+        className: "manageProduct-message-error",
+      });
       return;
     }
 
     let response;
     try {
-      const formatedProducto = {...infoNewProduct, nombre: infoNewProduct.nombre.trim() };
+      const formatedProducto = {
+        ...infoNewProduct,
+        nombre: infoNewProduct.nombre.trim(),
+      };
       response = await handleManagement(formatedProducto);
       if (response.data.state === "OK")
         setStateForm({
@@ -72,10 +81,7 @@ export const ManageProduct = ({
   //TODO recordar cambiar esto, para que no pida la id, y funcioine normalmente el title
   return (
     <div className="manageProduct">
-      <h2 className="manageProduct-titulo">
-        {" "}
-        {title}
-      </h2>
+      <h2 className="manageProduct-titulo"> {title}</h2>
       <form onSubmit={handleSubmit} className="manageProduct-form">
         <label className="manageProduct-label">
           Nombre:
@@ -90,7 +96,8 @@ export const ManageProduct = ({
 
         <label className="manageProduct-label">
           Descripción:
-          <textarea className="cmBoxDescripcion"
+          <textarea
+            className="cmBoxDescripcion"
             name="descripcion"
             value={infoNewProduct.descripcion}
             onChange={handleChange}

@@ -1,5 +1,5 @@
-import { Catalogo } from './Catalogo';
-import '../styles/home.css';
+import { Catalogo } from "./Catalogo";
+import "../styles/home.css";
 
 /* Es el componente principal que debe tener acceso al resto de funciones en la aplicacion */
 export const Home = () => {
@@ -8,5 +8,5 @@ export const Home = () => {
       <Catalogo></Catalogo>
       <p>Este es el home</p>
     </div>
-    );
-}
+  );
+};

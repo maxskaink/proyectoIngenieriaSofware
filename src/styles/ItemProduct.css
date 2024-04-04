@@ -4,17 +4,15 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #dde7e9;
-  transition: .5s;
+  transition: 0.5s;
   text-align: center;
 }
 
-.catalogo-producto:hover{
+.catalogo-producto:hover {
   padding: 15px;
   background-color: #799ea8;
   color: #ffffff;
   font-weight: bold;
-
- 
 }
 .contenedor {
   display: grid;
