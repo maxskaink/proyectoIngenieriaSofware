@@ -1,0 +1,14 @@
+#root {
+  display: grid;
+  grid-template-columns: 20% 2fr;
+  grid-gap: 20px;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}

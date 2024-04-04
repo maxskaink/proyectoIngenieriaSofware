@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@200..700&display=swap");
+
+.Container-Menu {
+  font-family: "Oswald", Oswald;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transition: all 500ms ease;
+  color: aliceblue;
+}
+.cont-menu {
+  width: 100%;
+  max-width: 250px;
+  background: rgb(42, 121, 128);
+  background: linear-gradient(
+    140deg,
+    rgba(42, 121, 128, 1) 5%,
+    rgba(31, 82, 93, 1) 69%,
+    rgba(28, 73, 85, 1) 78%
+  );
+  height: 100vh;
+  transition: all 500ms ease;
+}
+.cont-menu nav {
+  transform: translateY(15%);
+  transition: all 400ms case;
+}
+.containerMenu-nav-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 20px;
+  border-left: 5px solid transparent;
+  text-decoration: none;
+  text-align: center;
+  color: #c7c7c7;
+  transition: 0.4s;
+}
+
+.containerMenu-nav-link:hover {
+  border-left: 2px solid white;
+  background-color: #b6d7e0;
+  color: #1c4955;
+  padding: 30px 20px;
+  margin-left: 5px;
+  width: 300px;
+}
+
+.titulo {
+  text-align: center;
+  line-height: 70px;
+  background: rgb(42, 121, 128);
+  background: linear-gradient(
+    180deg,
+    rgba(42, 121, 128, 1) 0%,
+    rgba(31, 82, 93, 1) 1%,
+    rgba(28, 73, 85, 1) 54%
+  );
+}
+
+.active {
+  font-weight: bold;
+  color: #ffffff;
+  width: 260px;
+  background-color: #2a798f;
+  position: relative;
+}
+
+.active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -64px;
+  border-width: 32px;
+  border-style: solid;
+  border-color: transparent transparent transparent #2a798f;
+  transform: translateY(-50%);
+}
+
+.active:hover::after {
+  border-color: transparent transparent transparent transparent;
+}
