@@ -20,7 +20,7 @@ export const SideBar = () => {
             >
               Gestionar Catalogo
             </Link>
-            <Link
+{/*             <Link
               className={`containerMenu-nav-link ${location.pathname === "/ventas" && "active"}`}
               to="/ventas"
             >
@@ -37,7 +37,7 @@ export const SideBar = () => {
               to="/informes"
             >
               Informes
-            </Link>
+            </Link> */}
           </nav>
         </div>
       </div>
