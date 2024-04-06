@@ -22,8 +22,8 @@ export function CatalogoManager() {
   };
   /* Definimos la accion cuando presiona el boton para agregar un producto */
   const handleAddProduct = async (producto) => {
-    return await addProduct(producto).then((res) => {
-      setProductSelected(undefined);
+    return await addProduct(producto).then( (res) => {
+       setProductSelected(undefined);
       return res;
     });
   };
