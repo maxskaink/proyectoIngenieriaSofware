@@ -17,7 +17,7 @@ export const infoFormanageProductoValid = (atributo, valor) => {
     case "precio":
       if (valor.toString().length === 0)
         return new Response("Ingrese al menos un precio", true);
-      if (valor.toString().length > 20) return;
+      if (valor.toString().length > 15) return;
       new Response("Ingrese un precio menor a 10 digitos", false);
       const precio = parseInt(valor, 10);
 
@@ -35,6 +35,15 @@ export const infoFormanageProductoValid = (atributo, valor) => {
       if (precio < 0)
         return new Response("Ingrese un precio mayor a cero", false);
 
+      return new Response("todo ok", true);
+    case "nombre":
+      if (valor.toString().length === 0)
+        return new Response(`Debe de ingresar un o una ${atributo}`, false);
+      if (valor.toString().length > 24)
+        return new Response(
+          `Ingrese un nombre de producto menor a 25 caracteres`,
+          false,
+        );
       return new Response("todo ok", true);
     default:
       if (valor.toString().length === 0)
