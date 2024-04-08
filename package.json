@@ -54,7 +54,7 @@
     "vitest": "^1.4.0"
   },
   "eslintConfig": {
-    "extends": "./node_modules/standard/esLintrc.js"
+    "extends": "./node_modules/standard/esLintrc.json"
   },
   "lint-staged": {
     "*.(jsx)": "eslint --cache --fix",

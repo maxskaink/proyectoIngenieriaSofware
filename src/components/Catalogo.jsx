@@ -9,7 +9,7 @@ import { getProducts } from "../helpers/querys";
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
   console.log(
-    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se clickea en los items`
+    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se clickea en los items`,
   );
   console.log(props);
 };
@@ -17,6 +17,8 @@ const handleSelectProductDefault = (props) => {
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productSelected = undefined,
+  cantidadStock = false,
+  hanldeValition = () => true,
 }) => {
   /* Array de todos los productos de la base de datos */
   const [productos, setProductos] = useState([]);
@@ -38,7 +40,6 @@ export const Catalogo = ({
       try {
         const response = await getProducts();
         setProductos(response.data);
-
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
@@ -48,9 +49,7 @@ export const Catalogo = ({
 
   return (
     <div className="catalogo">
-      <div className="cabecera">  
-
-
+      <div className="cabecera">
         <h2 className="catalogo-titulo">Lista de Productos </h2>
         <SearchBar onSearch={handleSearch} />
         <div className="contenedor">
@@ -64,22 +63,27 @@ export const Catalogo = ({
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
+          {
+            cantidadStock && 
+            <div className="columnaHeader">
+              <strong> STOCK </strong>
+            </div>
+          }
         </div>
-
-
       </div>
       <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
-              (producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
-                search.toString().length === 0) && (
+              ((producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
+                search.toString().length === 0) && hanldeValition(producto)) && (
                 <ItemProduct
                   key={index}
                   producto={producto}
                   onClick={handleClick}
+                  cantidadStock={cantidadStock}
                 />
-              )
+              ),
           )
         ) : (
           <li>No hay productos disponibles</li>
@@ -90,6 +94,8 @@ export const Catalogo = ({
 };
 
 Catalogo.propTypes = {
+  hanldeValition: PropTypes.func,
+  cantidadStock: PropTypes.bool,
   handleSelectProduct: PropTypes.func,
   productSelected: PropTypes.object,
 };
