@@ -238,17 +238,30 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_PRODUCTO BEFORE
-    INSERT OR UPDATE ON PRODUCTO FOR EACH ROW
+CREATE OR REPLACE TRIGGER TRG_PRODUCTO_INSERT BEFORE
+    INSERT ON PRODUCTO FOR EACH ROW
 DECLARE
     v_count NUMBER;
 BEGIN
-    IF :NEW.activado = 1 THEN
+   IF :NEW.activado = 1 THEN
         SELECT
             SEQ_PRODUCTO.NEXTVAL INTO :NEW.IDPRODUCTO
         FROM
             DUAL;
 
+        SELECT COUNT(*) INTO v_count FROM PRODUCTO WHERE (nombre LIKE :NEW.nombre) AND (activado = 1);
+        IF v_count > 0 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'El nombre del producto ya existe y está activado');
+        END IF;
+    END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER TRG_PRODUCTO_UPDATE BEFORE
+    UPDATE ON PRODUCTO FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+   IF :NEW.activado = 1 THEN
         SELECT COUNT(*) INTO v_count FROM PRODUCTO WHERE (nombre LIKE :NEW.nombre) AND (activado = 1);
         IF v_count > 0 THEN
             RAISE_APPLICATION_ERROR(-20001, 'El nombre del producto ya existe y está activado');
