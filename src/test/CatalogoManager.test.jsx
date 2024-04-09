@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { test, describe, vi, beforeEach, expect, afterEach } from "vitest";
+import { test, describe, vi, beforeEach, expect } from "vitest";
 import { CatalogoManager } from "../components/CatalogoManager";
 
 const confirmUpdate = "¿Estas seguro que deseas actualizar el producto?";
@@ -314,7 +314,6 @@ render(<CatalogoManager onSubmit={onSubmit} />);
 
         expect(screen.queryByText(name)).toBeNull();
 
-        deleteProduct(updatedName);
       });
 
       test("Se actualiza un producto con nombre vacio", async () => {
@@ -609,9 +608,9 @@ render(<CatalogoManager onSubmit={onSubmit} />);
   await waitFor(async () => {
     describe("Eliminar producto", () => {
       test("Se elimina un producto existente", async () => {
-        const name = "Producto existente";
+        const name = "Producto existente a eliminar";
 
-        addProduct(name, "Descripción", 1500);
+        addProduct(name, "Descripción", 1500);  
 
         await sleep(sleepTime);
 
@@ -658,7 +657,7 @@ render(<CatalogoManager onSubmit={onSubmit} />);
 
           await waitFor(() => {
             expect(screen.getByText(name)).toBeDefined();
-          });
+          }); 
 
           fireEvent.click(screen.getByText(name));
 

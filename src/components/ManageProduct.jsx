@@ -36,7 +36,7 @@ export const ManageProduct = ({
       setInfoNewProducto((prevProducto) => ({
         ...prevProducto,
         [name]: value,
-      }));
+      })); 
   };
 
   const handleSubmit = async (e) => {
