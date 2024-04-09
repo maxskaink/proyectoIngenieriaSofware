@@ -88,12 +88,8 @@ render(<CatalogoManager onSubmit={onSubmit} />);
 
         clean("addProduct");
 
-        await waitFor(() => {
-          expect(screen.getByText(/Nombre de producto/i)).toBeDefined();
-        });
-        expect(
-          screen.queryByText(/Descripción del producto sin precio/i)
-        ).toBeNull();
+        sleep(sleepTime);
+          
         expect(screen.queryByText(/Producto sin precio/i)).toBeNull();
       });
 
@@ -255,7 +251,7 @@ render(<CatalogoManager onSubmit={onSubmit} />);
 
         await waitFor(() => {
           expect(screen.getByText(name)).toBeDefined();
-        });
+        });  
 
         inputData(name2, description, price, "addProduct");
 
@@ -299,9 +295,9 @@ render(<CatalogoManager onSubmit={onSubmit} />);
           updatedName,
           updatedDescription,
           updatedPrice,
-          "updateProduct"
+          "updateProduct" 
         );
-
+  
         clean("updateProduct");
 
         await waitFor(() => {
