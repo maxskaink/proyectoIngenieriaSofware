@@ -1,24 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* Estilos para el componente Catalogo */
 .catalogo {
   margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-height: 90vh;
-    overflow: auto;
-    transition: .5s;
-    font-family: 'Encode Sans Expanded', Encode Sans Expanded;
-    min-width: 90vh;
-    width: -webkit-fill-available;
-    min-height: -webkit-fill-available;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow: auto;
+  transition: 0.5s;
+  font-family:
+    "Encode Sans Expanded",
+    Encode Sans Expanded;
+  min-width: 90vh;
+  width: -webkit-fill-available;
+  min-height: -webkit-fill-available;
 }
 .catalogo::-webkit-scrollbar {
   display: none; /* Oculta la barra de desplazamiento */
 }
-
 
 .catalogo-titulo {
   font-size: 2em;
@@ -30,10 +31,9 @@
 .catalogo-lista {
   list-style: none;
   padding: 0;
-  transition: .5s;
-
+  transition: 0.5s;
 }
-.columnaHeader{
+.columnaHeader {
   background-color: #02586f;
   border-radius: 10px;
   color: #fff;
@@ -46,11 +46,9 @@
   align-items: center;
 }
 
-
-.cabecera{
+.cabecera {
   position: sticky;
   top: -21px;
   z-index: 1; /* Para asegurarte de que esté por encima de las demás capas */
   background-color: #fff;
 }
-

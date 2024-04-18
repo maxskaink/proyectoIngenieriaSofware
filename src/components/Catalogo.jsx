@@ -9,20 +9,22 @@ import { getProducts } from "../helpers/querys";
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
   console.log(
-    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se clickea en los items`
+    `cuando utilice el catalogo por favor ingrese una funcion para saber que hacer cuando se clickea en los items`,
   );
   console.log(props);
 };
 
 export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
-  productSelected = [],
+  productSelected = undefined,
+  cantidadStock = false,
+  hanldeValition = () => true,
 }) => {
   /* Array de todos los prodcutos de la base de datos */
   const [productos, setProductos] = useState([]);
 
   /* Nos da la informacion de la barra de busqueda */
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   /* Manjea uqe hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
@@ -37,12 +39,7 @@ export const Catalogo = ({
     const fetchProductos = async () => {
       try {
         const response = await getProducts();
-
-        if (response.status === 200) {
-          setProductos(response.data);
-        } else {
-          console.error("Error al obtener la lista de productos");
-        }
+        setProductos(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
@@ -52,9 +49,7 @@ export const Catalogo = ({
 
   return (
     <div className="catalogo">
-      <div className="cabecera">  
-
-
+      <div className="cabecera">
         <h2 className="catalogo-titulo">Lista de Productos </h2>
         <SearchBar onSearch={handleSearch} />
         <div className="contenedor">
@@ -68,22 +63,27 @@ export const Catalogo = ({
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
+          {
+            cantidadStock && 
+            <div className="columnaHeader">
+              <strong> STOCK </strong>
+            </div>
+          }
         </div>
-
-
       </div>
       <ul className="catalogo-lista">
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
-              (producto[1].toString().includes(search) ||
-                search.toString().length === 0) && (
+              ((producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
+                search.toString().length === 0) && hanldeValition(producto)) && (
                 <ItemProduct
                   key={index}
                   producto={producto}
                   onClick={handleClick}
+                  cantidadStock={cantidadStock}
                 />
-              )
+              ),
           )
         ) : (
           <li>No hay productos disponibles</li>
@@ -94,6 +94,8 @@ export const Catalogo = ({
 };
 
 Catalogo.propTypes = {
+  hanldeValition: PropTypes.func,
+  cantidadStock: PropTypes.bool,
   handleSelectProduct: PropTypes.func,
-  productSelected: PropTypes.array,
+  productSelected: PropTypes.object,
 };

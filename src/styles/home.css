@@ -1,40 +1,37 @@
 /* Fuentes atractivas y legibles */
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- 
-  
 }
 
-
 .main-menu {
-    font-family: 'Open Sans', sans-serif; /* Ejemplo de fuente elegante */
-  }
-  
-  /* Colores armónicos y contrastantes */
-  .main-menu {
-    background-color: #f5f5f5; /* Tono claro y neutro */
-    color: #333; /* Texto oscuro y legible */
-  }
-  
-  .main-menu ul {
-    list-style: none; /* Eliminar bullets predeterminados */
-    padding: 0;
-  }
-  
-  .main-menu li {
-    display: inline-block;
-    margin: 0 15px; /* Espaciado entre los enlaces */
-  }
-  
-  .main-menu a {
-    text-decoration: none; /* Quitar subrayado de enlaces */
-    color: inherit; /* Heredar el color del padre */
-    padding: 10px 15px;
-    border-radius: 5px; /* Bordes redondeados */
-  }
-  
-  .main-menu a:hover {
-    background-color: #ddd; /* Resaltar enlaces al pasar el mouse */
-  }
+  font-family: "Open Sans", sans-serif; /* Ejemplo de fuente elegante */
+}
+
+/* Colores armónicos y contrastantes */
+.main-menu {
+  background-color: #f5f5f5; /* Tono claro y neutro */
+  color: #333; /* Texto oscuro y legible */
+}
+
+.main-menu ul {
+  list-style: none; /* Eliminar bullets predeterminados */
+  padding: 0;
+}
+
+.main-menu li {
+  display: inline-block;
+  margin: 0 15px; /* Espaciado entre los enlaces */
+}
+
+.main-menu a {
+  text-decoration: none; /* Quitar subrayado de enlaces */
+  color: inherit; /* Heredar el color del padre */
+  padding: 10px 15px;
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.main-menu a:hover {
+  background-color: #ddd; /* Resaltar enlaces al pasar el mouse */
+}
