@@ -7,6 +7,7 @@
     left: 0;
     transition: all 500ms ease;
     color: aliceblue;
+    
 }
 .cont-menu{
     width: 100%;
@@ -54,7 +55,7 @@ background: linear-gradient(180deg, rgba(42,121,128,1) 0%, rgba(31,82,93,1) 1%, 
     font-weight: bold;
     color: #ffffff;
     width: 260px;
-    background-color: #2a798f;
+    background-color: #498f58;
     position: relative;
 }
 
@@ -65,10 +66,10 @@ background: linear-gradient(180deg, rgba(42,121,128,1) 0%, rgba(31,82,93,1) 1%, 
     right: -64px;
     border-width: 32px;
     border-style: solid;
-    border-color: transparent transparent transparent #2a798f;
+    border-color: transparent transparent transparent #498f58;
     transform: translateY(-50%);
 }
-    
+
 
 .active:hover::after {
     border-color: transparent transparent transparent transparent;
