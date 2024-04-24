@@ -16,8 +16,8 @@
 }
 .manageBuy {
   background-color: white;
-  height: 600px;
-  width: max-content;
+  height: 70vh;
+  width: 70vh;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   padding: 50px;

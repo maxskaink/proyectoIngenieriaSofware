@@ -2,7 +2,7 @@ import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { createSale } from "../helpers/querys";
 import { useState } from "react";
-
+import "../styles/salManager.css";
 export const SaleManager = () => {
   const [order, setOrder] = useState({ products: [], medioPago: "" });
 
@@ -74,27 +74,32 @@ export const SaleManager = () => {
   };
 
   return (
-    <div>
-      <h1>ventas</h1>
-      <SelectProductOrder onAddProduct={addProduct} />
+    <div className="boardSalManager"> 
+      <div className="contenedorSalManager">
+        
+        <h1 className="tituloVentas">ventas</h1>
+        <div className="contenido">
+          <SelectProductOrder onAddProduct={addProduct} />
 
-      <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+          <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
 
-      <div>
-        <form>
-          <label>
-            Medio de Pago:
-            <select value={order.medioPago} onChange={handleMedioPagoChange}>
-              <option value="">Seleccione un medio de pago</option>
-              <option value="tarjeta">Tarjeta</option>
-              <option value="efectivo">Efectivo</option>
-              <option value="transferencia">Transferencia</option>
-            </select>
-          </label>
-          <button type="button" onClick={handleSubmit}>
-            Enviar
-          </button>
-        </form>
+          <div>
+            <form>
+              <label>
+                Medio de Pago:
+                <select value={order.medioPago} onChange={handleMedioPagoChange}>
+                  <option value="">Seleccione un medio de pago</option>
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="efectivo">Efectivo</option>
+                  <option value="transferencia">Transferencia</option>
+                </select>
+              </label>
+              <button type="button" onClick={handleSubmit}>
+                Enviar
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

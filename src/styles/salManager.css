@@ -1,0 +1,46 @@
+.boardSalManager{
+    font-family:
+    "Encode Sans Expanded",
+    Encode Sans Expanded;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+}
+.contenedorSalManager {
+    /* Existing styles */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Encode Sans Expanded", Encode Sans Expanded;
+    padding: 0px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 30px;
+    margin-top: 0;
+    width: 70vh;
+    height: 70vh;
+  
+    /* Centering styles */
+   
+    transition: .5s;
+  }
+
+  .tituloVentas{
+    display: flex;
+    height: 61px;
+    width: 70vh;
+    background-color: #c0d0d3;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .contenido{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+  }
