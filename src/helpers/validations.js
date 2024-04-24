@@ -38,7 +38,7 @@ export const infoFormanageProductoValid = (atributo, valor) => {
       return new Response("todo ok", true);
     case "nombre":
       if (valor.toString().length === 0)
-        return new Response(`Debe de ingresar un o una ${atributo}`, false);
+        return new Response(`Debe de ingresar un o una ${atributo}`, true);
       if (valor.toString().length >= 24)
         return new Response(
           `Ingrese un nombre de producto menor a 25 caracteres`,
