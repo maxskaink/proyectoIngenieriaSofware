@@ -18,7 +18,7 @@
     border-radius: 5px;
     margin: 30px;
     margin-top: 0;
-    width: 70vh;
+    width: 50vh;
     height: 70vh;
   
     /* Centering styles */
@@ -29,8 +29,8 @@
   .tituloVentas{
     display: flex;
     height: 61px;
-    width: 70vh;
-    background-color: #c0d0d3;
+    width: 50vh;
+    background-color: #e2e6e7;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
@@ -43,4 +43,27 @@
     align-items: center;
     justify-content: center;
     padding: 50px;
+  }
+  .cmbxOption{
+    height: 42px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .bttEnviar{
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #3b80ca;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .contendorMedioPago{
+    margin-top: 30px;
   }

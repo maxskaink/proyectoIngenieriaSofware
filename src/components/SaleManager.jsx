@@ -77,28 +77,29 @@ export const SaleManager = () => {
     <div className="boardSalManager"> 
       <div className="contenedorSalManager">
         
-        <h1 className="tituloVentas">ventas</h1>
+        <h1 className="tituloVentas">Ventas</h1>
         <div className="contenido">
           <SelectProductOrder onAddProduct={addProduct} />
 
-          <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+       
 
-          <div>
+          <div className="contendorMedioPago">
             <form>
-              <label>
-                Medio de Pago:
-                <select value={order.medioPago} onChange={handleMedioPagoChange}>
+              <label >
+                <p>Medio de Pago:</p>
+                <select className="cmbxOption" value={order.medioPago} onChange={handleMedioPagoChange}>
                   <option value="">Seleccione un medio de pago</option>
                   <option value="tarjeta">Tarjeta</option>
                   <option value="efectivo">Efectivo</option>
                   <option value="transferencia">Transferencia</option>
                 </select>
               </label>
-              <button type="button" onClick={handleSubmit}>
-                Enviar
+              <button className= "bttEnviar" type="button" onClick={handleSubmit}>
+                <p>Enviar</p>
               </button>
             </form>
           </div>
+          <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
         </div>
       </div>
     </div>

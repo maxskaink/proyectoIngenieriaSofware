@@ -22,4 +22,8 @@
 
 .columna {
   padding: 20px;
+  text-align: center;
+  height: 100px;
+  overflow: hidden; 
+  text-overflow: ellipsis
 }
