@@ -100,10 +100,10 @@ export const BuyManager = () => {
         <h1 className="compras-titulo">Compras </h1>
         <SelectProductOrder onAddProduct={addProduct} price />
 
-        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+  
 
-        <div>
-          <form>
+        <div >
+          <form className="contendorProveedor">
             <input
               type="text"
               name="providerName"
@@ -127,6 +127,7 @@ export const BuyManager = () => {
             </button>
           </form>
         </div>
+        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
       </div>
     </div>
   );

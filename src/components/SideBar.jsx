@@ -5,7 +5,7 @@ export const SideBar = () => {
   return (
     <div>
       <div className="Container-Menu">
-        <div className="cont-menu">
+        <div className="sidebar">
           <h1 className="titulo">Control Total</h1>
           <nav>
             <Link
