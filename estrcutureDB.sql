@@ -239,18 +239,20 @@ END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_PRODUCTO BEFORE
-    INSERT OR UPDATE OF NOMBRE ON PRODUCTO FOR EACH ROW
+    INSERT OR UPDATE ON PRODUCTO FOR EACH ROW
 DECLARE
   PRAGMA AUTONOMOUS_TRANSACTION;
     v_count NUMBER;
 BEGIN
    IF :NEW.activado = 1 THEN
+      IF INSERTING THEN
         SELECT
             SEQ_PRODUCTO.NEXTVAL INTO :NEW.IDPRODUCTO
         FROM
             DUAL;
-
-        SELECT COUNT(*) INTO v_count FROM PRODUCTO WHERE (nombre LIKE :NEW.nombre) AND (activado = 1);
+      END IF;
+        SELECT COUNT(*) INTO v_count FROM PRODUCTO 
+        WHERE (nombre LIKE :NEW.nombre) AND (activado = 1) AND ( NOT (PRODUCTO.IDPRODUCTO=:NEW.IDPRODUCTO));
         IF v_count > 0 THEN
             RAISE_APPLICATION_ERROR(-20001, 'El nombre del producto ya existe y está activado');
         END IF;
