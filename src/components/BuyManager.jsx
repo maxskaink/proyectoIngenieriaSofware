@@ -82,6 +82,7 @@ export const BuyManager = () => {
       await createBuy(order);
 
       window.alert("Compra realizada exitosamente");
+      setOrder({ products: [], providerName: "", contact: "", address: "" });
       //window.location.reload();
     } catch (error) {
       console.error(error);
@@ -98,9 +99,7 @@ export const BuyManager = () => {
     <div className="boardManageBuy">
       <div className="manageBuy">
         <h1 className="compras-titulo">Compras </h1>
-        <SelectProductOrder onAddProduct={addProduct} price />
-
-  
+        <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} />
 
         <div >
           <form className="contendorProveedor">
@@ -127,7 +126,7 @@ export const BuyManager = () => {
             </button>
           </form>
         </div>
-        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+        <ProductsOrder order={order} onDeleteProduct={deleteProduct} showActualMoney />
       </div>
     </div>
   );

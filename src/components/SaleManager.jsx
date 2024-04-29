@@ -67,6 +67,8 @@ export const SaleManager = () => {
         window.alert("Venta realizada con éxito");
         //window.location.reload();
       } else window.alert("Error al realizar la venta");
+
+      setOrder({ products: [], medioPago: "" });
     } catch (error) {
       console.error(error);
       window.alert("Error al realizar la venta");
@@ -79,7 +81,10 @@ export const SaleManager = () => {
         
         <h1 className="tituloVentas">Ventas</h1>
         <div className="contenido">
-          <SelectProductOrder onAddProduct={addProduct} />
+          <SelectProductOrder 
+            onAddProduct={addProduct}
+            justWithStock
+          />
 
        
 
