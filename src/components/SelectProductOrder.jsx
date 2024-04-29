@@ -3,7 +3,7 @@ import { getProducts } from "../helpers/querys";
 import PropTypes from "prop-types";
 import "../styles/selectProduct.css";
 
-export const SelectProductOrder = ({ onAddProduct, price }) => {
+export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualOrder }) => {
   const [products, setProducts] = useState([]);
   const [actualProduct, setActualProduct] = useState({
     product: undefined,
@@ -35,6 +35,12 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setProducts([]);
+    setActualProduct(
+      (price)
+      ?{ product: undefined, quantity: 1, price: 0 } 
+      :{ product: undefined, quantity: 1 }
+    );
     onAddProduct(actualProduct);
   };
 
@@ -42,14 +48,14 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
     const fetchProducts = async () => {
       try {
         const response = await getProducts();
-
+        console.log(response.data);
         setProducts(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
     };
     fetchProducts();
-  }, []);
+  }, [actualOrder]);
 
   return (
     <div className="ContendedorCompra">
@@ -57,8 +63,9 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
         <select className="select-product" onChange={handleSelectChange}>
           <option value="0">Seleccione un producto</option>
           {products.map((product) => (
+            ( (justWithStock)? parseInt(product.cantidadStock) > 0 : true)&&
             <option key={product.id} value={product.id}>
-              {product.nombre + " -  Precio Venta:" + product.precio}
+              { (product.nombre + " -  Precio Venta:" + product.precio + " - Stock:" + product.cantidadStock)}
             </option>
           ))}
         </select>
@@ -74,7 +81,7 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
           <input
             className="price-input"
             type="number"
-            placeholder="Precio"
+            placeholder="Precio Unitario"
             onChange={handlePriceChange}
           />
         )}
@@ -89,4 +96,6 @@ export const SelectProductOrder = ({ onAddProduct, price }) => {
 SelectProductOrder.propTypes = {
   onAddProduct: PropTypes.func.isRequired,
   price: PropTypes.bool,
+  justWithStock: PropTypes.bool,
+  actualOrder: PropTypes.object
 };
