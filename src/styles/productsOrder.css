@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
+  min-height: 200px;
+  overflow: auto;
 }
 
 .products-order-title {
