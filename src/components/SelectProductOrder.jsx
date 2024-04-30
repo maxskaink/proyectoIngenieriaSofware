@@ -36,11 +36,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
   const handleSubmit = (event) => {
     event.preventDefault();
     setProducts([]);
-    setActualProduct(
-      (price)
-      ?{ product: undefined, quantity: 1, price: 0 } 
-      :{ product: undefined, quantity: 1 }
-    );
+    setActualProduct({ ...actualProduct, product: undefined} );
     onAddProduct(actualProduct);
   };
 
@@ -55,7 +51,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
       }
     };
     fetchProducts();
-  }, [actualOrder]);
+  }, [actualOrder, actualProduct]);
 
   return (
     <div className="ContendedorCompra">
