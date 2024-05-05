@@ -4,7 +4,8 @@ import {agregarProducto,
         consultarProductoId, 
         constularDineroCaja,
         crearCompra,
-        crearVenta
+        crearVenta,
+        agregarDineroCaja
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -92,6 +93,15 @@ app.post('/crear-venta', async (req, res) => {
       res.status(500).json(result);
 });
 
+app.post('/agregar-dinero-caja', async (req, res) => {
+  const result = await agregarDineroCaja(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor Express escuchando en http://localhost:${PORT}`);

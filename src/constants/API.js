@@ -6,4 +6,5 @@ export const API = {
   consultarDineroCaja: "http://localhost:3001/constular-dinero-caja",
   agregarCompra: "http://localhost:3001/crear-compra",
   agregarVenta: "http://localhost:3001/crear-venta",
+  agregarDinero: "http://localhost:3001/agregar-dinero-caja",
 };

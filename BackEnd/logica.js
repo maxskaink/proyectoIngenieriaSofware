@@ -182,3 +182,18 @@ export const crearVenta = async ({medioPago = "", products = []}) => {
     return {state: 'ERROR', message: 'No se ha podido crear la venta'};
   }
 }
+
+export const agregarDineroCaja = async ({dinero}) => {
+  try{
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    if(dinero < 0 ) return {state: 'ERROR', message: 'No se puede agregar dinero negativo'};
+    const query = `UPDATE CAJA SET dineroTotal = dineroTotal + :dinero WHERE codigocaja = 1`;
+    await connection.execute(query, {dinero}, { autoCommit: true });
+
+    await connection.close();
+    return {state: 'OK', message: 'Se ha agregado el dinero con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido agregar el dinero'};
+  }
+}
