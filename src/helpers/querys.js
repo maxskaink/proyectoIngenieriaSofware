@@ -53,3 +53,7 @@ export const createSale = async (order) => {
 export const addMoney = async (money) => {
   return await axios.post(API.agregarDinero, { dinero: money });
 }
+
+export const getInforms = async () => {
+  return await axios.get(API.consultarInformes).then((res) => res);
+}

@@ -1,5 +1,6 @@
 import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
+import { Inform } from "../src/class/inform.js";
 
 const user = 'BDDII'
 const  password = 'oracle'
@@ -195,5 +196,24 @@ export const agregarDineroCaja = async ({dinero}) => {
   }catch(err){
     console.log(err);
     return {state: 'ERROR', message: 'No se ha podido agregar el dinero'};
+  }
+}
+
+export const consultarInformes = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from Vista_Resumen_Semanal';
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const informes = result.rows.map( (informeArray) => new Inform(informeArray));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return informes;
+  } catch (err) {
+    console.log(err)
   }
 }
