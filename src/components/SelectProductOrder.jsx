@@ -7,7 +7,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
   const [products, setProducts] = useState([]);
   const [actualProduct, setActualProduct] = useState({
     product: undefined,
-    quantity: 1,
+    quantity: null,
   });
 
   const handleSelectChange = (product) => {
@@ -35,6 +35,11 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!actualProduct.product) return window.alert("Seleccione un producto");
+    if (!actualProduct.quantity) return window.alert("Cantidad no válida");
+    if (price && !actualProduct.price) return window.alert("Precio no válido");
+    if(actualProduct.quantity <= 0) return window.alert("La cantidad debe ser mayor a 0");
+    if(price && actualProduct.price <= 0) return window.alert("El precio debe ser mayor a 0");
     setProducts([]);
     setActualProduct({ ...actualProduct, product: undefined} );
     onAddProduct(actualProduct);
