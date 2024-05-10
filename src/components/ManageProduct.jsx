@@ -115,6 +115,17 @@ export const ManageProduct = ({
           />
         </label>
 
+        <label className="manageProduct-label">
+          Categoria:
+          <input
+            className="cmBoxDescripcion"
+            type="text"
+            name="categoria"
+            value={infoNewProduct.categoria}
+            onChange={handleChange}
+          />
+        </label>
+
         <button
           type="submit"
           className="manageProduct-button button"

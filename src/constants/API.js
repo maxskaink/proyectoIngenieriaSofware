@@ -9,4 +9,5 @@ export const API = {
   agregarVenta: "http://localhost:3001/crear-venta",
   agregarDinero: "http://localhost:3001/agregar-dinero-caja",
   consultarInformes: "http://localhost:3001/consultar-informes",
+  obtenerCategorias: "http://localhost:3001/obtener-categorias",
 };

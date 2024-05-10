@@ -2,12 +2,12 @@ import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
 
-const user = 'BDDII'
+const user = 'gestiontotal'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
 
 
-export const agregarProducto = async ({nombre, descripcion, precio }) => {
+export const agregarProducto = async ({nombre, descripcion, precio, categoria }) => {
     let connection;
 
     let result = {
@@ -18,16 +18,15 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
 
-    //const existingProduct = await checkExistingProductAndDesactivaded(nombre);
-    const query = 'INSERT INTO PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) VALUES (:nombre, :descripcion, :precio, 1, 0)';
-
+    const query = 'BEGIN insertProducto(:nombre, :descripcion, :precio, :categoria); END;';
     await connection.execute(query, {
       nombre,
       descripcion,
       precio,
+      categoria
     }, { autoCommit: true })
     .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, el nombre ya existe'});
-
+    
     if (connection) {
         await connection.close()
         .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
@@ -45,7 +44,6 @@ export const consultarProductos = async () => {
         // Consulta SELECT
         const query = 'select * from PRODUCTO WHERE ACTIVADO = 1';
         const result = await connection.execute(query);
-
         // Extraer filas del resultado
         const productos = result.rows.map( (producto) => new Product(producto));
     
@@ -58,7 +56,7 @@ export const consultarProductos = async () => {
       }
 }
 
-export const actualizarProducto = async({ id, nombre, descripcion, precio, activado }) => {
+export const actualizarProducto = async({ id, nombre, descripcion, precio, activado, categoria }) => {
   let result = {
     state: 'OK',
     message: 'Se ha actualizado con éxito el producto',
@@ -67,9 +65,13 @@ export const actualizarProducto = async({ id, nombre, descripcion, precio, activ
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
     //TODO falta implemtentar todo eso, pero primero se necesita la base de datos lista
-    const query = 'UPDATE PRODUCTO SET nombre = :nombre, DESCRIPCION = :descripcion, PrecioActual = :precio, activado = :activado WHERE idProducto = :id';
-    await connection.execute(query, {id, nombre, descripcion, precio, activado}, { autoCommit: true });
-
+    if(activado == 1){
+      const query =  'BEGIN updateProducto(:id ,:nombre, :descripcion, :precio, :categoria); END;'
+      await connection.execute(query, {id, nombre, descripcion, precio, categoria}, { autoCommit: true });
+    }else{
+      const query =  'BEGIN desactivarProducto(:id); END;'
+      await connection.execute(query, {id}, { autoCommit: true });
+    }
     if (connection) {
       await connection.close()
       .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
@@ -213,6 +215,25 @@ export const consultarInformes = async () => {
     await connection.close();
   
     return informes;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const obtenerCategorias = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select categoria from producto group by categoria;';
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const categorias = result.rows;
+    // Cerrar la conexión
+    await connection.close();
+  
+    return categorias;
   } catch (err) {
     console.log(err)
   }

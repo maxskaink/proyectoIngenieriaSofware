@@ -19,7 +19,7 @@ export const SearchBar = ({ onSearch }) => {
     <div className="search-bar">
       <input
         type="text"
-        placeholder="Buscar..."
+        placeholder="Buscar... (nombre o categoria)"
         value={query}
         onChange={handleInputChange}
       />

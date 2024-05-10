@@ -6,7 +6,8 @@ import {agregarProducto,
         crearCompra,
         crearVenta,
         agregarDineroCaja,
-        consultarInformes
+        consultarInformes,
+        obtenerCategorias
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -20,7 +21,6 @@ app.use(express.json());
 app.post('/agregar-producto', async (req, res) => {
     const result = await agregarProducto(req.body)
       .catch(err => console.log(err))
-
     if(result.state === 'OK')
         res.json(result);
     else
@@ -62,7 +62,6 @@ app.get('/constular-dinero-caja', async (req, res) => {
     res.status(500).json({ error: 'Error al consultar dinero en caja' });
   }
 });
-
 
 app.put('/actualizar-producto', async (req, res) => {
   const result = await actualizarProducto(req.body)
@@ -117,5 +116,17 @@ app.get('/consultar-informes', async(req, res) => {
     res.json(informes);
   } catch (error) {
     res.status(500).json({ error: 'Error al consultar informes' });
+  }
+});
+
+app.get('/obtener-categorias', async(req, res) => {
+  try {
+    // Llamar a la función que consulta las categorias
+    const categorias = await obtenerCategorias();
+
+    // Enviar las categorias como respuesta
+    res.json(categorias);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar categorias' });
   }
 });

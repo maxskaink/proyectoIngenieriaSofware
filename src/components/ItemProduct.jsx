@@ -21,6 +21,7 @@ export const ItemProduct = ({ producto = defaultProduct, onClick, cantidadStock 
           <div className="columna">{producto.nombre}</div>
           <div className="columna">{producto.descripcion}</div>
           <div className="columna">{producto.precio}</div>
+          <div className="columna">{producto.categoria}</div>
           {cantidadStock&&<div className="columna">{producto.cantidadStock}</div>}
         </div>
       </li>
