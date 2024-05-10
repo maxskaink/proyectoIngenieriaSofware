@@ -28,10 +28,10 @@ render(<CatalogoManager onSubmit={onSubmit} />);
         addProduct(
           "Nombre de producto",
           "Descripción de producto",
-          "1111",
+          "10000",
           "addProduct"
-        );
-
+        );    
+ 
         await sleep(sleepTime);
 
         await waitFor(() => {
@@ -39,7 +39,7 @@ render(<CatalogoManager onSubmit={onSubmit} />);
         });
 
         expect(screen.getAllByText(/Descripción de producto/i)).toBeDefined();
-        expect(screen.getAllByText(/1111/i)).toBeDefined();
+        expect(screen.getAllByText(/10000/i)).toBeDefined();
       });
 
       test("Se agrega un nuevo producto sin nombre", async () => {
