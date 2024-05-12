@@ -61,3 +61,4 @@ export const getInforms = async () => {
 export const getCategories = async () => {
   return await axios.get(API.obtenerCategorias).then((res) => res);
 }
+export const addProvider = async (provider) =>  await axios.post(API.agregarProveedor, provider);

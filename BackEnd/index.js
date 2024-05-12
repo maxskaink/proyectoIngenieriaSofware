@@ -7,7 +7,8 @@ import {agregarProducto,
         crearVenta,
         agregarDineroCaja,
         consultarInformes,
-        obtenerCategorias
+        obtenerCategorias,
+        agregarProveedor
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -129,4 +130,14 @@ app.get('/obtener-categorias', async(req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al consultar categorias' });
   }
+});
+
+app.post('/agregar-proveedor', async (req, res) => {
+
+  const result = await agregarProveedor(req.body)
+    .catch(err => console.log(err));
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
 });

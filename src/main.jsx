@@ -7,6 +7,7 @@ import { SaleManager } from "./components/SaleManager";
 import { BuyManager } from "./components/BuyManager";
 import { BusinessReport  } from "./components/BusinessReport ";
 import { AddMoney } from "./components/AddMoney";
+import { AddProvider } from "./components/AddProvider"
 import "./styles/main.css";
 
 createRoot(document.getElementById("root")).render(
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/compras" element={<BuyManager />} />
       <Route path="/informes" element={<BusinessReport />} />
       <Route path="/agregar-dinero" element={<AddMoney />} />
+      <Route path="/agregar-proveedor" element={<AddProvider />} />
     </Routes>
   </BrowserRouter>,
 );

@@ -262,9 +262,6 @@ BEGIN
         COMMIT;
         DBMS_OUTPUT.PUT_LINE('Proveedor insertado correctamente');
     END IF;
-EXCEPTION
- WHEN OTHERS THEN
-  DBMS_OUTPUT.PUT_LINE('Ocurrio un error al ingresar un nuevo proveedor');
 END;
 /
 CREATE OR REPLACE PROCEDURE UpdateNombreProveedor(
@@ -287,9 +284,6 @@ BEGIN
         COMMIT;
         DBMS_OUTPUT.PUT_LINE('Proveedor actualizado correctamente');
     END IF;
-EXCEPTION
- WHEN OTHERS THEN
-  DBMS_OUTPUT.PUT_LINE('Ocurrio un error al actualizar a un proveedor');
 END;
 /
 CREATE OR REPLACE PROCEDURE UpdateTelefonoProveedor(

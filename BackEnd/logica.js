@@ -238,3 +238,31 @@ export const obtenerCategorias = async () => {
     console.log(err)
   }
 }
+
+export const agregarProveedor = async ({nit, nombre, telefono, direccion}) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'Se ha insertado con éxito la inserción',
+  }
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+  const query = 'BEGIN insertProveedor(:nit ,:nombre, :telefono, :direccion); END;';
+  await connection.execute(query, {
+    nit,
+    nombre,
+    telefono,
+    direccion
+  }, { autoCommit: true })
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, hubo un problema'});
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+}
