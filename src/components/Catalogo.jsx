@@ -63,6 +63,9 @@ export const Catalogo = ({
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
+          <div className="columnaHeader">
+            <strong> CATEGORIA </strong>
+          </div>
           {
             cantidadStock && 
             <div className="columnaHeader">
@@ -75,8 +78,9 @@ export const Catalogo = ({
         {productos && productos.length > 0 ? (
           productos.map(
             (producto, index) =>
-              ((producto.nombre.toUpperCase().includes(search.toUpperCase()) ||
-                search.toString().length === 0) && hanldeValition(producto)) && (
+              (producto.nombre.toUpperCase().includes(search.toUpperCase()) || search.toString().length === 0 ||
+                producto.categoria.toUpperCase().includes(search.toUpperCase())) &&
+                hanldeValition(producto) && (
                 <ItemProduct
                   key={index}
                   producto={producto}

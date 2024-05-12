@@ -57,3 +57,8 @@ export const addMoney = async (money) => {
 export const getInforms = async () => {
   return await axios.get(API.consultarInformes).then((res) => res);
 }
+
+export const getCategories = async () => {
+  return await axios.get(API.obtenerCategorias).then((res) => res);
+}
+export const addProvider = async (provider) =>  await axios.post(API.agregarProveedor, provider);
