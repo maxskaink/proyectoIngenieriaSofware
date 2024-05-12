@@ -8,17 +8,22 @@ export const SideBar = () => {
         <div className="sidebar">
           <h1 className="titulo">Control Total</h1>
           <nav>
-            <Link
-              className={`containerMenu-nav-link ${location.pathname === "/" && "active"}`}
-              to="/"
-            >
-              Home
-            </Link>
+         
+              <Link
+                className={`containerMenu-nav-link ${location.pathname === "/" && "active"}`}
+                to="/"
+              >
+
+                 <i className="fa-solid fa-house"></i>
+                  <p>Home</p>
+              </Link>
+            
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/catalogo" && "active"}`}
               to="/catalogo"
             >
-              Gestionar Catalogo
+              <i className="fa-regular fa-clipboard"></i>
+              <p>Gestionar Catalogo</p>
             </Link>
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/agregar-dinero" && "active"}`}
@@ -30,19 +35,23 @@ export const SideBar = () => {
               className={`containerMenu-nav-link ${location.pathname === "/ventas" && "active"}`}
               to="/ventas"
             >
-              Crear venta
+              <i className="fa-solid fa-cash-register"></i>
+              <p>Crear venta</p>
+              
             </Link>
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/compras" && "active"}`}
               to="/compras"
             >
-              Crear compra
+              <i className="fa-solid fa-cart-shopping"></i>
+              <p>Crear compra</p>
             </Link>
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/informes" && "active"}`}
               to="/informes"
             >
-              Informes
+              <i className="fa-solid fa-circle-info"></i>
+              <p>Informes</p>
             </Link>
           </nav>
         </div>

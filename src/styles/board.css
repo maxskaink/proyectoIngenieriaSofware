@@ -20,17 +20,24 @@ body {
 }
 
 .containerMenu-nav-link {
-  margin-bottom: 10px;
+  margin-bottom: 3vh;
   transition: 0.4s;
   color: #c7c7c7;
+
 }
 
 .sidebar nav a {
-  display: block;
+  display: flex;
   padding: 15px 10px;
   text-decoration: none;
-  
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
+.sidebar nav p {
+  margin-right: 2vh;
+  align-self: center;
+}
+
 
 .containerMenu-nav-link:hover {
   border-left: 2px solid white;
@@ -99,7 +106,6 @@ body {
   text-align: center;
   line-height: 70px;
   color: aliceblue;
-  background: rgb(42, 121, 128);
   background: linear-gradient(
     180deg,
     rgba(42, 121, 128, 1) 0%,
@@ -116,4 +122,20 @@ body {
   border-left: 5px solid transparent;
   width: 320px;
 
+}
+
+
+/*ICONOS*/
+
+.fa-solid, .fas {
+  font-weight: 900;
+  padding: 1vh;
+}
+
+.fa-regular, .fa-clipboard {
+  font-weight: 3000;
+  padding: 1vh;
+}
+.fa-solid, .fa-cash-register{
+  padding: 1vh;
 }
