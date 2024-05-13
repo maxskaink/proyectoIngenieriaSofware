@@ -11,6 +11,7 @@ export const ManageProduct = ({
   product = defaultProduct,
   title,
   children,
+  testId,
 }) => {
   const [infoNewProduct, setInfoNewProducto] = useState(product && product);
 
@@ -35,7 +36,7 @@ export const ManageProduct = ({
       setInfoNewProducto((prevProducto) => ({
         ...prevProducto,
         [name]: value,
-      }));
+      })); 
   };
 
   const handleSubmit = async (e) => {
@@ -91,6 +92,7 @@ export const ManageProduct = ({
             name="nombre"
             value={infoNewProduct.nombre}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -101,6 +103,7 @@ export const ManageProduct = ({
             name="descripcion"
             value={infoNewProduct.descripcion}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -112,6 +115,7 @@ export const ManageProduct = ({
             name="precio"
             value={infoNewProduct.precio}
             onChange={handleChange}
+            data-testid={testId}
           />
         </label>
 
@@ -130,12 +134,13 @@ export const ManageProduct = ({
           type="submit"
           className="manageProduct-button button"
           disabled={!stateForm.isValid}
+          data-testid={testId}
         >
-          {title}
+          {title ? title : "Agregar Producto"}
         </button>
         {children}
       </form>
-      <label className={stateForm.className}>{stateForm.message}</label>
+      <label className={stateForm.className} data-testid="result-message">{stateForm.message}</label>
     </div>
   );
 };

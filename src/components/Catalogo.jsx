@@ -20,17 +20,17 @@ export const Catalogo = ({
   cantidadStock = false,
   hanldeValition = () => true,
 }) => {
-  /* Array de todos los prodcutos de la base de datos */
+  /* Array de todos los productos de la base de datos */
   const [productos, setProductos] = useState([]);
 
   /* Nos da la informacion de la barra de busqueda */
   const [search, setSearch] = useState("");
 
-  /* Manjea uqe hacer cuando se escribe algo en la barra de busqueda */
+  /* Maneja que hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
     setSearch(value);
   };
-  /* cuando se hace click en algun produco se le manda la info a la funcion que se resibio como parametro */
+  /* cuando se hace click en algun produco se le manda la info a la funcion que se recibio como parametro */
   const handleClick = (info) => {
     handleSelectProduct(info);
   };

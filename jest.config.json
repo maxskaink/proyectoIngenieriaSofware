@@ -1,16 +1,17 @@
 {
-  "testEnvironment": "jest-environment-jsdom",
-  "moduleNameMapper": {
-    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/src/test/fileMock.js",
-    "\\.(css|less)$": "identity-obj-proxy"
-  },
-  "setupFilesAfterEnv": ["<rootDir>/src/test/setup-jest.js"],
-  "coverageThreshold": {
-    "global": {
-      "branches": 10,
-      "functions": 10,
-      "lines": 10,
-      "statements": 10
+    "testEnvironment": "jest-environment-jsdom",
+    "moduleNameMapper": {
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/src/test/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/src/test/setup-jest.js"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": 10
+      }
     }
   }
-}
+  

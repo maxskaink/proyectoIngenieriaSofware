@@ -11,7 +11,7 @@ export const updateProduct = async (producto) => {
   const newProduct = { ...producto, activado: 1 };
   return await axios.put(API.actualizarProducto, newProduct);
 };
-/* Nos permite resibir el producto como objeto para enviarlo a la api y agregarlo */
+/* Nos permite recibir el producto como objeto para enviarlo a la api y agregarlo */
 export const addProduct = async (producto) => {
   return await axios.post(API.agregarProducto, producto);
 };

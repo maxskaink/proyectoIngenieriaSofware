@@ -45,6 +45,7 @@ export function CatalogoManager() {
           <ManageProduct
             handleManagement={handleAddProduct}
             title="Agregar producto"
+            testId="addProduct"
           />
           {productSelected !== undefined && (
             <ManageProduct
@@ -52,6 +53,7 @@ export function CatalogoManager() {
               title="Actualizar producto"
               product={productSelected}
               key={productSelected.id}
+              testId="updateProduct"
             >
               <button
                 className="manageProduct-button-eliminar"

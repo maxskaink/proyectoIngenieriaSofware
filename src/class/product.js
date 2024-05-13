@@ -11,3 +11,4 @@ export class Product {
     return this.activado === 1;
   }
 }
+ 
