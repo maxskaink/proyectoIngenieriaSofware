@@ -1,4 +1,5 @@
 
+
 export const API = {
   consultarProductos: "http://localhost:3001/consultar-productos",
   agregarProducto: "http://localhost:3001/agregar-producto",
@@ -10,5 +11,7 @@ export const API = {
   agregarDinero: "http://localhost:3001/agregar-dinero-caja",
   consultarInformes: "http://localhost:3001/consultar-informes",
   obtenerCategorias: "http://localhost:3001/obtener-categorias",
-  agregarProveedor: "http://localhost:3001/agregar-proveedor"
+  agregarProveedor: "http://localhost:3001/agregar-proveedor",
+  consultarProveedores: "http://localhost:3001/consultar-proveedores",
+  actualizarProveedor: "http://localhost:3001/actualizar-proveedor"
 };

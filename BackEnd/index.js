@@ -8,7 +8,9 @@ import {agregarProducto,
         agregarDineroCaja,
         consultarInformes,
         obtenerCategorias,
-        agregarProveedor
+        agregarProveedor,
+        obtenerProveedores,
+        actualizarProveedor
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -136,6 +138,28 @@ app.post('/agregar-proveedor', async (req, res) => {
 
   const result = await agregarProveedor(req.body)
     .catch(err => console.log(err));
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.get('/consultar-proveedores', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los proveedores
+    const proveedores = await obtenerProveedores();
+
+    // Enviar los proveedores como respuesta
+    res.json(proveedores);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar proveedores' });
+  }
+});
+
+app.put('/actualizar-proveedor', async (req, res) => {
+  const result = await actualizarProveedor(req.body)
+  .catch(err => console.log(err))
+
   if(result.state === 'OK')
       res.json(result);
   else

@@ -336,6 +336,19 @@ EXCEPTION
   DBMS_OUTPUT.PUT_LINE('Ocurrio un error al actualizar a un proveedor');
 END;
 /
+CREATE OR REPLACE PROCEDURE UpdateProveedor(
+    p_NIT in PROVEEDOR.NIT%TYPE,
+    p_Nombre in PROVEEDOR.Nombre%TYPE,
+    p_Telefono in PROVEEDOR.Telefono%TYPE,
+    p_Direccion in PROVEEDOR.Direccion%TYPE
+)
+IS
+BEGIN
+    UpdateNombreProveedor(p_NIT, p_Nombre);
+    UpdateTelefonoProveedor(p_NIT, p_Telefono);
+    UpdateDireccionProveedor(p_NIT, p_Direccion);
+END;
+
 --CRUD TRABAJADOR
 
 CREATE OR REPLACE PROCEDURE insertarTrabajador(
