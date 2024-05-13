@@ -8,7 +8,7 @@ const user = 'gestiontotal'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
 
-
+//#region Productos
 export const agregarProducto = async ({nombre, descripcion, precio, categoria }) => {
     let connection;
 
@@ -107,14 +107,36 @@ export const consultarProductoId = async ({id}) => {
   }
 }
 
-export const constularDineroCaja = async () => {
+export const obtenerCategorias = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
   
     // Consulta SELECT
-    const query = 'select dineroTotal from caja where codigocaja = 1';
+    const query = 'select categoria from producto group by categoria;';
     const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const categorias = result.rows;
+    // Cerrar la conexión
+    await connection.close();
+  
+    return categorias;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+//#endregion
+
+//#region Dinero de la sucursal
+export const constularDineroSucursal = async ({idSucursal}) => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select capital from sucursal where idSucursal = :idSucursal';
+    const result = await connection.execute(query, {idSucursal}, { autoCommit: true });
   
     // Extraer filas del resultado
     const dinero = result.rows[0][0];
@@ -127,7 +149,33 @@ export const constularDineroCaja = async () => {
   }
 }
 
-export const crearCompra = async ({nitProveedor = "", idSucursal = "",products = []}) => {
+export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
+  try{
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    if(dinero < 0 ) return {state: 'ERROR', message: 'No se puede agregar dinero negativo'};
+    
+    //Obtenemos el dinero actual de la sucursal
+    const query = 'select capital from sucursal where idSucursal = :idSucursal';
+    const result = await connection.execute(query, {idSucursal}, { autoCommit: true });
+    const dineroActual = result.rows[0][0];
+    //Sumamos el dinero actual con el dinero que se va a agregar
+    dinero += dineroActual;
+
+    const query2 = `BEGIN updateSucursalCapital(:idSucursal,:dinero) END;`;
+    await connection.execute(query2, {idSucursal,dinero}, { autoCommit: true });
+
+    await connection.close();
+
+    return {state: 'OK', message: 'Se ha agregado el dinero con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido agregar el dinero'};
+  }
+}
+//#endregion
+
+//#region Compras y ventas
+export const crearCompra = async ({nitProveedor, idSucursal ,products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
@@ -159,12 +207,12 @@ export const crearCompra = async ({nitProveedor = "", idSucursal = "",products =
   }
 }
 
-export const crearVenta = async ({medioPago = "", products = []}) => {
+export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado, products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
-    const query = `INSERT INTO VENTA (mediopago, fecha, preciototalventa) values (:medioPago, sysdate, 0)`;
-    await connection.execute(query, {medioPago}, { autoCommit: true });
+    const query = `BEGIN INSERTPEDIDO(:cedulaCliente, :idSucursal, :cedulaTrabajador, :estado); END;`;
+    await connection.execute(query, {cedulaCliente, idSucursal, cedulaTrabajador, estado}, { autoCommit: true });
 
     const query2 = `select codigoVenta from venta order by fecha desc FETCH FIRST ROW ONLY`;
     const result = await connection.execute(query2);
@@ -188,21 +236,32 @@ export const crearVenta = async ({medioPago = "", products = []}) => {
   }
 }
 
-export const agregarDineroCaja = async ({dinero}) => {
-  try{
+export const actualizarEstadoVenta = async({idPedido, estado}) => {
+  let result = {
+    state: 'OK',
+    message: 'Se ha actualizado con éxito el producto',
+  }
+  try {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-    if(dinero < 0 ) return {state: 'ERROR', message: 'No se puede agregar dinero negativo'};
-    const query = `UPDATE CAJA SET dineroTotal = dineroTotal + :dinero WHERE codigocaja = 1`;
-    await connection.execute(query, {dinero}, { autoCommit: true });
 
-    await connection.close();
-    return {state: 'OK', message: 'Se ha agregado el dinero con éxito'};
-  }catch(err){
-    console.log(err);
-    return {state: 'ERROR', message: 'No se ha podido agregar el dinero'};
+    const query =  'BEGIN updatePedido(:idPedido,:estado); END;'
+    await connection.execute(query, {idPedido,estado}, { autoCommit: true });
+
+    if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+    }
+    return result
+  } catch (error) {
+    result.state = 'ERROR';
+    result.message='No se ha hecho la actualizacion, el estado es incorrecto'
+    console.log(error)
+    return result;
   }
 }
+//#endregion
 
+//#region Informes
 export const consultarInformes = async () => {
   try {
     // Obtener conexión
@@ -221,26 +280,9 @@ export const consultarInformes = async () => {
     console.log(err)
   }
 }
+//#endregion
 
-export const obtenerCategorias = async () => {
-  try {
-    // Obtener conexión
-    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
-    // Consulta SELECT
-    const query = 'select categoria from producto group by categoria;';
-    const result = await connection.execute(query);
-    // Extraer filas del resultado
-    const categorias = result.rows;
-    // Cerrar la conexión
-    await connection.close();
-  
-    return categorias;
-  } catch (err) {
-    console.log(err)
-  }
-}
-
+//#region Proveedores
 export const agregarProveedor = async ({nit, nombre, telefono, direccion}) => {
   let connection;
 
@@ -311,7 +353,9 @@ export const actualizarProveedor = async({nit, nombre, telefono, direccion}) => 
     return result;
   }
 }
+//#endregion
 
+//#region Clientes
 export const agregarCliente = async ({cedula, nombre, correo, fechaNacimiento}) => {
   let connection;
 
@@ -380,3 +424,112 @@ export const actualizarCliente = async({cedula, nombre, correo}) => {
     return result;
   }
 }
+//#endregion
+
+//#region Sucursales
+export const agregarSucursal = async ({idSucursal, nombre, telefono, capital, direccion}) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'Se ha insertado con éxito la sucursal',
+  }
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+  const query = 'BEGIN insertSucursal(:idSucursal, :nombre, :telefono, :capital, :direccion); END;';
+  await connection.execute(query, {
+    idSucursal,
+    nombre,
+    telefono,
+    capital,
+    direccion
+  }, { autoCommit: true })
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, hubo un problema'});
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+
+  return result; 
+}
+//Actualiza cualquier atributo de la sucursal excepto el capital, si el parametro es vacio se mantiene el valor actual
+export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", telefono="", activado }) => {
+  let result = {
+    state: 'OK',
+    message: 'Se ha actualizado con éxito el producto',
+  }
+  try {
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+
+    //TODO falta implemtentar todo eso, pero primero se necesita la base de datos lista
+    if(activado == 1){
+      const query1 =  'BEGIN activateSucursal(:idSucursal); END;'
+      await connection.execute(query1, {idSucursal}, { autoCommit: true });
+
+      if(nombre != ""){
+        const query2 =  'BEGIN updateSucursalNombre(:idSucursal, :nombre); END;'
+        await connection.execute(query2, {idSucursal, nombre}, { autoCommit: true });
+      }
+
+      if(direccion != ""){
+        const query3 =  'BEGIN updateSucursalDireccion(:idSucursal, :direccion); END;'
+        await connection.execute(query3, {idSucursal, direccion}, { autoCommit: true });
+      }
+
+      if(telefono != ""){
+        const query4 =  'BEGIN updateSucursalTelefono(:idSucursal, :telefono); END;'
+        await connection.execute(query4, {idSucursal, telefono}, { autoCommit: true });
+      }
+    }else{
+      const query =  'BEGIN deleteSucursal(:idSucursal); END;'
+      await connection.execute(query, {idSucursal}, { autoCommit: true });
+    }
+    if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+    }
+    return result
+  } catch (error) {
+    result.state = 'ERROR';
+    result.message='No se ha hecho la actualizacion'
+    console.log(error)
+    return result;
+  }
+}
+//#endregion
+
+//#region Lote
+
+//Las fechas deben de ser en formato 'DD-MM-YYYY'
+export const agregarLote = async ({idLote, fProduccion, fVencimiento }) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'La inserción termino de forma exitosa',
+  }
+  
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+
+  const query = 'BEGIN insertLote(:idLote, :fProduccion, :fVencimiento); END;';
+  await connection.execute(query, {
+    idLote,
+    fProduccion,
+    fVencimiento
+  }, { autoCommit: true })
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion'});
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+};
+//#endregion

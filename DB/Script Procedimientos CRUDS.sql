@@ -167,9 +167,7 @@ BEGIN
     WHERE estado = 1 AND IDSUCURSAL = p_idSucursal;
     
     INSERT INTO COMPRA (NIT, IDSUCURSAL, FECHA, PRECIOTOTAL) VALUES(p_nitProveedor, v_idSucursal, SYSDATE, 0);
-EXCEPTION 
-    WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Valide que si exista el proveedor y la sucursal');
+
 END insertCompra;
 /
 --ACTUALIZAR
@@ -306,9 +304,7 @@ BEGIN
         COMMIT;
         DBMS_OUTPUT.PUT_LINE('Proveedor actualizado correctamente');
     END IF;
-EXCEPTION
- WHEN OTHERS THEN
-  DBMS_OUTPUT.PUT_LINE('Ocurrio un error al actualizar a un proveedor');
+
 END;
 /
 CREATE OR REPLACE PROCEDURE UpdateDireccionProveedor(
@@ -331,9 +327,7 @@ BEGIN
         COMMIT;
         DBMS_OUTPUT.PUT_LINE('Proveedor actualizado correctamente');
     END IF;
-EXCEPTION
- WHEN OTHERS THEN
-  DBMS_OUTPUT.PUT_LINE('Ocurrio un error al actualizar a un proveedor');
+
 END;
 /
 CREATE OR REPLACE PROCEDURE UpdateProveedor(
@@ -350,7 +344,7 @@ BEGIN
 END;
 
 --CRUD TRABAJADOR
-
+/
 CREATE OR REPLACE PROCEDURE insertarTrabajador(
     p_cedula NUMBER, 
     p_idSucursal NUMBER, 
@@ -672,6 +666,10 @@ BEGIN
     FROM SUCURSAL 
     WHERE SUCURSAL.IDSUCURSAL = p_idSucursal AND SUCURSAL.ESTADO = 1;
     
+    if (p_capital < 0) then 
+        RAISE_APPLICATION_ERROR(-20003, 'El capital no puede ser negativo');
+    END IF;
+    
     if v_count = 0 then 
         RAISE_APPLICATION_ERROR(-20003, 'no se encontro la sucursal');
     END IF;
@@ -732,9 +730,6 @@ BEGIN
     INSERT INTO PRODUCTO (nombre, descripcion, precioActual, activado, categoria)
     VALUES (p_nombre, p_descripcion, p_precioActual, 1, p_categoria);
     DBMS_OUTPUT.PUT_LINE('Producto insertado correctamente');
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Ocurri� un error al insertar el producto: ' || SQLERRM);
 END;
 /
 --ACTUALIZAR
@@ -775,9 +770,6 @@ BEGIN
     ELSE
         DBMS_OUTPUT.PUT_LINE('No se puede actualizar. El producto no existe.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Ocurri� un error al actualizar el producto: ' || SQLERRM);
 END;
 /
 CREATE OR REPLACE PROCEDURE actualizarNombreProducto(
@@ -796,9 +788,6 @@ BEGIN
         WHERE idProducto = p_idProducto;
         DBMS_OUTPUT.PUT_LINE('Nombre del producto actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el nombre del producto: ' || SQLERRM);
 END;
 /
 CREATE OR REPLACE PROCEDURE actualizarPrecioProducto(
@@ -817,9 +806,6 @@ BEGIN
         WHERE idProducto = p_idProducto;
         DBMS_OUTPUT.PUT_LINE('Precio del producto actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el precio del producto: ' || SQLERRM);
 END;
 /
 CREATE OR REPLACE PROCEDURE actualizarDescripcionProducto(
@@ -838,9 +824,6 @@ BEGIN
         WHERE idProducto = p_idProducto;
         DBMS_OUTPUT.PUT_LINE('Descripci�n del producto actualizada correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar la descripci�n del producto: ' || SQLERRM);
 END;
 /
 --DESACTIVAR Y ACTIVAR
@@ -860,11 +843,6 @@ BEGIN
         END IF;
     END IF;
     
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20113, 'El producto que quiere desactivar no existe');
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Ocurri� un error al desactivar el producto: ' || SQLERRM);
 END;
 /
 CREATE OR REPLACE PROCEDURE activarProducto(
@@ -882,11 +860,6 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('Producto activado correctamente.');
         END IF;
     END IF;
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20113, 'El producto que quiere activar no existe');
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Ocurri� un error al desactivar el producto: ' || SQLERRM);
 END;
 /
 --CRUD CLIENTE
@@ -921,9 +894,6 @@ BEGIN
         WHERE CEDULACLIENTE = p_cedulaCliente;
         DBMS_OUTPUT.PUT_LINE('Cliente actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el cliente: ' || SQLERRM);
 END; 
 /
 CREATE OR REPLACE PROCEDURE actualizarNombreCliente(
@@ -942,9 +912,6 @@ BEGIN
         WHERE CEDULACLIENTE = p_cedulaCliente;
         DBMS_OUTPUT.PUT_LINE('Nombre del cliente actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el nombre del cliente: ' || SQLERRM);
 END;
 /
 CREATE OR REPLACE PROCEDURE actualizarCorreoCliente(
@@ -963,9 +930,6 @@ BEGIN
         WHERE CEDULACLIENTE = p_cedulaCliente;
         DBMS_OUTPUT.PUT_LINE('Correo del cliente actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el correo del cliente: ' || SQLERRM);
 END;
 /
 --ELIMINAR
@@ -1004,9 +968,6 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Lote insertado correctamente');
       END IF;
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Ocurri� un error al insertar el lote�pl: ' || SQLERRM);
 END;
 /
 --ACTUALIZAR
