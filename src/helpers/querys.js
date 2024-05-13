@@ -66,3 +66,9 @@ export const addProvider = async (provider) =>  await axios.post(API.agregarProv
 export const getProviders = async () => await axios.get(API.consultarProveedores).then((res) => res.data);
 
 export const updateProvider = async (provider) => await axios.put(API.actualizarProveedor, provider);
+
+export const addClient = async (client) => await axios.post(API.agregarCliente, client);
+
+export const getClients = async () => await axios.get(API.consultarClientes).then((res) => res.data);
+
+export const updateClient = async (client) => await axios.put(API.actualizarCliente, client);

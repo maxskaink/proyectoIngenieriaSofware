@@ -173,6 +173,7 @@ app.post('/agregar-cliente', async (req, res) => {
 
   const result = await agregarCliente(req.body)
     .catch(err => console.log(err));
+  
   if(result.state === 'OK')
       res.json(result);
   else

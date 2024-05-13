@@ -921,9 +921,6 @@ BEGIN
         WHERE CEDULACLIENTE = p_cedulaCliente;
         DBMS_OUTPUT.PUT_LINE('Cliente actualizado correctamente.');
     END IF;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al actualizar el cliente: ' || SQLERRM);
 END; 
 /
 CREATE OR REPLACE PROCEDURE actualizarNombreCliente(

@@ -8,6 +8,7 @@ import { BuyManager } from "./components/BuyManager";
 import { BusinessReport  } from "./components/BusinessReport ";
 import { AddMoney } from "./components/AddMoney";
 import { ProviderManager } from "./components/ProviderManager"; 
+import { ClientManager } from "./components/ClientManager";
 import "./styles/main.css";
 
 createRoot(document.getElementById("root")).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/informes" element={<BusinessReport />} />
       <Route path="/agregar-dinero" element={<AddMoney />} />
       <Route path="/gestionar-proveedor" element={<ProviderManager />} />
+      <Route path="/gestionar-clientes" element={<ClientManager />} />
     </Routes>
   </BrowserRouter>,
 );

@@ -328,7 +328,7 @@ export const agregarCliente = async ({cedula, nombre, correo, fechaNacimiento}) 
     correo,
     fechaNacimiento
   }, { autoCommit: true })
-  .catch( (err) => {console.log(err)});
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, hubo un problema'});
   
   if (connection) {
       await connection.close()

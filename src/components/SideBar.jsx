@@ -7,17 +7,7 @@ export const SideBar = () => {
       <div className="Container-Menu">
         <div className="sidebar">
           <h1 className="titulo">Control Total</h1>
-          <nav>
-         
-              <Link
-                className={`containerMenu-nav-link ${location.pathname === "/" && "active"}`}
-                to="/"
-              >
-
-                 <i className="fa-solid fa-house"></i>
-                  <p>Home</p>
-              </Link>
-            
+          <nav>            
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/catalogo" && "active"}`}
               to="/catalogo"
@@ -35,7 +25,13 @@ export const SideBar = () => {
               className={`containerMenu-nav-link ${location.pathname === "/gestionar-proveedor" && "active"}`}
               to="/gestionar-proveedor"
             >
-              Gestioinar Proveedor
+              Gestionar Proveedor
+            </Link>
+            <Link
+              className={`containerMenu-nav-link ${location.pathname === "/gestionar-clientes" && "active"}`}
+              to="/gestionar-clientes"
+            >
+              Gestionar Clientes
             </Link>
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/ventas" && "active"}`}

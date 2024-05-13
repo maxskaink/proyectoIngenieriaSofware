@@ -13,5 +13,8 @@ export const API = {
   obtenerCategorias: "http://localhost:3001/obtener-categorias",
   agregarProveedor: "http://localhost:3001/agregar-proveedor",
   consultarProveedores: "http://localhost:3001/consultar-proveedores",
-  actualizarProveedor: "http://localhost:3001/actualizar-proveedor"
+  actualizarProveedor: "http://localhost:3001/actualizar-proveedor",
+  agregarCliente: "http://localhost:3001/agregar-cliente",
+  consultarClientes: "http://localhost:3001/consultar-clientes",
+  actualizarCliente: "http://localhost:3001/actualizar-cliente",
 };
