@@ -902,11 +902,6 @@ BEGIN
     INSERT INTO cliente (CEDULACLIENTE, NOMBRE, CORREO, FECHANACIMIENTO) 
     VALUES (p_cedulaCliente, p_nombre, p_correo, p_fechaNacimiento);
     DBMS_OUTPUT.PUT_LINE('Cliente insertado correctamente.');
-EXCEPTION
-    WHEN DUP_VAL_ON_INDEX THEN
-        DBMS_OUTPUT.PUT_LINE('Error: La c�dula del cliente ya existe.');
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al insertar el cliente: ' || SQLERRM);
 END;
 /
 --ACTUALIZAR (no se puede modificar ni c�dula ni fecha de nacimiento)

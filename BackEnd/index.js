@@ -10,7 +10,10 @@ import {agregarProducto,
         obtenerCategorias,
         agregarProveedor,
         obtenerProveedores,
-        actualizarProveedor
+        actualizarProveedor,
+        agregarCliente,
+        obtenerClientes,
+        actualizarCliente,
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -158,6 +161,38 @@ app.get('/consultar-proveedores', async (req, res) => {
 
 app.put('/actualizar-proveedor', async (req, res) => {
   const result = await actualizarProveedor(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.post('/agregar-cliente', async (req, res) => {
+
+  const result = await agregarCliente(req.body)
+    .catch(err => console.log(err));
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.get('/consultar-clientes', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los clientes
+    const clientes = await obtenerClientes();
+
+    // Enviar los clientes como respuesta
+    res.json(clientes);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar clientes' });
+  }
+});
+
+app.put('/actualizar-cliente', async (req, res) => {
+  const result = await actualizarCliente(req.body)
   .catch(err => console.log(err))
 
   if(result.state === 'OK')

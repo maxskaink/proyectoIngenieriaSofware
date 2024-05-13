@@ -2,6 +2,7 @@ import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
 import { Provider } from "../src/class/provider.js";
+import { Client } from "../src/class/client.js";
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -297,6 +298,75 @@ export const actualizarProveedor = async({nit, nombre, telefono, direccion}) => 
 
     const query =  'BEGIN updateProveedor(:nit ,:nombre, :telefono, :direccion); END;'
     await connection.execute(query, {nit, nombre, telefono, direccion}, { autoCommit: true });
+
+    if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+    }
+    return result
+  } catch (error) {
+    result.state = 'ERROR';
+    result.message='No se ha hecho la actualizacion, verifique el error con el adminsitrador'
+    console.log(error)
+    return result;
+  }
+}
+
+export const agregarCliente = async ({cedula, nombre, correo, fechaNacimiento}) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'Se ha insertado con éxito la inserción',
+  }
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+  const query = "BEGIN insertarCliente(:cedula ,:nombre, :correo,  TO_DATE(:fechaNacimiento, 'DD/MM/YYYY') ); END;";
+  await connection.execute(query, {
+    cedula,
+    nombre,
+    correo,
+    fechaNacimiento
+  }, { autoCommit: true })
+  .catch( (err) => {console.log(err)});
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+};
+
+export const obtenerClientes = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = "select cedulacliente, nombre, correo, to_char(FECHANACIMIENTO, 'DD/MM/YYYYY') from cliente";
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const clientes = result.rows.map( (cliente) => new Client(cliente));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return clientes;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const actualizarCliente = async({cedula, nombre, correo}) => {
+  let result = {
+    state: 'OK',
+    message: 'Se ha actualizado con éxito el cliente',
+  }
+  try {
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+
+    const query =  'BEGIN actualizarCliente(:cedula ,:nombre, :correo); END;'
+    await connection.execute(query, {cedula, nombre, correo}, { autoCommit: true });
 
     if (connection) {
       await connection.close()
