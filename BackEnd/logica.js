@@ -129,7 +129,7 @@ export const obtenerCategorias = async () => {
 //#endregion
 
 //#region Dinero de la sucursal
-export const constularDineroSucursal = async ({idSucursal}) => {
+export const consultarDineroSucursal = async ({idSucursal}) => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
@@ -161,7 +161,7 @@ export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
     //Sumamos el dinero actual con el dinero que se va a agregar
     dinero += dineroActual;
 
-    const query2 = `BEGIN updateSucursalCapital(:idSucursal,:dinero) END;`;
+    const query2 = `BEGIN updateSucursalCapital(:idSucursal,:dinero); END;`;
     await connection.execute(query2, {idSucursal,dinero}, { autoCommit: true });
 
     await connection.close();
@@ -372,7 +372,7 @@ export const agregarCliente = async ({cedula, nombre, correo, fechaNacimiento}) 
     correo,
     fechaNacimiento
   }, { autoCommit: true })
-  .catch( (err) => {console.log(err)});
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, hubo un problema'});
   
   if (connection) {
       await connection.close()
@@ -456,10 +456,10 @@ export const agregarSucursal = async ({idSucursal, nombre, telefono, capital, di
   return result; 
 }
 //Actualiza cualquier atributo de la sucursal excepto el capital, si el parametro es vacio se mantiene el valor actual
-export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", telefono="", activado }) => {
+export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", telefono="", activado = 1 }) => {
   let result = {
     state: 'OK',
-    message: 'Se ha actualizado con éxito el producto',
+    message: 'Se ha actualizado con éxito la sucursal',
   }
   try {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
@@ -483,9 +483,6 @@ export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", t
         const query4 =  'BEGIN updateSucursalTelefono(:idSucursal, :telefono); END;'
         await connection.execute(query4, {idSucursal, telefono}, { autoCommit: true });
       }
-    }else{
-      const query =  'BEGIN deleteSucursal(:idSucursal); END;'
-      await connection.execute(query, {idSucursal}, { autoCommit: true });
     }
     if (connection) {
       await connection.close()
@@ -522,7 +519,7 @@ export const agregarLote = async ({idLote, fProduccion, fVencimiento }) => {
     fProduccion,
     fVencimiento
   }, { autoCommit: true })
-  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion'});
+  .catch( (err) => {result.state = 'ERROR'; result.message='No se puede hacer la insercion: '+err});
   
   if (connection) {
       await connection.close()
