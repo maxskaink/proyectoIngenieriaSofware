@@ -1,6 +1,7 @@
 import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
+import { Provider } from "../src/class/provider.js";
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -266,4 +267,47 @@ export const agregarProveedor = async ({nit, nombre, telefono, direccion}) => {
   }
   return result;
 
+}
+
+export const obtenerProveedores = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from proveedor';
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const proveedores = result.rows.map( (proveedor) => new Provider(proveedor));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return proveedores;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const actualizarProveedor = async({nit, nombre, telefono, direccion}) => {
+  let result = {
+    state: 'OK',
+    message: 'Se ha actualizado con éxito el proveedor',
+  }
+  try {
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+
+    const query =  'BEGIN updateProveedor(:nit ,:nombre, :telefono, :direccion); END;'
+    await connection.execute(query, {nit, nombre, telefono, direccion}, { autoCommit: true });
+
+    if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+    }
+    return result
+  } catch (error) {
+    result.state = 'ERROR';
+    result.message='No se ha hecho la actualizacion, verifique el error con el adminsitrador'
+    console.log(error)
+    return result;
+  }
 }

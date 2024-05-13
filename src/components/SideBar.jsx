@@ -32,10 +32,10 @@ export const SideBar = () => {
               Agregar dinero caja
             </Link>
             <Link
-              className={`containerMenu-nav-link ${location.pathname === "/agregar-proveedor" && "active"}`}
-              to="agregar-proveedor"
+              className={`containerMenu-nav-link ${location.pathname === "/gestionar-proveedor" && "active"}`}
+              to="/gestionar-proveedor"
             >
-              Agregar proveedor
+              Gestioinar Proveedor
             </Link>
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/ventas" && "active"}`}

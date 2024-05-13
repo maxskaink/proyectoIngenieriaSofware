@@ -34,7 +34,15 @@ export const AddProvider = () => {
         await addProvider(providerData)
             .then(() => alert("Se ha agregado el proveedor exxitosamente"))
             .catch(() => alert("No se pudo agregar el proveedor"));
-        console.log(providerData);
+        
+        setProviderData({
+            nit: '',
+            nombre: '',
+            telefono: '',
+            direccion: ''
+        });
+        window.location.href = '/gestionar-proveedor';
+
     };
 
     return (
