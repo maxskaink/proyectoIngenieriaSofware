@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@200..700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@200..700&display=swap');
 body {
-  font-family: sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -23,9 +21,26 @@ body {
   margin-bottom: 3vh;
   transition: 0.4s;
   color: #c7c7c7;
-
+  font-family: 'Oswald';
 }
 
+
+.sidebar {
+  width: 300px; /* Ancho del sidebar */
+  background: linear-gradient(
+    140deg,
+    rgba(42, 121, 128, 1) 5%,
+    rgba(31, 82, 93, 1) 69%,
+    rgba(28, 73, 85, 1) 78%
+    
+  );
+  transition: all 500ms ease;
+  position: fixed; /* Posicionamiento fijo */
+  top: 0; /* Posición superior */
+  left: 0; /* Posición izquierda */
+  height: 100vh; /* Altura del sidebar */
+  
+}
 .sidebar nav a {
   display: flex;
   padding: 15px 10px;
@@ -56,6 +71,7 @@ body {
 h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  font-family: 'Oswald';
 }
 
 p {
@@ -65,7 +81,6 @@ p {
 /* style.css */
 
 body {
-  font-family: sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -75,22 +90,6 @@ body {
   height: 100vh; /* Asignamos altura al contenedor */
 }
 
-.sidebar {
-  width: 300px; /* Ancho del sidebar */
-  background: linear-gradient(
-    140deg,
-    rgba(42, 121, 128, 1) 5%,
-    rgba(31, 82, 93, 1) 69%,
-    rgba(28, 73, 85, 1) 78%
-    
-  );
-  transition: all 500ms ease;
-  position: fixed; /* Posicionamiento fijo */
-  top: 0; /* Posición superior */
-  left: 0; /* Posición izquierda */
-  height: 100vh; /* Altura del sidebar */
- 
-}
 
 /* Estilos para el menú de navegación (sin cambios) */
 
