@@ -112,7 +112,7 @@ export const constularDineroCaja = async () => {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
   
     // Consulta SELECT
-    const query = 'select dineroTOtal from caja where codigocaja = 1';
+    const query = 'select dineroTotal from caja where codigocaja = 1';
     const result = await connection.execute(query);
   
     // Extraer filas del resultado
@@ -126,14 +126,13 @@ export const constularDineroCaja = async () => {
   }
 }
 
-export const crearCompra = async ({address = "", contact = "", providerName="",products = []}) => {
+export const crearCompra = async ({nitProveedor = "", idSucursal = "",products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
 
-    const query = `insert into COMPRA (direccion, contacto, nombreProveedor, preciototalcompra,fecha) values (:address, :contact, :providerName, 0,SYSDATE)`;
-    
-    await connection.execute(query, {address, contact, providerName}, { autoCommit: true });
+    const query = `BEGIN INSERTCOMPRA(:nitProveedor,:idSucursal) ; END;`
+    await connection.execute(query, {nitProveedor,idSucursal}, { autoCommit: true });
 
 
     const query2 = `select codigoCompra from compra order by fecha desc FETCH FIRST ROW ONLY`;
