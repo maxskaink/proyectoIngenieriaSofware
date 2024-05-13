@@ -1,10 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+
 .products-order {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-  min-height: 200px;
-  overflow: auto;
+  height: 80vh; 
+  display: flex;
+  border-radius: 2%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  background-color: #f2f6f957;
 }
 
 .products-order-title {
@@ -12,14 +16,94 @@
   margin-bottom: 20px;
   color: #333;
 }
+.cont-List-Product{
+  overflow: auto;
+  display: grid;
+  
+  
+}
 
 .products-list {
   list-style: none;
-  padding: 0;
+  padding: 29px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
+
 .products-list p {
-  margin: 0;
-  padding: 10px;
-  color: #777;
+  color: #0c0c0c;
+  font-family: 'Encode Sans Expanded';
+  background-color: #f5f5f5;
+  color: #b5b5b5;
+  text-align: center;
+}
+
+.dinero{
+  font-family:
+  "Encode Sans Expanded",
+  Encode Sans Expanded;
+  overflow: unset;
+  margin-top: auto;
+  background-color: #e3e3e31e;
+  border-bottom-left-radius: 2%;
+  padding: 2%;
+  
+}
+
+
+/* Columnas indices */
+
+.columnaHeader-Product {
+  color: #b5b5b5;
+  text-align: center;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2%;
+}
+.contenedor-Product{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 9%;
+  overflow: auto;
+}
+
+
+.product-compra{
+    text-align: center;
+    padding: 10px;
+}
+
+.section-prodcunts{
+  overflow: auto;
+}
+
+
+.button-compra{
+  align-content: center;
+}
+.button-compra button{
+  align-items: center;
+  font-family: 'Encode Sans Expanded';
+  font-size: 18px;
+  background-color: #ca3b3b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 70%;
+}
+
+.aviso-noProductos{
+  color: #bbbbbb;
+  font-family: sans-serif;
+  height: 600px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
