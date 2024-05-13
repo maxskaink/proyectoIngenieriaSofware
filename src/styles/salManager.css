@@ -10,19 +10,11 @@
 }
 .contenedorSalManager {
     /* Existing styles */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: "Encode Sans Expanded", Encode Sans Expanded;
-    padding: 0px;
+    height: 80vh; 
+    margin-left:  20%;
+    border-radius: 2%;
+    justify-content: space-between;
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin: 30px;
-    margin-top: 0;
-    width: 50vh;
-    height: 70vh;
-  
-    /* Centering styles */
-   
     transition: .5s;
   }
 
@@ -37,12 +29,9 @@
     justify-content: center;
   }
   .contenido{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 30%;
   }
   .cmbxOption{
     height: 42px;
@@ -65,5 +54,6 @@
     width: 100%;
   }
   .contendorMedioPago{
-    margin-top: 30px;
+      background-color: #f7f7f7;
+      padding: 16px;
   }

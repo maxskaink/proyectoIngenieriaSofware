@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap");
 #root {
+  font-family: 'Encode Sans Expanded';
   display: grid;
-  grid-template-columns: 20% 2fr;
+  grid-template-columns: 0% 2fr;
   grid-gap: 20px;
+  background-image: radial-gradient(ellipse farthest-corner at 45px 30px , #7ed56fcc    50%,  50%, rgba(40, 180, 131) 50% );  
 }
 
 html,

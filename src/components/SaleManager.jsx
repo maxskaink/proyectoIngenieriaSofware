@@ -78,17 +78,12 @@ export const SaleManager = () => {
   return (
     <div className="boardSalManager"> 
       <div className="contenedorSalManager">
-        
-        <h1 className="tituloVentas">Ventas</h1>
         <div className="contenido">
-          <SelectProductOrder 
-            onAddProduct={addProduct}
-            justWithStock
-          />
 
-       
-
-          <div className="contendorMedioPago">
+        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+        
+        <div className="contendorMedioPago">
+        <SelectProductOrder onAddProduct={addProduct} justWithStock/>
             <form>
               <label >
                 <p>Medio de Pago:</p>
@@ -103,8 +98,9 @@ export const SaleManager = () => {
                 <p>Enviar</p>
               </button>
             </form>
+           
           </div>
-          <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+    
         </div>
       </div>
     </div>
