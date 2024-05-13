@@ -953,8 +953,8 @@ BEGIN
     INTO v_contador
     FROM lote
     WHERE idLote = p_ID;
-     v_FechaProduccion:= TO_DATE(p_FechaProduccion,'DD-MM-YYYY');
-     v_FechaVencimiento:= TO_DATE(p_FechaVencimiento,'DD-MM-YYYY');
+     v_FechaProduccion:= TO_DATE(p_FechaProduccion,'DD/MM/YYYY');
+     v_FechaVencimiento:= TO_DATE(p_FechaVencimiento,'DD/MM/YYYY');
     IF v_contador > 0 THEN
         RAISE_APPLICATION_ERROR(-20111, 'Ya existe el lote ingresado');
     ELSE

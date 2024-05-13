@@ -2,10 +2,8 @@ import {agregarProducto,
         consultarProductos, 
         actualizarProducto, 
         consultarProductoId, 
-        constularDineroCaja,
         crearCompra,
         crearVenta,
-        agregarDineroCaja,
         consultarInformes,
         obtenerCategorias,
         agregarProveedor,
@@ -14,6 +12,12 @@ import {agregarProducto,
         agregarCliente,
         obtenerClientes,
         actualizarCliente,
+        agregarSucursal,
+        agregarDineroSucursal,
+        actualizarSucursal,
+        consultarDineroSucursal,
+        actualizarEstadoVenta,
+        agregarLote
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -56,19 +60,6 @@ app.get('/consultar-producto-id', async (req, res) => {
     res.status(500).json({ error: 'Error al consultar productos' });
   }
 });
-
-app.get('/constular-dinero-caja', async (req, res) => {
-  try {
-    // Llamar a la función que consulta el dinero en caja
-    const dinero = await constularDineroCaja();
-
-    // Enviar el dinero como respuesta
-    res.json(dinero);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al consultar dinero en caja' });
-  }
-});
-
 app.put('/actualizar-producto', async (req, res) => {
   const result = await actualizarProducto(req.body)
   .catch(err => console.log(err))
@@ -97,20 +88,6 @@ app.post('/crear-venta', async (req, res) => {
       res.json(result);
   else
       res.status(500).json(result);
-});
-
-app.post('/agregar-dinero-caja', async (req, res) => {
-  const result = await agregarDineroCaja(req.body)
-  .catch(err => console.log(err))
-
-  if(result.state === 'OK')
-      res.json(result);
-  else
-      res.status(500).json(result);
-});
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
 });
 
 app.get('/consultar-informes', async(req, res) => {
@@ -200,4 +177,71 @@ app.put('/actualizar-cliente', async (req, res) => {
       res.json(result);
   else
       res.status(500).json(result);
+});
+
+app.post( '/agregar-sucursal', async (req, res) => {
+  const result = await agregarSucursal(req.body)
+    .catch(err => console.log(err));
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.put('/agregar-dinero-sucursal', async (req, res) => {
+  const result = await agregarDineroSucursal(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.put('/actualizar-sucursal', async (req, res) => {
+  const result = await actualizarSucursal(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.get('/consultar-dinero-sucursal', async (req, res) => {
+  try {
+    // Llamar a la función que consulta el dinero de la sucursal
+    const dinero = await consultarDineroSucursal(req.query);
+    if(dinero === undefined)
+        throw new Error('Error al consultar dinero de la sucursal');
+    // Enviar el dinero como respuesta
+    res.json(dinero);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar dinero de la sucursal' });
+  }
+});
+
+app.put('/actualizar-estado-venta', async (req, res) => {
+  const result = await actualizarEstadoVenta(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.post('/agregar-lote', async (req, res) => {
+  const result = await agregarLote(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
 });
