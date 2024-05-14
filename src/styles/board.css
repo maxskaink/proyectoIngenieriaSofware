@@ -35,11 +35,8 @@ body {
     
   );
   transition: all 500ms ease;
-<<<<<<< test
-  position: fixed; /* Posicionamiento fijo */
-=======
   position:relative; /* Posicionamiento fijo */
->>>>>>> bdd
+
   top: 0; /* Posición superior */
   left: 0; /* Posición izquierda */
   height: 100vh; /* Altura del sidebar */
