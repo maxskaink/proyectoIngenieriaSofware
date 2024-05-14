@@ -18,6 +18,7 @@ import {agregarProducto,
         consultarDineroSucursal,
         actualizarEstadoVenta,
         agregarLote,
+        obtenerLotes,
         obtenerSucursales,
         consultarProductosSucursal
       } from '../BackEnd/logica.js';
@@ -265,6 +266,18 @@ app.post('/agregar-lote', async (req, res) => {
       res.json(result);
   else
       res.status(500).json(result);
+});
+
+app.get('/obtener-lotes', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los lotes
+    const lotes = await obtenerLotes();
+
+    // Enviar los lotes como respuesta
+    res.json(lotes);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar lotes' });
+  }
 });
 
 // Iniciar el servidor

@@ -4,6 +4,7 @@ import { Inform } from "../src/class/inform.js";
 import { Provider } from "../src/class/provider.js";
 import { Client } from "../src/class/client.js";
 import { Sucursal } from "../src/class/sucursal.js";
+import { Lote } from "../src/class/lote.js";
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -196,7 +197,7 @@ export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
 //#endregion
 
 //#region Compras y ventas
-export const crearCompra = async ({nitProveedor, idSucursal ,products = []}) => {
+export const crearCompra = async ({nitProveedor, idSucursal , products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
@@ -211,12 +212,13 @@ export const crearCompra = async ({nitProveedor, idSucursal ,products = []}) => 
 
     for (let i = 0; i < products.length; i++) {
       const producto = products[i];
-      const query3 = `BEGIN insertProductoCompra(:idProducto, :idCompra,:cantidad, :precioUnitario); END;`;
+      const query3 = `BEGIN insertProductoCompra(:idCompra,:idProducto, :cantidad, :precioUnitario, :idLote); END;`;
       await connection.execute(query3, {
         idProducto: producto.product.id,
         idCompra,
         cantidad: producto.quantity,
-        precioUnitario: producto.price
+        precioUnitario: producto.price,
+        idLote: producto.idLote
       }, { autoCommit: true });
     }
 
@@ -572,4 +574,23 @@ export const agregarLote = async ({idLote, fProduccion, fVencimiento }) => {
   return result;
 
 };
+
+export const obtenerLotes = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = "select idLote, to_char(fechaProduccion, 'DD-MM-YYYY'), to_char(fechaVencimiento, 'DD-MM-YYYY') from lote";
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const lotes = result.rows.map( (lote) => new Lote(lote));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return lotes;
+  } catch (err) {
+    console.log(err)
+  }
+}
 //#endregion

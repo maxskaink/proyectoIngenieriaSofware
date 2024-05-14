@@ -92,6 +92,8 @@ export const updateStateSale = async (info) =>
 
 export const addLot = async (lot) => await axios.post(API.agregarLote, lot);
 
+export const getLots = async () => await axios.get(API.obtenerLotes).then((res) => res.data);
+
 export const getProductsBranch = async (idSucursal) => {
   return await axios
     .get(API.consultarProductosSucursal, { params: { idSucursal } })

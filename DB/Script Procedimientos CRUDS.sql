@@ -83,11 +83,11 @@ CREATE OR REPLACE PROCEDURE insertProductoCompra(
     p_CODIGOCOMPRA IN NUMBER,
     p_idProducto IN NUMBER,
     p_cantidad  IN NUMBER,
+    p_precioUnitario IN NUMBER,
     p_idLote IN NUMBER
 
 )
 IS
-    precioProducto PRODUCTO.PrecioActual%TYPE;
     capitalSucursal Sucursal.Capital%TYPE;
     v_idsucursal Compra.idsucursal%TYPE;
     v_count NUMBER;
@@ -119,25 +119,22 @@ BEGIN
     -- Obtener el capital de la sucursal
     SELECT Capital INTO capitalSucursal FROM Sucursal WHERE IDSUCURSAL = V_IDSUCURSAL;
 
-    -- Obtener el precio actual del producto
-    SELECT PrecioActual INTO precioProducto FROM Producto WHERE idProducto = p_idProducto;
-
     -- Verificar si hay suficiente capital en la sucursal
-    IF capitalSucursal - (precioProducto * p_cantidad) < 0 THEN
+    IF capitalSucursal - (p_precioUnitario * p_cantidad) < 0 THEN
         RAISE_APPLICATION_ERROR(-20004, 'No hay suficiente capital en la sucursal');
     END IF;
 
     -- Actualizar el capital en la sucursal
-    UPDATE Sucursal SET Capital = Capital - (precioProducto * p_cantidad)
+    UPDATE Sucursal SET Capital = Capital - (p_precioUnitario * p_cantidad)
     WHERE IDSUCURSAL = V_IDSUCURSAL;
 
     -- Insertar el producto en la tabla ProductosCompra
     INSERT INTO ProductoCompra (idProducto, CODIGOCOMPRA, cantidad, idlote, precioUnitario)
-    VALUES (p_idProducto, p_CODIGOCOMPRA, p_cantidad, p_idlote, precioProducto);
+    VALUES (p_idProducto, p_CODIGOCOMPRA, p_cantidad, p_idlote, p_precioUnitario);
 
 
     -- Actualizar el precio total de la compra
-    UPDATE Compra SET preciototal = preciototal + (precioProducto * p_cantidad) 
+    UPDATE Compra SET preciototal = preciototal + (p_precioUnitario * p_cantidad) 
     WHERE CODIGOCOMPRA = p_CODIGOCOMPRA;
 
     -- Actualizar el inventario de la sucursal en la tabla InventarioSucursal

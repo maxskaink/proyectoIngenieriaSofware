@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import {  getProductsBranch } from "../helpers/querys";
+
+import { SelectLot } from "./SelectLot";
+
 import PropTypes from "prop-types";
 import "../styles/selectProduct.css";
 
-export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualOrder }) => {
+export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualOrder, showLote }) => {
   const [products, setProducts] = useState([]);
   const [actualProduct, setActualProduct] = useState({
     product: undefined,
@@ -45,11 +48,14 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
     onAddProduct(actualProduct);
   };
 
+  const handleSelectLot = (idLote) => 
+    setActualProduct((prevOrder) => ({ ...prevOrder, idLote }));
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await getProductsBranch(actualOrder.idSucursal);
-        console.log(response.data, actualOrder.idSucursal);
+  
         setProducts(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -89,6 +95,11 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
           />
         )}
 
+        {showLote && (
+
+          <SelectLot handleSelectLot={handleSelectLot} disabled={!actualOrder.idSucursal}/>
+        )}
+
         <button className="add-button" type="submit">
           Agregar
         </button>
@@ -100,5 +111,6 @@ SelectProductOrder.propTypes = {
   onAddProduct: PropTypes.func.isRequired,
   price: PropTypes.bool,
   justWithStock: PropTypes.bool,
-  actualOrder: PropTypes.object
+  actualOrder: PropTypes.object,
+  showLote: PropTypes.bool
 };

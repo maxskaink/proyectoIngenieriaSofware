@@ -23,5 +23,6 @@ export const API = {
   consultarDineroSucursal: "http://localhost:3001/consultar-dinero-sucursal",
   actualizarEstadoVenta : "http://localhost:3001/actualizar-estado-venta",
   agregarLote: "http://localhost:3001/agregar-lote",
+  obtenerLotes: "http://localhost:3001/obtener-lotes",
   consultarProductosSucursal: "http://localhost:3001/consultar-productos-sucursal",
 };

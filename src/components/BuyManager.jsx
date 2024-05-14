@@ -101,7 +101,7 @@ export const BuyManager = () => {
         </div>
         <div className="Columna-2">
           <h1 className="compras-titulo">Compras </h1>
-          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} />
+          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} showLote/>
 
           <div >
             <form className="contendorProveedor">
