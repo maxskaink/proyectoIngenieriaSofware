@@ -21,7 +21,9 @@ import {agregarProducto,
         obtenerLotes,
         obtenerSucursales,
         consultarProductosSucursal,
-        obtenerTrabajadores
+        obtenerTrabajadores, 
+        agregarTrabajador,
+        actualizarTrabajador
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -293,6 +295,26 @@ app.get('/obtener-trabajadores', async (req, res) => {
     res.status(500).json({ error: 'Error al consultar trabajadores' });
   }
 });
+
+app.post('/agregar-trabajador', async (req, res) => {
+  const result = await agregarTrabajador(req.body)
+  .catch(err => console.log(err))
+
+  if(result.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.put('/actualizar-trabajador', async (req, res) => {
+  const result = await actualizarTrabajador(req.body)
+  .catch(err => console.log(err))
+  if(result?.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor Express escuchando en http://localhost:${PORT}`);

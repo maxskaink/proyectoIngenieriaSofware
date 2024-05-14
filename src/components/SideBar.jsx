@@ -23,12 +23,6 @@ export const SideBar = () => {
               <p>Gestionar Sucursales</p>
             </Link>
             <Link
-              className={`containerMenu-nav-link ${location.pathname === "/agregar-dinero" && "active"}`}
-              to="/agregar-dinero"
-            >
-              Agregar dinero caja
-            </Link>
-            <Link
               className={`containerMenu-nav-link ${location.pathname === "/gestionar-proveedor" && "active"}`}
               to="/gestionar-proveedor"
             >
