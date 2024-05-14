@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 
 const defaultWorker = new Trabajador(['', '', '', '', '', '']);
 
-export const SelectWorker = ({handleSelectWorker}) => {
+export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => {
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState('');
 
@@ -28,6 +28,7 @@ export const SelectWorker = ({handleSelectWorker}) => {
             <select id="worker" value={selectedWorker} onChange={handleWorkerChange}>
                 <option value="">Selecciona...</option>
                 {workers.map((worker = defaultWorker) => (
+                    filterWorker(worker) &&
                     <option key={worker.cedulaTrabajador} value={worker.cedulaTrabajador}>
                         {worker.nombre}
                     </option>
@@ -39,4 +40,5 @@ export const SelectWorker = ({handleSelectWorker}) => {
 
 SelectWorker.propTypes = {
     handleSelectWorker: PropTypes.func.isRequired,
+    filterWorker: PropTypes.func
 };

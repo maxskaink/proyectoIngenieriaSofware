@@ -6,7 +6,11 @@ import { ProductsOrder } from "./ProductsOrder";
 import { SelectWorker } from "./SelectWorker";
 import { createSale } from "../helpers/querys";
 import { useState } from "react";
+import { Trabajador } from "../class/trabajador";
 import "../styles/salManager.css";
+
+
+const defaultWorker = new Trabajador(['', '', '', '', '', '']);
 export const SaleManager = () => {
   const [order, setOrder] = useState({
     products: [],
@@ -92,6 +96,7 @@ export const SaleManager = () => {
   const handleSelectWorker = (cedulaTrabajador) => {
     setOrder((prevOrder) => ({ ...prevOrder, cedulaTrabajador }));
   }
+  const filterWorker = (worker=defaultWorker) => worker.idSucursal.toString() === order.idSucursal.toString();
   return (
     <div className="boardSalManager"> 
       <div className="contenedorSalManager">
@@ -104,7 +109,7 @@ export const SaleManager = () => {
             <form>
               <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
               <SelectClient handleSelectedClient={handleSelectClient} />
-              <SelectWorker handleSelectWorker={handleSelectWorker} />
+              <SelectWorker handleSelectWorker={handleSelectWorker} filterWorker={filterWorker}/>
               <button className= "bttEnviar" type="button" onClick={handleSubmit}>
                 <p>Enviar</p>
               </button>
