@@ -341,7 +341,7 @@ END;
 
 --CRUD TRABAJADOR
 /
-CREATE OR REPLACE PROCEDURE insertarTrabajador(
+CREATE OR REPLACE PROCEDURE insertTrabajador(
     p_cedula NUMBER, 
     p_idSucursal NUMBER, 
     p_nombre VARCHAR2,
@@ -985,5 +985,4 @@ END;
 --de compra y venta.Tambi�n se hace para mantener un registro hist�rico
 --preciso y como medida de seguridad  para evitar modificaciones no 
 --autorizadas o accidentales en datos cr�ticos del inventario.
-
 

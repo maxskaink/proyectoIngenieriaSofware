@@ -98,6 +98,39 @@ export const BuyManager = () => {
       <div className="manageBuy">
         <div className="Columna-1">
           <ProductsOrder order={order} onDeleteProduct={deleteProduct} showActualMoney />
+<<<<<<< test
+        </div>
+        <div className="Columna-2">
+          <h1 className="compras-titulo">Compras </h1>
+          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} />
+
+          <div >
+            <form className="contendorProveedor">
+              <input
+                type="text"
+                name="providerName"
+                placeholder="Nombre del proveedor"
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="contact"
+                placeholder="Contacto"
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="address"
+                placeholder="Dirección"
+                onChange={handleInputChange}
+              />
+              <button className="buttonA" type="button" onClick={handleSubmit}>
+                Enviar
+              </button>
+            </form>
+          </div>
+        </div>
+=======
         </div>
         <div className="Columna-2">
           <h1 className="compras-titulo">Compras </h1>
@@ -114,6 +147,7 @@ export const BuyManager = () => {
             </form>
           </div>
         </div>
+>>>>>>> bdd
         
       </div>
     </div>
