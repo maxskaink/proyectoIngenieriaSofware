@@ -17,7 +17,9 @@ import {agregarProducto,
         actualizarSucursal,
         consultarDineroSucursal,
         actualizarEstadoVenta,
-        agregarLote
+        agregarLote,
+        obtenerSucursales,
+        consultarProductosSucursal
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -41,6 +43,18 @@ app.get('/consultar-productos', async (req, res) => {
   try {
     // Llamar a la función que consulta los productos
     const productos = await consultarProductos();
+
+    // Enviar los productos como respuesta
+    res.json(productos);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar productos' });
+  }
+});
+
+app.get('/consultar-productos-sucursal', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los productos de una sucursal
+    const productos = await consultarProductosSucursal(req.query);
 
     // Enviar los productos como respuesta
     res.json(productos);
@@ -196,6 +210,18 @@ app.put('/agregar-dinero-sucursal', async (req, res) => {
       res.json(result);
   else
       res.status(500).json(result);
+});
+
+app.get('/consultar-sucursales', async (req, res) => {
+  try {
+    // Llamar a la función que consulta las sucursales
+    const sucursales = await obtenerSucursales();
+
+    // Enviar las sucursales como respuesta
+    res.json(sucursales);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar sucursales' });
+  }
 });
 
 app.put('/actualizar-sucursal', async (req, res) => {

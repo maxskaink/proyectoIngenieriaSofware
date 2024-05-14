@@ -72,3 +72,28 @@ export const addClient = async (client) => await axios.post(API.agregarCliente, 
 export const getClients = async () => await axios.get(API.consultarClientes).then((res) => res.data);
 
 export const updateClient = async (client) => await axios.put(API.actualizarCliente, client);
+
+export const addBranch = async (branch) => await axios.post(API.agregarSucursal, branch);
+
+export const addMoneyBranch = async (info) => await axios.put(API.agregarDineroSucursal, info);
+
+export const getBranchs = async () => await axios.get(API.consultarSucursales).then((res) => res.data);
+
+export const updateBranch = async (branch) => await axios.put(API.actualizarSucursal, branch);
+
+export const getMoneyBranch = async (idSucursal) => {
+  return await axios
+    .get(API.consultarDineroSucursal, { params: { idSucursal } })
+    .then((res) => res);
+};;
+
+export const updateStateSale = async (info) => 
+  await axios.put(API.actualizarEstadoVenta, { info });
+
+export const addLot = async (lot) => await axios.post(API.agregarLote, lot);
+
+export const getProductsBranch = async (idSucursal) => {
+  return await axios
+    .get(API.consultarProductosSucursal, { params: { idSucursal } })
+    .then((res) => res);
+};

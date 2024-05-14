@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../helpers/querys";
+import {  getProductsBranch } from "../helpers/querys";
 import PropTypes from "prop-types";
 import "../styles/selectProduct.css";
 
@@ -48,25 +48,25 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts();
-        console.log(response.data);
+        const response = await getProductsBranch(actualOrder.idSucursal);
+        console.log(response.data, actualOrder.idSucursal);
         setProducts(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
     };
     fetchProducts();
-  }, [actualOrder, actualProduct]);
+  }, [actualOrder, actualProduct, justWithStock]);
 
   return (
     <div className="ContendedorCompra">
       <form onSubmit={handleSubmit} className="add-product-form">
-        <select className="select-product" onChange={handleSelectChange}>
+        <select className="select-product" onChange={handleSelectChange} disabled={!actualOrder.idSucursal}>
           <option value="0">Seleccione un producto</option>
           {products.map((product) => (
-            ( (justWithStock)? parseInt(product.cantidadStock) > 0 : true)&&
+            ( (justWithStock)? parseInt(product.cantidad) > 0 : true)&&
             <option key={product.id} value={product.id}>
-              { (product.nombre + " -  Precio Venta:" + product.precio + " - Stock:" + product.cantidadStock)}
+              { (product.nombre + " -  Precio Venta:" + product.precio + " - Stock:" + product.cantidad)}
             </option>
           ))}
         </select>
@@ -76,6 +76,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
           type="number"
           placeholder="Cantidad"
           onChange={handleQuantityChange}
+          disabled={!actualOrder.idSucursal}
         />
 
         {price && (
@@ -84,6 +85,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
             type="number"
             placeholder="Precio Unitario"
             onChange={handlePriceChange}
+            disabled={!actualOrder.idSucursal}
           />
         )}
 

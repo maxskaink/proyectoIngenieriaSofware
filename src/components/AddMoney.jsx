@@ -1,39 +1,51 @@
 import  { useState } from 'react';
-import {addMoney} from '../helpers/querys';
+import { addMoneyBranch} from '../helpers/querys';
+import { SelectSucursal } from './SelectSucursal';
 
 export const AddMoney = () => {
-    const [amount, setAmount] = useState('');
+    const [info, setInfo] = useState({
+        idSucursal: undefined,
+        dinero: 0
+    });
 
     const handleInputChange = (e) => {
-        setAmount(e.target.value);
+        setInfo({
+            ...info,
+            dinero: e.target.value
+        });
     };
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        // Validaciones básicas
-        if (amount.trim() === '') return alert('Por favor ingresa una cantidad');
 
-        if (isNaN(amount)) return alert('Por favor ingresa un número válido');
+        if(parseInt(info.dinero) <= 0) return alert('Por favor ingresa una cantidad mayor a 0');
 
-        if(parseInt(amount) <= 0) return alert('Por favor ingresa una cantidad mayor a 0');
-
-        addMoney( parseInt(amount) )
+        console.log(info);
+        await addMoneyBranch(info)
             .then(() => alert('Dinero agregado correctamente'))
-            .catch(() => alert('Error al agregar el dinero'));
-
-        setAmount('');
+            .catch(() => alert('Error al agregar dinero'));
+        //window.location.reload();
     };
+
+    const handleSelectSucursal = (idSucursal) => {
+        setInfo({
+            ...info,
+            idSucursal
+        });
+    }
 
     return (
         <div>
             <h2>Agregar Dinero</h2>
             <form onSubmit={handleSubmit}>
+                <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <input
-                    type="text"
-                    value={amount}
+                    type="number"
+                    value={info.dinero}
                     onChange={handleInputChange}
                     placeholder="Ingrese la cantidad"
+                    required
                 />
                 <button type="submit">Agregar</button>
             </form>

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { getActualMoney } from "../helpers/querys";
+import { getMoneyBranch } from "../helpers/querys";
 import "../styles/productsOrder.css";
 
 const Product = ({ index, product, onHandleDelete, quantity, price }) => {
@@ -31,7 +31,10 @@ export const ProductsOrder = ({ order, onDeleteProduct, showActualMoney }) => {
       });
       setTotalPrice(total);
       if(showActualMoney){
-        getActualMoney().then((res) => setActualMoney(res.data));
+        if( order.idSucursal )
+          getMoneyBranch(order.idSucursal).then((res) => setActualMoney(res.data));
+        else
+          setActualMoney('Seleccione una sucursal');
       }
     };
     loadProducsOrder();

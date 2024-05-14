@@ -146,9 +146,8 @@ BEGIN
     WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
-        -- Deshacer la transacci�n hasta el SAVEPOINT
         ROLLBACK TO inicio_transaccion;    
+        RAISE_APPLICATION_ERROR(-20004,SQLERRM);
     END;
 END insertProductoCompra;
 /

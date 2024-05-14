@@ -3,12 +3,33 @@ import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
 import { Provider } from "../src/class/provider.js";
 import { Client } from "../src/class/client.js";
+import { Sucursal } from "../src/class/sucursal.js";
 
 const user = 'gestiontotal'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
 
 //#region Productos
+
+export const consultarProductosSucursal = async ({idSucursal}) => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from productos_inventario where idSucursal = :idSucursal OR nvl(idSucursal, 0) = 0';
+    const result = await connection.execute(query, {idSucursal});
+    // Extraer filas del resultado
+    const productos = result.rows.map( (producto) => new Product(producto));
+  
+    // Cerrar la conexión
+    await connection.close();
+  
+    return productos;
+  } catch (err) {
+    console.log(err)
+  }
+};
 export const agregarProducto = async ({nombre, descripcion, precio, categoria }) => {
     let connection;
 
@@ -159,10 +180,10 @@ export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
     const result = await connection.execute(query, {idSucursal}, { autoCommit: true });
     const dineroActual = result.rows[0][0];
     //Sumamos el dinero actual con el dinero que se va a agregar
-    dinero += dineroActual;
+    const dineroTotal = parseInt(dineroActual) + parseInt(dinero);
 
-    const query2 = `BEGIN updateSucursalCapital(:idSucursal,:dinero); END;`;
-    await connection.execute(query2, {idSucursal,dinero}, { autoCommit: true });
+    const query2 = `BEGIN updateSucursalCapital(:idSucursal,:dineroTotal); END;`;
+    await connection.execute(query2, {idSucursal,dineroTotal}, { autoCommit: true });
 
     await connection.close();
 
@@ -190,7 +211,7 @@ export const crearCompra = async ({nitProveedor, idSucursal ,products = []}) => 
 
     for (let i = 0; i < products.length; i++) {
       const producto = products[i];
-      const query3 = `BEGIN InsertarProductoEnCompra(:idProducto, :idCompra,:cantidad, :precioUnitario); END;`;
+      const query3 = `BEGIN insertProductoCompra(:idProducto, :idCompra,:cantidad, :precioUnitario); END;`;
       await connection.execute(query3, {
         idProducto: producto.product.id,
         idCompra,
@@ -463,7 +484,7 @@ export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", t
   }
   try {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-
+    
     //TODO falta implemtentar todo eso, pero primero se necesita la base de datos lista
     if(activado == 1){
       const query1 =  'BEGIN activateSucursal(:idSucursal); END;'
@@ -483,6 +504,9 @@ export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", t
         const query4 =  'BEGIN updateSucursalTelefono(:idSucursal, :telefono); END;'
         await connection.execute(query4, {idSucursal, telefono}, { autoCommit: true });
       }
+    }else if(activado == 0){
+      const query =  'BEGIN desactivateSucursal(:idSucursal); END;'
+      await connection.execute(query, {idSucursal}, { autoCommit: true });
     }
     if (connection) {
       await connection.close()
@@ -494,6 +518,25 @@ export const actualizarSucursal = async({ idSucursal, nombre="", direccion="", t
     result.message='No se ha hecho la actualizacion'
     console.log(error)
     return result;
+  }
+}
+
+export const obtenerSucursales = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from sucursal';
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const sucursales = result.rows.map( (sucursal) => new Sucursal(sucursal));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return sucursales;
+  } catch (err) {
+    console.log(err)
   }
 }
 //#endregion
