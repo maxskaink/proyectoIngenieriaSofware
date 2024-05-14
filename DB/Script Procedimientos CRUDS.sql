@@ -83,8 +83,14 @@ CREATE OR REPLACE PROCEDURE insertProductoCompra(
     p_CODIGOCOMPRA IN NUMBER,
     p_idProducto IN NUMBER,
     p_cantidad  IN NUMBER,
+<<<<<<< HEAD
     p_idLote IN NUMBER,
     p_precioUnitario IN NUMBER
+=======
+    p_precioUnitario IN NUMBER,
+    p_idLote IN NUMBER
+
+>>>>>>> 6060289b9e78a79148c698006ca5fd0a826d95a6
 )
 IS
     capitalSucursal Sucursal.Capital%TYPE;
@@ -142,9 +148,8 @@ BEGIN
     WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
-        -- Deshacer la transacci�n hasta el SAVEPOINT
         ROLLBACK TO inicio_transaccion;    
+        RAISE_APPLICATION_ERROR(-20004,SQLERRM);
     END;
 END insertProductoCompra;
 /

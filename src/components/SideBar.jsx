@@ -16,6 +16,13 @@ export const SideBar = () => {
               <p>Gestionar Catalogo</p>
             </Link>
             <Link
+              className={`containerMenu-nav-link ${location.pathname === "/gestionar-Sucursales" && "active"}`}
+              to="/gestionar-Sucursales"
+            >
+              <i className="fa-regular fa-clipboard"></i>
+              <p>Gestionar Sucursales</p>
+            </Link>
+            <Link
               className={`containerMenu-nav-link ${location.pathname === "/agregar-dinero" && "active"}`}
               to="/agregar-dinero"
             >

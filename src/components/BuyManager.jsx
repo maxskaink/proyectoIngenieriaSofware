@@ -1,15 +1,16 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
-import { getActualMoney, createBuy } from "../helpers/querys";
+import { SelectProvider } from "./SelectProvider";
+import { SelectSucursal } from "./SelectSucursal";
+import {  createBuy, getMoneyBranch } from "../helpers/querys";
 import { useState } from "react";
 import "../styles/buyManager.css";
 
 export const BuyManager = () => {
   const [order, setOrder] = useState({
     products: [],
-    providerName: "",
-    contact: "",
-    address: "",
+    nitProveedor: undefined,
+    idSucursal: undefined
   });
 
   const addProduct = async (newItem) => {
@@ -17,7 +18,7 @@ export const BuyManager = () => {
     if (newItem.quantity === 0) return window.alert("Cantidad no válida");
     if (newItem.price === 0) return window.alert("Precio no válido");
 
-    const dineroActual = await getActualMoney().then((res) => res.data);
+    const dineroActual = await getMoneyBranch(order.idSucursal).then((res) => res.data);
 
     let totalPrice = order.products.reduce(
       (total, product) => total + product.price * product.quantity,
@@ -32,8 +33,9 @@ export const BuyManager = () => {
 
     /* Validar que no exista ya el producto,, y si existe suma las cantidades */
     const productIndex = order.products.findIndex(
-      (p) => p.product === newItem.product,
+      (p) => p.product.id === newItem.product.id,
     );
+    console.log(newItem, order.products);
     if (productIndex !== -1) {
       const updatedProducts = [...order.products];
       // Hacer una copia del producto antes de modificarlo
@@ -69,20 +71,13 @@ export const BuyManager = () => {
   const handleSubmit = async () => {
     if (order.products.length === 0)
       return window.alert("Debe seleccionar al menos un producto");
-
-    if (order.providerName.length === 0)
-      return window.alert("Ingrese el nombre del proveedor");
-
-    if (order.contact.length === 0)
-      return window.alert("Ingrese el contacto del proveedor");
-    if (order.address.length === 0)
-      return window.alert("Ingrese la dirección del proveedor");
-
+    if (!order.nitProveedor) return window.alert("Debe seleccionar un proveedor");
     try {
+      console.log(order);
       await createBuy(order);
 
       window.alert("Compra realizada exitosamente");
-      setOrder({ products: [], providerName: "", contact: "", address: "" });
+      window.location.reload();
       //window.location.reload();
     } catch (error) {
       console.error(error);
@@ -90,10 +85,13 @@ export const BuyManager = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setOrder((prevOrder) => ({ ...prevOrder, [name]: value }));
-  };
+  const handelSelectProvider = (nitProveedor) => {
+    setOrder((prevOrder) => ({ ...prevOrder, nitProveedor }));
+  }
+
+  const handleSelectSucursal = (idSucursal) => {
+    setOrder((prevOrder) => ({ ...prevOrder, idSucursal }));
+  }
 
   return (
     <div className="boardManageBuy">
@@ -103,28 +101,13 @@ export const BuyManager = () => {
         </div>
         <div className="Columna-2">
           <h1 className="compras-titulo">Compras </h1>
-          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} />
+          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} showLote/>
 
           <div >
             <form className="contendorProveedor">
-              <input
-                type="text"
-                name="providerName"
-                placeholder="Nombre del proveedor"
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="contact"
-                placeholder="Contacto"
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="address"
-                placeholder="Dirección"
-                onChange={handleInputChange}
-              />
+
+              <SelectProvider handleSelectedProvider={handelSelectProvider}/>
+              <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
               <button className="buttonA" type="button" onClick={handleSubmit}>
                 Enviar
               </button>
