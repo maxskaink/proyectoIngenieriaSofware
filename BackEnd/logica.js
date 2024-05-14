@@ -530,3 +530,85 @@ export const agregarLote = async ({idLote, fProduccion, fVencimiento }) => {
 
 };
 //#endregion
+
+//#region Trabajadores
+export const agregarTrabajador = async ({ idSucursal, nombre, puesto, salario}) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'La inserción termino de forma exitosa',
+  }
+  
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+
+  const query = 'BEGIN insertTrabajador( 1, :idSucursal, :nombre, :puesto, :salario); END;';
+  await connection.execute(query, {
+    idSucursal,
+    nombre,
+    puesto,
+    salario
+  }, { autoCommit: true })
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion'});
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+};
+
+export const actualizarTrabajador = async ({cedula, idSucursal = "" , nombre = "", puesto = "", salario = "", activado = 1 }) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'La inserción termino de forma exitosa',
+  }
+  
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+
+  if (activado == 0){
+    const query =  'BEGIN deleteTrabajador(:cedula); END;'
+    await connection.execute(query, {cedula}, { autoCommit: true });
+  }
+  else if(activado == 1){
+    const query1 =  'BEGIN activateTrabajador(:cedula); END;'
+    await connection.execute(query1, {cedula}, { autoCommit: true });
+
+    if(idSucursal != ""){
+      const query2 =  'BEGIN updateTrabajadorSucursal(:cedula, :idSucursal); END;'
+      await connection.execute(query2, {cedula, idSucursal}, { autoCommit: true });
+    }
+
+    if(nombre != ""){
+      const query3 =  'BEGIN updateTrabajadorNombre(:cedula, :nombre); END;'
+      await connection.execute(query3, {cedula, nombre}, { autoCommit: true });
+    }
+
+    if(puesto != ""){
+      const query4 =  'BEGIN updateTrabajadorCargo(:cedula, :puesto); END;'
+      await connection.execute(query4, {cedula, puesto}, { autoCommit: true });
+    }
+
+    if(salario != ""){
+      const query5 =  'BEGIN updateTrabajadorSalario(:cedula, :salario); END;'
+      await connection.execute(query5, {cedula, salario}, { autoCommit: true });
+    }
+  }
+  
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+};
+//#endregion
