@@ -25,4 +25,5 @@ export const API = {
   agregarLote: "http://localhost:3001/agregar-lote",
   obtenerLotes: "http://localhost:3001/obtener-lotes",
   consultarProductosSucursal: "http://localhost:3001/consultar-productos-sucursal",
+  obtenerTrabajadores: "http://localhost:3001/obtener-trabajadores"
 };

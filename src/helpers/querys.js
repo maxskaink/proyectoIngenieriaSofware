@@ -99,3 +99,5 @@ export const getProductsBranch = async (idSucursal) => {
     .get(API.consultarProductosSucursal, { params: { idSucursal } })
     .then((res) => res);
 };
+
+export const getWorkers = async () => await axios.get(API.obtenerTrabajadores).then((res) => res.data);

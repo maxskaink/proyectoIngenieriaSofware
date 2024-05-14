@@ -20,7 +20,8 @@ import {agregarProducto,
         agregarLote,
         obtenerLotes,
         obtenerSucursales,
-        consultarProductosSucursal
+        consultarProductosSucursal,
+        obtenerTrabajadores
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -280,6 +281,18 @@ app.get('/obtener-lotes', async (req, res) => {
   }
 });
 
+
+app.get('/obtener-trabajadores', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los trabajadores
+    const trabajadores = await obtenerTrabajadores();
+
+    // Enviar los trabajadores como respuesta
+    res.json(trabajadores);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar trabajadores' });
+  }
+});
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
