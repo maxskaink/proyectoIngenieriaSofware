@@ -1,55 +1,64 @@
-.boardManageBuy {
-  font-family:
-    "Encode Sans Expanded",
-    Encode Sans Expanded;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
-}
-.compras-titulo {
-  font-size: 1.5em;
-  color: #333;
-  text-align: center;
-  margin: 25px;
-}
-.manageBuy {
-  background-color: white;
-  height: 70vh;
-  width: 70vh;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  padding: 50px;
-  flex-wrap: nowrap;
-  align-content: stretch;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.buttonA {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #1aaf5e;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-}
-.contendorProveedor input{
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+  .boardManageBuy {
 
-.contendorProveedor{
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+    
+  }
+  .compras-titulo {
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+    margin: 25px;
+  }
+  .manageBuy {
+    background-color: white;
+    height: 80vh;
+    width: 120vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: nowrap;
+    border-radius: 2%;
+    margin-left: 20%;
+  }
+  .buttonA {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin-top: 1vh;
+    background-color: #1aaf5e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .contendorProveedor input{
+    width: 100%;
+    padding: 2vh;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .contendorProveedor{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .Columna-1{
+    flex: 1; /* La primera columna tomará el espacio disponible restante */
+    border-radius: 2%;
+
+  }
+
+  .Columna-2{
+    background-color: rgb(247, 247, 247);
+    width:  30%; /* La primera columna tomará el espacio disponible restante */
+    padding: 10px; /* Espacio interior opcional */
+    border-radius: 2%;
+  }
