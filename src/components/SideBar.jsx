@@ -50,6 +50,15 @@ export const SideBar = () => {
               <p>Crear compra</p>
             </Link>
             <Link
+              className={`containerMenu-nav-link ${location.pathname === "/agregar-lote" && "active"}`}
+              to="/agregar-lote"
+            >
+              <i className="fa-solid fa-cash-register"></i>
+              <p>Agregar Lote</p>
+              
+            </Link>
+
+            <Link
               className={`containerMenu-nav-link ${location.pathname === "/informes" && "active"}`}
               to="/informes"
             >
