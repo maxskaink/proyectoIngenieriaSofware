@@ -6,7 +6,6 @@ export const Home = () => {
   return (
     <div className= "contenedor-menu" >
       <h1>Bienvenido</h1>
-
     </div>
   );
 };

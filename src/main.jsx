@@ -6,6 +6,7 @@ import { SideBar } from "./components/SideBar";
 import { SaleManager } from "./components/SaleManager";
 import { BuyManager } from "./components/BuyManager";
 import { BusinessReport  } from "./components/BusinessReport ";
+import { AddMoney } from "./components/AddMoney";
 import "./styles/main.css";
 
 createRoot(document.getElementById("root")).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/ventas" element={<SaleManager />} />
       <Route path="/compras" element={<BuyManager />} />
       <Route path="/informes" element={<BusinessReport />} />
+      <Route path="/agregar-dinero" element={<AddMoney />} />
     </Routes>
   </BrowserRouter>,
 );
