@@ -96,7 +96,7 @@ export const SaleManager = () => {
   const handleSelectWorker = (cedulaTrabajador) => {
     setOrder((prevOrder) => ({ ...prevOrder, cedulaTrabajador }));
   }
-  const filterWorker = (worker=defaultWorker) => worker.idSucursal.toString() === order.idSucursal.toString();
+  const filterWorker = (worker=defaultWorker) => worker.idSucursal?.toString() === order.idSucursal?.toString();
   return (
     <div className="boardSalManager"> 
       <div className="contenedorSalManager">
