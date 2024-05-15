@@ -1,18 +1,34 @@
 .containerReports {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    margin-right: 20vh;
 }
 
 .containerReports-stocks {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-height: 120vh;
-    overflow: auto;
-    padding-top: 68vh;
-    max-width: 98vh;
+    background: white;
+    max-width: 110vh;
+    max-height: 90vh;
+    border-radius: 3%;
+    text-align: center;
+   
+
+}
+
+
+
+
+/* Estilos para el componente Informe Semanal */
+
+.containerInforme{
+    border-radius: 2%;
+    padding: 3vh;
+    background-color: white;
+    width: 45vh;
+    height: 84vh;
+}
+
+.selectFecha{
+    width: 40vh;
 }

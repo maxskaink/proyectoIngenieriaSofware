@@ -16,8 +16,7 @@ export const BusinessReport = () => {
 
     return (
         <div className="containerReports">
-            <div>
-                <h2>Informes semanales</h2>
+            <div className="containerInforme">
                 <WeeklyReport />
             </div>
             <div className="containerReports-stocks">

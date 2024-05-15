@@ -26,19 +26,20 @@ export const WeeklyReport = () => {
             <h1>Reportes Semanales</h1>
             {reports.length > 0 ? (
                 <div>
-                    {selectedReport ? (
-                        <Report infoReport={selectedReport} />
-                    ) : (
-                        <p>No hay informes disponibles.</p>
-                    )}
-
-                    <select name="reportSelect" id="reportSelect" onChange={handleSelectChange}>
+                     <select className='selectFecha' name="reportSelect" id="reportSelect" onChange={handleSelectChange}>
                         {reports.map((infoReport) => (
                             <option key={infoReport.SEMANA} value={infoReport.SEMANA}>
                                 {infoReport.SEMANA}
                             </option>
                         ))}
                     </select>
+                    {selectedReport ? (
+                        <Report infoReport={selectedReport} />
+                    ) : (
+                        <p>No hay informes disponibles.</p>
+                    )}
+
+                   
                 </div>
             ) : (
                 <p>No hay informes disponibles.</p>

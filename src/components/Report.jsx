@@ -6,7 +6,7 @@ const informDefault = new Inform([]);
 
 export const Report = ({ infoReport = informDefault }) => {
     return (
-        <div>
+        <div className="cont-inform-semana">
             <p>Semana: {infoReport.SEMANA}</p>
             <p>Ingresos por ventas: {infoReport.INGRESOS_VENTAS}</p>
             <p>Número de ventas: {infoReport.NUMERO_VENTAS}</p>
