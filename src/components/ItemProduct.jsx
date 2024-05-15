@@ -33,7 +33,7 @@ export const ItemProduct = ({
             hidePrice ||
             <div className="columna">{producto.precio}</div>
           }
-          {cantidadStock&&<div className="columna">{producto.cantidadStock}</div>}
+          {cantidadStock&&<div className="columna">{producto.cantidad}</div>}
         </div>
       </li>
     </div>

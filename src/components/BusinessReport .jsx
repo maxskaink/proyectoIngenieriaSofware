@@ -8,7 +8,7 @@ const defaultProduct = new Product([]);
 export const BusinessReport = () => {
 
     const hanldeValition = (producto = defaultProduct) => {
-        if (producto.cantidadStock < 5) {
+        if (producto.cantidad < 5) {
             return true;
         }
         return false;

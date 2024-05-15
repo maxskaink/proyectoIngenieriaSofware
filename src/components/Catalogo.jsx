@@ -4,7 +4,8 @@ import "../styles/catalogo.css";
 
 import { ItemProduct } from "./ItemProduct";
 import { SearchBar } from "./SearchBard";
-import { getProducts } from "../helpers/querys";
+import { SelectSucursal } from "./SelectSucursal";
+import { getProductsBranch } from "../helpers/querys";
 
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
@@ -30,6 +31,8 @@ export const Catalogo = ({
   /* Nos da la informacion de la barra de busqueda */
   const [search, setSearch] = useState("");
 
+  const [branch, setBranch] = useState(0);	
+
   /* Maneja que hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
     setSearch(value);
@@ -42,14 +45,14 @@ export const Catalogo = ({
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await getProducts();
+        const response = await getProductsBranch(branch);
         setProductos(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
     };
     fetchProductos();
-  }, [search, productSelected]);
+  }, [search, productSelected, branch]);
 
   return (
     <div className="catalogo">
@@ -59,7 +62,9 @@ export const Catalogo = ({
         }
         {hideSearch ||
           <SearchBar onSearch={handleSearch} />
-        }<div className="contenedor">
+        }
+        <SelectSucursal handleSelectedSucursal={setBranch} />
+        <div className="contenedor">
           <div className="columnaHeader">
             {" "}
             <strong> NOMBRE:</strong>{" "}
