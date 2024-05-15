@@ -18,6 +18,10 @@ export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productSelected = undefined,
   cantidadStock = false,
+  hideTitle, 
+  hideSearch,
+  hideDescription,
+  hidePrice,
   hanldeValition = () => true,
 }) => {
   /* Array de todos los productos de la base de datos */
@@ -50,22 +54,25 @@ export const Catalogo = ({
   return (
     <div className="catalogo">
       <div className="cabecera">
-        <h2 className="catalogo-titulo">Lista de Productos </h2>
-        <SearchBar onSearch={handleSearch} />
-        <div className="contenedor">
+        {hideTitle ||
+          <h2 className="catalogo-titulo">Lista de Productos </h2>
+        }
+        {hideSearch ||
+          <SearchBar onSearch={handleSearch} />
+        }<div className="contenedor">
           <div className="columnaHeader">
             {" "}
             <strong> NOMBRE:</strong>{" "}
           </div>
-          <div className="columnaHeader">
-            <strong>DESCRICION </strong>
-          </div>
+          {hideDescription || 
+          <div className="columnaHeader"> 
+            <strong> DESCRIPCION </strong> 
+            </div>}
+          {hidePrice ||
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
-          <div className="columnaHeader">
-            <strong> CATEGORIA </strong>
-          </div>
+          } 
           {
             cantidadStock && 
             <div className="columnaHeader">
@@ -86,6 +93,8 @@ export const Catalogo = ({
                   producto={producto}
                   onClick={handleClick}
                   cantidadStock={cantidadStock}
+                  hideDescription={hideDescription}
+                  hidePrice={hidePrice}
                 />
               ),
           )
@@ -102,4 +111,8 @@ Catalogo.propTypes = {
   cantidadStock: PropTypes.bool,
   handleSelectProduct: PropTypes.func,
   productSelected: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  hideSearch: PropTypes.bool,
+  hideDescription: PropTypes.bool,
+  hidePrice: PropTypes.bool,
 };
