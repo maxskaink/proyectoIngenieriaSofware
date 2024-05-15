@@ -9,9 +9,7 @@
   flex-direction: column;
 }
 .contenedorSalManager {
-    /* Existing styles */
     height: 80vh; 
-    margin-left:  20%;
     border-radius: 2%;
     justify-content: space-between;
     background-color: #ffffff;
@@ -46,7 +44,7 @@
   .bttEnviar{
     padding: 10px 20px;
     font-size: 18px;
-    background-color: #3b80ca;
+    background-color: #3bca88;
     color: #fff;
     border: none;
     border-radius: 4px;
