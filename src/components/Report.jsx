@@ -1,6 +1,6 @@
 import { Inform } from "../class/inform";
 import { PropTypes } from 'prop-types';
-
+import "../styles/report.css";
 
 const informDefault = new Inform([]);
 
