@@ -10,6 +10,7 @@ export const ItemProduct = ({
   cantidadStock,
   hideDescription,
   hidePrice, 
+  hideCategoria,
 }) => {
   const handleClick = () => {
     onClick(producto);
@@ -33,6 +34,10 @@ export const ItemProduct = ({
             hidePrice ||
             <div className="columna">{producto.precio}</div>
           }
+          {
+            hideCategoria ||
+            <div className="columna">{producto.categoria}</div>
+          }
           {cantidadStock&&<div className="columna">{producto.cantidad}</div>}
         </div>
       </li>
@@ -46,4 +51,5 @@ ItemProduct.propTypes = {
   onClick: PropTypes.func,
   hideDescription: PropTypes.bool,
   hidePrice: PropTypes.bool,
+  hideCategoria: PropTypes.bool,
 };

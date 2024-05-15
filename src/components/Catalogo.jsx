@@ -23,6 +23,7 @@ export const Catalogo = ({
   hideSearch,
   hideDescription,
   hidePrice,
+  hideCategoria,
   hanldeValition = () => true,
 }) => {
   /* Array de todos los productos de la base de datos */
@@ -31,7 +32,7 @@ export const Catalogo = ({
   /* Nos da la informacion de la barra de busqueda */
   const [search, setSearch] = useState("");
 
-  const [branch, setBranch] = useState(0);	
+  const [branch, setBranch] = useState(1);	
 
   /* Maneja que hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
@@ -63,7 +64,10 @@ export const Catalogo = ({
         {hideSearch ||
           <SearchBar onSearch={handleSearch} />
         }
-        <SelectSucursal handleSelectedSucursal={setBranch} />
+        {
+          cantidadStock &&
+            <SelectSucursal handleSelectedSucursal={setBranch} />
+        }
         <div className="contenedor">
           <div className="columnaHeader">
             {" "}
@@ -84,6 +88,12 @@ export const Catalogo = ({
               <strong> STOCK </strong>
             </div>
           }
+          {
+            hideCategoria ||
+              <div className="columnaHeader">
+                <strong> CATEGORIA </strong>
+              </div>
+          }
         </div>
       </div>
       <ul className="catalogo-lista">
@@ -100,6 +110,7 @@ export const Catalogo = ({
                   cantidadStock={cantidadStock}
                   hideDescription={hideDescription}
                   hidePrice={hidePrice}
+                  hideCategoria={hideCategoria}
                 />
               ),
           )
@@ -120,4 +131,5 @@ Catalogo.propTypes = {
   hideSearch: PropTypes.bool,
   hideDescription: PropTypes.bool,
   hidePrice: PropTypes.bool,
+  hideCategoria: PropTypes.bool,
 };

@@ -29,6 +29,7 @@ export const BusinessReport = () => {
                         hidePrice
                         //hideSearch
                         hideTitle 
+                        hideCategoria
                     />
                 </div>
                 <div>
@@ -39,6 +40,7 @@ export const BusinessReport = () => {
                         hidePrice
                         //hideSearch
                         hideTitle
+                        hideCategoria
                     />
                 </div>                                          
             </div>
