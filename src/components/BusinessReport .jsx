@@ -22,11 +22,24 @@ export const BusinessReport = () => {
             <div className="containerReports-stocks">
                 <div>
                     <h2>Informe de falta de stock o bajo stock</h2>
-                    <Catalogo cantidadStock hanldeValition={hanldeValition} />
+                    <Catalogo 
+                        cantidadStock 
+                        hanldeValition={hanldeValition}
+                        hideDescription
+                        hidePrice
+                        //hideSearch
+                        hideTitle 
+                    />
                 </div>
                 <div>
                     <h2>Informe de stock</h2>
-                    <Catalogo cantidadStock />
+                    <Catalogo 
+                        cantidadStock 
+                        hideDescription
+                        hidePrice
+                        //hideSearch
+                        hideTitle
+                    />
                 </div>                                          
             </div>
         </div>
