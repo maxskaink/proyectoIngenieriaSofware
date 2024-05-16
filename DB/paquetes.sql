@@ -36,6 +36,56 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
   -- Función para identificar a los principales clientes basados en el monto total gastado en el último mes
   FUNCTION principales_clientes_ultimo_mes RETURN clientes_tabla;
 
+  --  Crear un tipo de registro para almacenar los detalles de un producto en cierta sucursal
+  TYPE producto_sucursal_detalle IS RECORD (
+    idProducto PRODUCTO.IDPRODUCTO%TYPE,
+    nombreProducto PRODUCTO.NOMBRE%TYPE,
+    descripcionProducto PRODUCTO.DESCRIPCION%TYPE,
+    precioActual PRODUCTO.PRECIOACTUAL%TYPE,
+    activo PRODUCTO.ACTIVADO%TYPE,
+    categoria PRODUCTO.CATEGORIA%TYPE,
+    idSucursal SUCURSAL.IDSUCURSAL%TYPE,
+    CANTIDAD INVENTARIOSUCURSAL.CANTIDAD%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de compra
+  TYPE producto_sucursal_tabla IS TABLE OF producto_sucursal_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los productos en inventario de una sucursal
+  FUNCTION productos_inventario_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
+    RETURN producto_sucursal_tabla;
+  
+  -- Crear un tipo de registro para almacenar los detalles de productos activos
+  TYPE producto_detalle IS RECORD (
+    idProducto PRODUCTO.IDPRODUCTO%TYPE,
+    nombreProducto PRODUCTO.NOMBRE%TYPE,
+    descripcionProducto PRODUCTO.DESCRIPCION%TYPE,
+    precioActual PRODUCTO.PRECIOACTUAL%TYPE,
+    activo PRODUCTO.ACTIVADO%TYPE,
+    categoria PRODUCTO.CATEGORIA%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de productos activos
+  TYPE productos_tabla IS TABLE OF producto_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los productos activos
+  FUNCTION productos_activos 
+    RETURN productos_tabla;
+
+  -- Función para obtener los detalles de un producto por su ID
+  FUNCTION producto_by_id(p_idProducto PRODUCTO.IDPRODUCTO%TYPE)
+    RETURN producto_detalle;
+
+  -- Crear un tipo de tabla para almacenar una lista de categorias
+  TYPE categorias_tabla IS TABLE OF PRODUCTO.CATEGORIA%TYPE INDEX BY PLS_INTEGER;
+
+  -- Función para obtener las categorias de los productos
+  FUNCTION categorias_productos
+    RETURN categorias_tabla;
+  
+  -- Función para obtner el capital actual de cierta sucursal
+  FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
+    RETURN NUMBER;
 END paquete_gestionContable;
 /
 
@@ -128,7 +178,98 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
 
     RETURN v_clientes;
   END principales_clientes_ultimo_mes;
+
+  FUNCTION productos_inventario_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE) 
+  RETURN producto_sucursal_tabla
+  IS
+    v_productos producto_sucursal_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_producto IN (
+      SELECT 
+        * 
+      FROM 
+        productos_inventario 
+      WHERE 
+        idSucursal = p_idSucursal OR 
+        nvl(idSucursal, 0) = 0
+    ) LOOP
+      v_index := v_index + 1;
+      v_productos(v_index).idProducto := v_producto.idproducto;
+      v_productos(v_index).nombreProducto := v_producto.nombre;
+      v_productos(v_index).descripcionProducto := v_producto.descripcion;
+      v_productos(v_index).precioActual := v_producto.precioactual;
+      v_productos(v_index).activo := v_producto.activado;
+      v_productos(v_index).categoria := v_producto.categoria;
+      v_productos(v_index).idSucursal := v_producto.idsucursal;
+      v_productos(v_index).cantidad := v_producto.cantidad;
+    END LOOP;
+
+    RETURN v_productos;
+  END productos_inventario_sucursal;
+
+  FUNCTION productos_activos
+   RETURN productos_tabla
+  IS
+    v_productos productos_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_producto IN (
+      SELECT 
+        *
+      FROM
+        producto
+      WHERE
+        activado = 1
+    ) LOOP
+      v_index := v_index + 1;
+      v_productos(v_index).idProducto := v_producto.idproducto;
+      v_productos(v_index).nombreProducto := v_producto.nombre;
+      v_productos(v_index).descripcionProducto := v_producto.descripcion;
+      v_productos(v_index).precioActual := v_producto.precioactual;
+      v_productos(v_index).activo := 1;
+      v_productos(v_index).categoria := v_producto.categoria;
+    END LOOP;
+
+    RETURN v_productos;
+  END productos_activos;
+
+  FUNCTION producto_by_id(p_idProducto PRODUCTO.IDPRODUCTO%TYPE)
+    RETURN producto_detalle
+  IS
+    v_producto producto_detalle;
+  BEGIN
+    SELECT
+      *
+    INTO
+      v_producto
+    FROM
+      producto
+    WHERE
+      idproducto = p_idProducto;
+
+    RETURN v_producto;
+  END producto_by_id;
   
+  FUNCTION categorias_productos
+    RETURN categorias_tabla
+  IS
+    v_categorias categorias_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_categoria IN (
+      SELECT DISTINCT
+        categoria
+      FROM
+        producto
+    ) LOOP
+      v_index := v_index + 1;
+      v_categorias(v_index) := v_categoria.categoria;
+    END LOOP;
+
+    RETURN v_categorias;
+  END categorias_productos;
+
 END paquete_gestionContable;
 
 --Hacer triger de pedido para calcular el descuento si la compra se realizo en el cumple del cliente

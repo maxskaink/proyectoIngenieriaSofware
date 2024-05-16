@@ -19,7 +19,7 @@ export const consultarProductosSucursal = async ({idSucursal}) => {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
   
     // Consulta SELECT
-    const query = 'select * from productos_inventario where idSucursal = :idSucursal OR nvl(idSucursal, 0) = 0';
+    const query = 'BEGIN paquete_gestionContable.productos_inventario_sucursal(:idSucursal); END;';
     const result = await connection.execute(query, {idSucursal});
     // Extraer filas del resultado
     const productos = result.rows.map( (producto) => new Product(producto));
