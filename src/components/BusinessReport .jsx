@@ -8,7 +8,7 @@ const defaultProduct = new Product([]);
 export const BusinessReport = () => {
 
     const hanldeValition = (producto = defaultProduct) => {
-        if (producto.cantidadStock < 5) {
+        if (producto.cantidad < 5) {
             return true;
         }
         return false;
@@ -16,18 +16,32 @@ export const BusinessReport = () => {
 
     return (
         <div className="containerReports">
-            <div>
-                <h2>Informes semanales</h2>
+            <div className="containerInforme">
                 <WeeklyReport />
             </div>
             <div className="containerReports-stocks">
                 <div>
                     <h2>Informe de falta de stock o bajo stock</h2>
-                    <Catalogo cantidadStock hanldeValition={hanldeValition} />
+                    <Catalogo 
+                        cantidadStock 
+                        hanldeValition={hanldeValition}
+                        hideDescription
+                        hidePrice
+                        //hideSearch
+                        hideTitle 
+                        hideCategoria
+                    />
                 </div>
                 <div>
                     <h2>Informe de stock</h2>
-                    <Catalogo cantidadStock />
+                    <Catalogo 
+                        cantidadStock 
+                        hideDescription
+                        hidePrice
+                        //hideSearch
+                        hideTitle
+                        hideCategoria
+                    />
                 </div>                                          
             </div>
         </div>

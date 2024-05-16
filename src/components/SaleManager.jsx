@@ -1,10 +1,23 @@
 import { SelectProductOrder } from "./SelectProductOrder";
+import { SelectSucursal } from "./SelectSucursal";
+//import { SelectWorker } from "./SelectWorker";
+import { SelectClient} from "./SelectClient";
 import { ProductsOrder } from "./ProductsOrder";
+import { SelectWorker } from "./SelectWorker";
 import { createSale } from "../helpers/querys";
 import { useState } from "react";
+import { Trabajador } from "../class/trabajador";
 import "../styles/salManager.css";
+
+
+const defaultWorker = new Trabajador(['', '', '', '', '', '']);
 export const SaleManager = () => {
-  const [order, setOrder] = useState({ products: [], medioPago: "" });
+  const [order, setOrder] = useState({
+    products: [],
+    idSucursal: undefined,
+    cedulaTrabajador : undefined,
+    estado: "Entregado"
+  });
 
   const addProduct = async (newItem) => {
 
@@ -46,21 +59,20 @@ export const SaleManager = () => {
       setOrder((prevOrder) => ({ ...prevOrder, products: updatedProducts }));
     }
   };
-  const handleMedioPagoChange = (event) => {
-    setOrder((prevOrder) => ({ ...prevOrder, medioPago: event.target.value }));
-  };
 
   const handleSubmit = async () => {
     if (order.products.length === 0) {
       window.alert("Debe seleccionar al menos un producto");
       return;
     }
-    if (order.medioPago === "") {
-      window.alert("Debe seleccionar un medio de pago");
-      return;
-    }
-
+    if(order.idSucursal === undefined || order.idSucursal.length === 0)
+      return window.alert("Debe seleccionar una sucursal");
+    if(order.cedulaCliente === undefined || order.cedulaCliente.length === 0)
+      return window.alert("Debe seleccionar un cliente");
+    if(order.cedulaTrabajador === undefined || order.cedulaTrabajador.length === 0)
+      return window.alert("Debe seleccionar un trabajador");
     try {
+      console.log(order);
       const response = await createSale(order);
 
       if (response.data.state === "OK") {
@@ -75,6 +87,16 @@ export const SaleManager = () => {
     }
   };
 
+  const handleSelectSucursal = (idSucursal) => {
+    setOrder((prevOrder) => ({ ...prevOrder, idSucursal }));
+  }
+  const handleSelectClient = (cedulaCliente) => {
+    setOrder((prevOrder) => ({ ...prevOrder, cedulaCliente }));
+  }
+  const handleSelectWorker = (cedulaTrabajador) => {
+    setOrder((prevOrder) => ({ ...prevOrder, cedulaTrabajador }));
+  }
+  const filterWorker = (worker=defaultWorker) => worker.idSucursal?.toString() === order.idSucursal?.toString();
   return (
     <div className="boardSalManager"> 
       <div className="contenedorSalManager">
@@ -83,17 +105,11 @@ export const SaleManager = () => {
         <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
         
         <div className="contendorMedioPago">
-        <SelectProductOrder onAddProduct={addProduct} justWithStock/>
+        <SelectProductOrder onAddProduct={addProduct} actualOrder={order} justWithStock/>
             <form>
-              <label >
-                <p>Medio de Pago:</p>
-                <select className="cmbxOption" value={order.medioPago} onChange={handleMedioPagoChange}>
-                  <option value="">Seleccione un medio de pago</option>
-                  <option value="tarjeta">Tarjeta</option>
-                  <option value="efectivo">Efectivo</option>
-                  <option value="transferencia">Transferencia</option>
-                </select>
-              </label>
+              <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
+              <SelectClient handleSelectedClient={handleSelectClient} />
+              <SelectWorker handleSelectWorker={handleSelectWorker} filterWorker={filterWorker}/>
               <button className= "bttEnviar" type="button" onClick={handleSubmit}>
                 <p>Enviar</p>
               </button>

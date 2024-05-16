@@ -23,12 +23,6 @@ export const SideBar = () => {
               <p>Gestionar Sucursales</p>
             </Link>
             <Link
-              className={`containerMenu-nav-link ${location.pathname === "/agregar-dinero" && "active"}`}
-              to="/agregar-dinero"
-            >
-              Agregar dinero caja
-            </Link>
-            <Link
               className={`containerMenu-nav-link ${location.pathname === "/gestionar-proveedor" && "active"}`}
               to="/gestionar-proveedor"
             >
@@ -55,6 +49,15 @@ export const SideBar = () => {
               <i className="fa-solid fa-cart-shopping"></i>
               <p>Crear compra</p>
             </Link>
+            <Link
+              className={`containerMenu-nav-link ${location.pathname === "/agregar-lote" && "active"}`}
+              to="/agregar-lote"
+            >
+              <i className="fa-solid fa-cash-register"></i>
+              <p>Agregar Lote</p>
+              
+            </Link>
+
             <Link
               className={`containerMenu-nav-link ${location.pathname === "/informes" && "active"}`}
               to="/informes"

@@ -1,18 +1,50 @@
 .containerReports {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    margin-right: 20vh;
 }
 
 .containerReports-stocks {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-height: 120vh;
-    overflow: auto;
-    padding-top: 68vh;
-    max-width: 98vh;
+    background: white;
+    max-width: 110vh;
+    max-height: 90vh;
+    border-radius: 3%;
+    text-align: center;
+   
+
+}
+
+
+
+
+/* Estilos para el componente Informe Semanal */
+
+.containerInforme{
+    border-radius: 2%;
+    padding: 3vh;
+    background-color: white;
+    width: 45vh;
+    height: 84vh;
+}
+
+.selectFecha {
+    width: 40vh;
+    padding: 10px; 
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 2%; 
+    background-color: #f9f9f9; 
+    color: #333; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+    cursor: pointer; 
+}
+
+.selectFecha:focus {
+    border-color: #007BFF; /* Cambia el color del borde cuando está en foco */
+    outline: none; /* Elimina el contorno por defecto */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra cuando está en foco */
 }

@@ -4,7 +4,8 @@ import "../styles/catalogo.css";
 
 import { ItemProduct } from "./ItemProduct";
 import { SearchBar } from "./SearchBard";
-import { getProducts } from "../helpers/querys";
+import { SelectSucursal } from "./SelectSucursal";
+import { getProductsBranch } from "../helpers/querys";
 
 /* no hace nada realmente, solo es para que siempre se llame a una funcion y no a un undfined */
 const handleSelectProductDefault = (props) => {
@@ -18,6 +19,11 @@ export const Catalogo = ({
   handleSelectProduct = handleSelectProductDefault,
   productSelected = undefined,
   cantidadStock = false,
+  hideTitle, 
+  hideSearch,
+  hideDescription,
+  hidePrice,
+  hideCategoria,
   hanldeValition = () => true,
 }) => {
   /* Array de todos los productos de la base de datos */
@@ -25,6 +31,8 @@ export const Catalogo = ({
 
   /* Nos da la informacion de la barra de busqueda */
   const [search, setSearch] = useState("");
+
+  const [branch, setBranch] = useState(1);	
 
   /* Maneja que hacer cuando se escribe algo en la barra de busqueda */
   const handleSearch = (value) => {
@@ -38,39 +46,53 @@ export const Catalogo = ({
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await getProducts();
+        const response = await getProductsBranch(branch);
         setProductos(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
     };
     fetchProductos();
-  }, [search, productSelected]);
+  }, [search, productSelected, branch]);
 
   return (
     <div className="catalogo">
       <div className="cabecera">
-        <h2 className="catalogo-titulo">Lista de Productos </h2>
-        <SearchBar onSearch={handleSearch} />
+        {hideTitle ||
+          <h2 className="catalogo-titulo">Lista de Productos </h2>
+        }
+        {hideSearch ||
+          <SearchBar onSearch={handleSearch} />
+        }
+        {
+          cantidadStock &&
+            <SelectSucursal handleSelectedSucursal={setBranch} />
+        }
         <div className="contenedor">
           <div className="columnaHeader">
             {" "}
             <strong> NOMBRE:</strong>{" "}
           </div>
-          <div className="columnaHeader">
-            <strong>DESCRICION </strong>
-          </div>
+          {hideDescription || 
+          <div className="columnaHeader"> 
+            <strong> DESCRIPCION </strong> 
+            </div>}
+          {hidePrice ||
           <div className="columnaHeader">
             <strong> PRECIO </strong>
           </div>
-          <div className="columnaHeader">
-            <strong> CATEGORIA </strong>
-          </div>
+          } 
           {
             cantidadStock && 
             <div className="columnaHeader">
               <strong> STOCK </strong>
             </div>
+          }
+          {
+            hideCategoria ||
+              <div className="columnaHeader">
+                <strong> CATEGORIA </strong>
+              </div>
           }
         </div>
       </div>
@@ -86,6 +108,9 @@ export const Catalogo = ({
                   producto={producto}
                   onClick={handleClick}
                   cantidadStock={cantidadStock}
+                  hideDescription={hideDescription}
+                  hidePrice={hidePrice}
+                  hideCategoria={hideCategoria}
                 />
               ),
           )
@@ -102,4 +127,9 @@ Catalogo.propTypes = {
   cantidadStock: PropTypes.bool,
   handleSelectProduct: PropTypes.func,
   productSelected: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  hideSearch: PropTypes.bool,
+  hideDescription: PropTypes.bool,
+  hidePrice: PropTypes.bool,
+  hideCategoria: PropTypes.bool,
 };

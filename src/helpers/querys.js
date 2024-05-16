@@ -99,3 +99,9 @@ export const getProductsBranch = async (idSucursal) => {
     .get(API.consultarProductosSucursal, { params: { idSucursal } })
     .then((res) => res);
 };
+
+export const getWorkers = async () => await axios.get(API.obtenerTrabajadores).then((res) => res.data);
+
+export const addWorker = async (worker) => await axios.post(API.agregarTrabajador, worker);
+
+export const updateWorker = async (worker) => await axios.put(API.actualizarTrabajador, worker);

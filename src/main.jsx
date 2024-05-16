@@ -10,6 +10,7 @@ import { AddMoney } from "./components/AddMoney";
 import { ProviderManager } from "./components/ProviderManager"; 
 import { ClientManager } from "./components/ClientManager";
 import { SucursalManager } from "./components/SucursalManager"; // [1
+import { AddLot } from "./components/AddLot";
 import "./styles/main.css";
 
 createRoot(document.getElementById("root")).render(
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/gestionar-proveedor" element={<ProviderManager />} />
       <Route path="/gestionar-clientes" element={<ClientManager />} />
       <Route path="/gestionar-Sucursales" element={<SucursalManager />} />
+      <Route path="/agregar-lote" element={<AddLot />} />
     </Routes>
   </BrowserRouter>,
 );

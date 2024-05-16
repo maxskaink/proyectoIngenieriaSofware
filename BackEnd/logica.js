@@ -5,6 +5,7 @@ import { Provider } from "../src/class/provider.js";
 import { Client } from "../src/class/client.js";
 import { Sucursal } from "../src/class/sucursal.js";
 import { Lote } from "../src/class/lote.js";
+import { Trabajador } from "../src/class/trabajador.js";
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -237,13 +238,13 @@ export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, e
     const query = `BEGIN INSERTPEDIDO(:cedulaCliente, :idSucursal, :cedulaTrabajador, :estado); END;`;
     await connection.execute(query, {cedulaCliente, idSucursal, cedulaTrabajador, estado}, { autoCommit: true });
 
-    const query2 = `select codigoVenta from venta order by fecha desc FETCH FIRST ROW ONLY`;
+    const query2 = `select codigoPedido from pedido order by fecha desc FETCH FIRST ROW ONLY`;
     const result = await connection.execute(query2);
     const idVenta = result.rows[0][0];
 
     for (let i = 0; i < products.length; i++) {
       const producto = products[i];
-      const query3 = `BEGIN InsertarProductoEnVenta(:idProducto, :idVenta,:cantidad); END;`;
+      const query3 = `BEGIN InsertProductoVenta(:idProducto, :idVenta,:cantidad); END;`;
       await connection.execute(query3, {
         idProducto: producto.product.id,
         idVenta,
@@ -593,4 +594,107 @@ export const obtenerLotes = async () => {
     console.log(err)
   }
 }
+//#endregion
+
+//#region Trabajadores
+export const agregarTrabajador = async ({ idSucursal, nombre, puesto, salario, cedulaTrabajador}) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'La inserción termino de forma exitosa',
+  }
+
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+
+  const query = 'BEGIN insertTrabajador( :cedulaTrabajador, :idSucursal, :nombre, :puesto, :salario); END;';
+  await connection.execute(query, {
+    idSucursal,
+    nombre,
+    puesto,
+    salario,
+    cedulaTrabajador
+  }, { autoCommit: true })
+  .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion'});
+
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+};
+
+export const actualizarTrabajador = async ({cedula, idSucursal = "" , nombre = "", puesto = "", salario = "", activado = 1 }) => {
+  let connection;
+
+  let result = {
+      state: 'OK',
+      message: 'La inserción termino de forma exitosa',
+  }
+
+
+  connection = await getConnection({ user: user, password: password, connectionString: connectionString })
+  .catch( err => console.log(err));
+
+  if (activado == 0){
+    const query =  'BEGIN deleteTrabajador(:cedula); END;'
+    await connection.execute(query, {cedula}, { autoCommit: true });
+  }
+  else if(activado == 1){
+    const query1 =  'BEGIN activateTrabajador(:cedula); END;'
+    await connection.execute(query1, {cedula}, { autoCommit: true });
+
+    if(idSucursal != ""){
+      const query2 =  'BEGIN updateTrabajadorSucursal(:cedula, :idSucursal); END;'
+      await connection.execute(query2, {cedula, idSucursal}, { autoCommit: true });
+    }
+
+    if(nombre != ""){
+      const query3 =  'BEGIN updateTrabajadorNombre(:cedula, :nombre); END;'
+      await connection.execute(query3, {cedula, nombre}, { autoCommit: true });
+    }
+
+    if(puesto != ""){
+      const query4 =  'BEGIN updateTrabajadorCargo(:cedula, :puesto); END;'
+      await connection.execute(query4, {cedula, puesto}, { autoCommit: true });
+    }
+
+    if(salario != ""){
+      const query5 =  'BEGIN updateTrabajadorSalario(:cedula, :salario); END;'
+      await connection.execute(query5, {cedula, salario}, { autoCommit: true });
+    }
+  }
+
+  if (connection) {
+      await connection.close()
+      .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
+
+  }
+  return result;
+
+};
+
+export const obtenerTrabajadores = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = "select * from trabajador";
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const trabajadores = result.rows.map( (trabajador) => new Trabajador(trabajador));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return trabajadores;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 //#endregion

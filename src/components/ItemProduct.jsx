@@ -4,7 +4,14 @@ import { Product } from "../class/product";
 
 const defaultProduct = new Product([]);
 /* Es el componente donde se es tablece como se va a mostrar el producto, ademas tambien que va a hacer cuadno se le de click */
-export const ItemProduct = ({ producto = defaultProduct, onClick, cantidadStock }) => {
+export const ItemProduct = ({
+  producto = defaultProduct, 
+  onClick, 
+  cantidadStock,
+  hideDescription,
+  hidePrice, 
+  hideCategoria,
+}) => {
   const handleClick = () => {
     onClick(producto);
   };
@@ -19,10 +26,19 @@ export const ItemProduct = ({ producto = defaultProduct, onClick, cantidadStock 
       >
         <div className="contenedor">
           <div className="columna">{producto.nombre}</div>
-          <div className="columna">{producto.descripcion}</div>
-          <div className="columna">{producto.precio}</div>
-          <div className="columna">{producto.categoria}</div>
-          {cantidadStock&&<div className="columna">{producto.cantidadStock}</div>}
+          {
+            hideDescription ||
+            <div className="columna">{producto.descripcion}</div>
+          }
+          {
+            hidePrice ||
+            <div className="columna">{producto.precio}</div>
+          }
+          {
+            hideCategoria ||
+            <div className="columna">{producto.categoria}</div>
+          }
+          {cantidadStock&&<div className="columna">{producto.cantidad}</div>}
         </div>
       </li>
     </div>
@@ -33,4 +49,7 @@ ItemProduct.propTypes = {
   cantidadStock: PropTypes.bool,
   producto: PropTypes.object,
   onClick: PropTypes.func,
+  hideDescription: PropTypes.bool,
+  hidePrice: PropTypes.bool,
+  hideCategoria: PropTypes.bool,
 };
