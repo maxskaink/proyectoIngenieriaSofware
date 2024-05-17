@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
@@ -6,6 +7,12 @@ import { Client } from "../src/class/client.js";
 import { Sucursal } from "../src/class/sucursal.js";
 import { Lote } from "../src/class/lote.js";
 import { Trabajador } from "../src/class/trabajador.js";
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const oracledb = require("oracledb");
+ 
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -17,19 +24,36 @@ export const consultarProductosSucursal = async ({idSucursal}) => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+
+    const ProductoSucursal = await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.PRODUCTO_SUCURSAL_TABLA");
+
     // Consulta SELECT
-    const query = 'BEGIN paquete_gestionContable.productos_inventario_sucursal(:idSucursal); END;';
-    const result = await connection.execute(query, {idSucursal});
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.productos_inventario_sucursal(:idSucursal); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: ProductoSucursal
+          },
+          idSucursal
+      }
+
+    );
+
+
     // Extraer filas del resultado
-    const productos = result.rows.map( (producto) => new Product(producto));
+    const res = result.outBinds.ret;
+
+    const productos = res.toMap().map( (producto) => new Product(producto));
   
     // Cerrar la conexión
     await connection.close();
   
     return productos;
   } catch (err) {
-    console.log(err)
+    console.log(err) 
   }
 };
 export const agregarProducto = async ({nombre, descripcion, precio, categoria }) => {

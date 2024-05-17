@@ -48,7 +48,7 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
     CANTIDAD INVENTARIOSUCURSAL.CANTIDAD%TYPE
   );
 
-  -- Crear un tipo de tabla para almacenar una lista de detalles de compra
+  -- Crear un tipo de tabla para almacenar una lista de detalles de un producto en un sucursal
   TYPE producto_sucursal_tabla IS TABLE OF producto_sucursal_detalle INDEX BY PLS_INTEGER;
 
   -- Función para obtener los productos en inventario de una sucursal
@@ -83,9 +83,9 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
   FUNCTION categorias_productos
     RETURN categorias_tabla;
   
-  -- Función para obtner el capital actual de cierta sucursal
-  FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
-    RETURN NUMBER;
+  -- -- Función para obtner el capital actual de cierta sucursal
+  -- FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
+  --   RETURN NUMBER;
 END paquete_gestionContable;
 /
 
