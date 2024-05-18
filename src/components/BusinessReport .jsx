@@ -22,7 +22,7 @@ export const BusinessReport = () => {
                 </div>
                 <div className="containerReports-stocks">
                     <div className="container-bajoStock">
-                        <h2>Informe de falta de stock o bajo stock</h2>
+                        <h2 className="title-stock">Informe de falta de stock o bajo stock</h2>
                         <Catalogo 
                             cantidadStock 
                             hanldeValition={hanldeValition}
@@ -33,7 +33,7 @@ export const BusinessReport = () => {
                         />
                     </div>
                     <div className="container-stock">
-                        <h2>Informe de stock</h2>
+                        <h2 className="title-stock">Informe de stock</h2>
                         <Catalogo 
                             cantidadStock 
                             hideDescription
