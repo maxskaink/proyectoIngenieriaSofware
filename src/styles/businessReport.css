@@ -41,6 +41,9 @@
         background-color: #fcf8f8;
         box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);    
     }
+    .catalogo-lista{
+        min-height: 30vh;
+    }
     .contenedor{
         gap: 0px;
         padding: 10px;
