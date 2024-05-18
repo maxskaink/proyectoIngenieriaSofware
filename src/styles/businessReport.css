@@ -1,11 +1,19 @@
+.total{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
 .containerReports {
+    padding: 2vh;
+    height: 91vh;
+    width: 123vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     align-items: center;
-    margin-right: 20vh;
-
-    
+    background-color: rgb(255, 255, 255);
+    border-radius: 2%;
 }
 
 .containerReports-stocks {
@@ -14,19 +22,58 @@
     max-height: 90vh;
     border-radius: 3%;
     text-align: center;
-
+    .catalogo{
+        min-width: 60vh;
+    }
+    .contenedor{
+        gap: 0px;
+    }
+    .columnaHeader {
+        border-radius: 0%;
+    }
+}
+ /*se colocan los estilos sobreescritos de Catalogo*/
+.container-bajoStock{
+    .catalogo-producto {
+        margin: 10px;
+        padding: 0px;
+        background-color: rgb(225 117 117);
+        color: white;
+        font-weight: 700;
+    }
+    .catalogo-producto :hover {
+        background-color: rgb(216, 98, 98);
+    }
+    .columna {
+        padding: 0px;
+        height: 50px;
+        align-content: center;
+    }
+    .columnaHeader {
+        background-color: #af0000;
+    }
 }
 
+.container-stock{
+    .catalogo-producto {
+        margin: 10px;
+        padding: 0px;
+    }
+    .columna {
+        padding: 0px;
+        height: 50px;
+        align-content: center;
+    }
+}
 
 
 
 /* Estilos para el componente Informe Semanal */
 
 .containerInforme{
-    border-radius: 2%;
     padding: 3vh;
     background-color: white;
-    width: 45vh;
+    width: 52vh;
     height: 84vh;
 }
 
