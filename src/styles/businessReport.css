@@ -7,7 +7,7 @@
 .containerReports {
     padding: 2vh;
     height: 91vh;
-    width: 123vh;
+    width: 135vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -18,15 +18,16 @@
 
 .containerReports-stocks {
     background: white;
-    max-width: 110vh;
+    max-width: 120vh;
     max-height: 90vh;
     border-radius: 3%;
     text-align: center;
     .catalogo{
-        min-width: 60vh;
+        min-width: 70vh;
+        padding: 10px;
     }
     .contenedor{
-        gap: 0px;
+        
     }
     .columnaHeader {
         border-radius: 0%;
