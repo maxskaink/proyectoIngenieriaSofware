@@ -29,6 +29,7 @@ export const SideBar = () => {
               className={`containerMenu-nav-link ${location.pathname === "/agregar-dinero" && "active"}`}
               to="/agregar-dinero"
             >
+              <i className="fa-solid fa-money-bill"></i>
               Agregar dinero caja
             </Link>
             <Link

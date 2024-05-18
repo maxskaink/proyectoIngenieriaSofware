@@ -32,12 +32,13 @@ export const AddMoney = () => {
                 <h2>Agregar Dinero</h2>
                 <form onSubmit={handleSubmit}>
                     <input
+                    className='price-input '
                         type="text"
                         value={amount}
                         onChange={handleInputChange}
                         placeholder="Ingrese la cantidad"
                     />
-                    <button type="submit">Agregar</button>
+                    <button type="submit" className='bttEnviar'>Agregar</button>
                 </form>
             </div>
         </div>
