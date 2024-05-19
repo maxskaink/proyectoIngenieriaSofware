@@ -870,6 +870,7 @@ export const actualizarTrabajador = async ({cedula, idSucursal = "" , nombre = "
       .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
 
   }
+  
   return result;
 
 };
