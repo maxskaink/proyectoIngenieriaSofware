@@ -71,11 +71,9 @@ BEGIN
         COMMIT;
     EXCEPTION
         WHEN OTHERS THEN
-            -- Manejar las excepciones aqu�
-            DBMS_OUTPUT.PUT_LINE('Ocurri� un error: ' || SQLERRM);
-            -- Deshacer la transacci�n hasta el SAVEPOINT
-            ROLLBACK TO inicio_transaccion;
-    END;
+            ROLLBACK TO inicio_transaccion;    
+            RAISE_APPLICATION_ERROR(-20004,SQLERRM);
+        END;
 END InsertProductoVenta;
 /
 --INSERTAR PRODUCTO EN COMPRA

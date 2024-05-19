@@ -24,6 +24,7 @@ export function CatalogoManager() {
   const handleAddProduct = async (producto) => {
     return await addProduct(producto).then( (res) => {
        setProductSelected(undefined);
+       window.location.reload();
       return res;
     });
   };

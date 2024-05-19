@@ -80,7 +80,12 @@ export const SaleManager = () => {
         //window.location.reload();
       } else window.alert("Error al realizar la venta");
 
-      setOrder({ products: [], medioPago: "" });
+      setOrder({
+        products: [],
+        idSucursal: undefined,
+        cedulaTrabajador : undefined,
+        estado: "Entregado"
+      });
     } catch (error) {
       console.error(error);
       window.alert("Error al realizar la venta");

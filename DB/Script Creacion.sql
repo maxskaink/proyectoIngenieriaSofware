@@ -239,27 +239,7 @@ BEGIN
         END IF;
     END IF;
 END;
-/
-CREATE OR REPLACE TRIGGER prom_productoVenta
-AFTER INSERT ON productoventa 
-FOR EACH ROW 
-DECLARE
-  v_sumaProductos number;
-  v_idCliente CLIENTE.CEDULACLIENTE%type;
-BEGIN
-  SELECT SUM(preciounitario)
-  INTO v_sumaProductos
-  FROM productoventa 
-  WHERE codigoventa = :NEW.codigoventa;
-  
-  SELECT CEDULACLIENTE 
-  INTO v_idCliente
-  FROM PEDIDO
-  WHERE codigopedido = :NEW.codigoventa;
-  
-  UPDATE PEDIDO SET PRECIOTOTAL = v_sumaProductos * (1 - paquete_gestionContable.descuentoCliente(v_idCliente))
-  WHERE codigopedido = :NEW.codigoventa;
-END;
+
 /
 --VISTAS
 

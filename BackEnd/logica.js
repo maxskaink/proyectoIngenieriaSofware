@@ -231,7 +231,7 @@ export const crearCompra = async ({nitProveedor, idSucursal , products = []}) =>
   }
 }
 
-export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado, products = []}) => {
+export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado= 'Entregado', products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
