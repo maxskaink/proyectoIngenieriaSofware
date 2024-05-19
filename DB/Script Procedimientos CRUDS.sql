@@ -81,9 +81,14 @@ CREATE OR REPLACE PROCEDURE insertProductoCompra(
     p_CODIGOCOMPRA IN NUMBER,
     p_idProducto IN NUMBER,
     p_cantidad  IN NUMBER,
+<<<<<<< HEAD
+    p_idLote IN NUMBER,
+    p_precioUnitario IN NUMBER
+=======
     p_precioUnitario IN NUMBER,
     p_idLote IN NUMBER
 
+>>>>>>> 6060289b9e78a79148c698006ca5fd0a826d95a6
 )
 IS
     capitalSucursal Sucursal.Capital%TYPE;
@@ -146,6 +151,7 @@ EXCEPTION
     END;
 END insertProductoCompra;
 /
+
 --CRUD COMPRA
 --INSERTAR
 CREATE OR REPLACE PROCEDURE insertCompra(
