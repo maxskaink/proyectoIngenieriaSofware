@@ -24,17 +24,17 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
   );
 
     -- Crear un tipo de registro para almacenar los detalles de un cliente
-  TYPE cliente_detalle IS RECORD (
+  TYPE clienteCore_detalle IS RECORD (
     cedulaCliente CLIENTE.CEDULACLIENTE%TYPE,
     nombreCliente CLIENTE.NOMBRE%TYPE,
     montoTotal NUMBER
   );
 
   -- Crear un tipo de tabla para almacenar una lista de detalles de clientes
-  TYPE clientes_tabla IS TABLE OF cliente_detalle INDEX BY PLS_INTEGER;
+  TYPE clientesCore_tabla IS TABLE OF clienteCore_detalle INDEX BY PLS_INTEGER;
 
   -- Función para identificar a los principales clientes basados en el monto total gastado en el último mes
-  FUNCTION principales_clientes_ultimo_mes RETURN clientes_tabla;
+  FUNCTION principales_clientes_ultimo_mes RETURN clientesCore_tabla;
 
   --  Crear un tipo de registro para almacenar los detalles de un producto en cierta sucursal
   TYPE producto_sucursal_detalle IS RECORD (
@@ -83,9 +83,87 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
   FUNCTION categorias_productos
     RETURN categorias_tabla;
   
-  -- -- Función para obtner el capital actual de cierta sucursal
-  -- FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
-  --   RETURN NUMBER;
+  -- Función para obtener el capital total de una sucursal
+  FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
+    RETURN SUCURSAL.CAPITAL%TYPE;
+
+  -- Crear un tipo de registro para almacenar los detalles de un proveedor
+  TYPE proveedor_detalle IS RECORD (
+    nit PROVEEDOR.NIT%TYPE,
+    nombreProveedor PROVEEDOR.NOMBRE%TYPE,
+    telefonoProveedor PROVEEDOR.TELEFONO%TYPE,
+    direccionProveedor PROVEEDOR.DIRECCION%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de proveedores
+  TYPE proveedores_tabla IS TABLE OF proveedor_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los proveedores
+  FUNCTION proveedores
+    RETURN proveedores_tabla;
+
+  -- Crear un tipo de registro para almacenar los detalles de un cliente
+  TYPE cliente_detalle IS RECORD (
+    cedulaCliente CLIENTE.CEDULACLIENTE%TYPE,
+    nombreCliente CLIENTE.NOMBRE%TYPE,
+    correoCliente CLIENTE.CORREO%TYPE,
+    fechaNacCliente CLIENTE.FECHANACIMIENTO%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de clientes
+  TYPE clientes_tabla IS TABLE OF cliente_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los clientes
+  FUNCTION clientes
+    RETURN clientes_tabla;
+
+  -- Crear un tipo de registro para almacenar los detalles de una sucursal
+  TYPE sucursal_detalle IS RECORD (
+    idSucursal SUCURSAL.IDSUCURSAL%TYPE,
+    nombreSucursal SUCURSAL.NOMBRE%TYPE,
+    telefonoSucursal SUCURSAL.TELEFONO%TYPE,
+    capitalSucursal SUCURSAL.CAPITAL%TYPE,
+    direccionSucursal SUCURSAL.DIRECCION%TYPE,
+    estadoSucursal SUCURSAL.ESTADO%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de sucursales
+  TYPE sucursales_tabla IS TABLE OF sucursal_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener las sucursales
+  FUNCTION sucursales
+    RETURN sucursales_tabla;
+
+  -- Crear un tipo de registro para almacenar los detalles de un Lote
+  TYPE lote_detalle IS RECORD (
+    idLote LOTE.IDLOTE%TYPE,
+    fechaProduccion LOTE.FECHAPRODUCCION%TYPE,
+    fechaVencimiento LOTE.FECHAVENCIMIENTO%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de Lotes
+  TYPE lotes_tabla IS TABLE OF lote_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los lotes de un producto
+  FUNCTION lotes_producto
+    RETURN lotes_tabla;
+
+  -- Crear un tipo de registro para almacenar los detalles de un Trabajador
+  TYPE trabajador_detalle IS RECORD (
+    CEDULATRABAJO TRABAJADOR.CEDULATRABAJO%TYPE,
+    idSucursal TRABAJADOR.IDSUCURSAL%TYPE,    
+    nombreTrabajador TRABAJADOR.NOMBRE%TYPE,
+    cargoTrabajador TRABAJADOR.CARGO%TYPE,
+    salarioTrabajador TRABAJADOR.SALARIO%TYPE,
+    estadoTrabajador TRABAJADOR.ESTADO%TYPE
+  );
+
+  -- Crear un tipo de tabla para almacenar una lista de detalles de Trabajadores
+  TYPE trabajadores_tabla IS TABLE OF trabajador_detalle INDEX BY PLS_INTEGER;
+
+  -- Función para obtener los trabajadores
+  FUNCTION trabajadores
+    RETURN trabajadores_tabla;
 END paquete_gestionContable;
 /
 
@@ -149,8 +227,8 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
     p_historial := v_historial;
   END historial_compras_cliente;
 
-  FUNCTION principales_clientes_ultimo_mes RETURN clientes_tabla AS
-    v_clientes clientes_tabla;
+  FUNCTION principales_clientes_ultimo_mes RETURN clientesCore_tabla AS
+    v_clientes clientesCore_tabla;
     v_index PLS_INTEGER := 0;
   BEGIN
     FOR v_cliente IN (
@@ -269,6 +347,140 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
 
     RETURN v_categorias;
   END categorias_productos;
+
+  FUNCTION capital_sucursal(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE)
+    RETURN SUCURSAL.CAPITAL%TYPE
+  IS
+    v_capital SUCURSAL.CAPITAL%TYPE;
+  BEGIN
+    SELECT
+      capital
+    INTO
+      v_capital
+    FROM
+      sucursal
+    WHERE
+      idsucursal = p_idSucursal;
+
+    RETURN v_capital;
+  END capital_sucursal;
+
+  FUNCTION proveedores
+    RETURN proveedores_tabla
+  IS
+    v_proveedores proveedores_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_proveedor IN (
+      SELECT
+        *
+      FROM
+        proveedor
+    ) LOOP
+      v_index := v_index + 1;
+      v_proveedores(v_index).nit := v_proveedor.nit;
+      v_proveedores(v_index).nombreProveedor := v_proveedor.nombre;
+      v_proveedores(v_index).telefonoProveedor := v_proveedor.telefono;
+      v_proveedores(v_index).direccionProveedor := v_proveedor.direccion;
+    END LOOP;
+
+    RETURN v_proveedores;
+  END proveedores;
+
+  FUNCTION clientes
+    RETURN clientes_tabla
+  IS
+    v_clientes clientes_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_cliente IN (
+      SELECT
+        cedulacliente, nombre, correo, to_char(FECHANACIMIENTO, 'DD/MM/YYYY') AS FECHANACIMIENTO
+      FROM
+        cliente
+    ) LOOP
+      v_index := v_index + 1;
+      v_clientes(v_index).cedulaCliente := v_cliente.cedulacliente;
+      v_clientes(v_index).nombreCliente := v_cliente.nombre;
+      v_clientes(v_index).correoCliente := v_cliente.correo;
+      v_clientes(v_index).fechaNacCliente := v_cliente.fechanacimiento;
+    END LOOP;
+
+    RETURN v_clientes;
+  END clientes;
+
+  FUNCTION sucursales
+    RETURN sucursales_tabla
+  IS
+    v_sucursales sucursales_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_sucursal IN (
+      SELECT
+        *
+      FROM
+        sucursal
+      WHERE
+        estadoSucursal = 1
+    ) LOOP
+      v_index := v_index + 1;
+      v_sucursales(v_index).idSucursal := v_sucursal.idsucursal;
+      v_sucursales(v_index).nombreSucursal := v_sucursal.nombre;
+      v_sucursales(v_index).telefonoSucursal := v_sucursal.telefono;
+      v_sucursales(v_index).capitalSucursal := v_sucursal.capital;
+      v_sucursales(v_index).direccionSucursal := v_sucursal.direccion;
+      v_sucursales(v_index).estadoSucursal := v_sucursal.estado;
+    END LOOP;
+
+    RETURN v_sucursales;
+  END sucursales;
+
+  FUNCTION lotes_producto
+    RETURN lotes_tabla
+  IS
+    v_lotes lotes_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_lote IN (
+      SELECT
+        idLote, to_char(fechaProduccion, 'DD-MM-YYYY') AS FECHAPRODUCCION, to_char(fechaVencimiento, 'DD-MM-YYYY') AS FECHAVENCIMIENTO
+      FROM
+        lote
+    ) LOOP
+      v_index := v_index + 1;
+      v_lotes(v_index).idLote := v_lote.idlote;
+      v_lotes(v_index).fechaProduccion := v_lote.fechaproduccion;
+      v_lotes(v_index).fechaVencimiento := v_lote.fechavencimiento;
+    END LOOP;
+
+    RETURN v_lotes;
+  END lotes_producto;
+
+  FUNCTION trabajadores
+    RETURN trabajadores_tabla
+  IS
+    v_trabajadores trabajadores_tabla;
+    v_index PLS_INTEGER := 0;
+  BEGIN
+    FOR v_trabajador IN (
+      SELECT
+        *
+      FROM
+        trabajador
+      WHERE
+        estado = 1
+    ) LOOP
+      v_index := v_index + 1;
+      v_trabajadores(v_index).CEDULATRABAJO := v_trabajador.CEDULATRABAJO;
+      v_trabajadores(v_index).idSucursal := v_trabajador.idsucursal;
+      v_trabajadores(v_index).nombreTrabajador := v_trabajador.nombre;
+      v_trabajadores(v_index).cargoTrabajador := v_trabajador.cargo;
+      v_trabajadores(v_index).salarioTrabajador := v_trabajador.salario;
+      v_trabajadores(v_index).estadoTrabajador := v_trabajador.estado;
+    END LOOP;
+
+    RETURN v_trabajadores;
+  END trabajadores;
 
 END paquete_gestionContable;
 
