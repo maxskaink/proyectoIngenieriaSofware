@@ -166,7 +166,6 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
     RETURN trabajadores_tabla;
 END paquete_gestionContable;
 /
-
 CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
   --Función que reciba como parámetro el id del cliente y devuelva el porcentaje de descuento total que se le puede hacer por fidelización
   FUNCTION descuentoCliente(p_clienteId CLIENTE.CEDULACLIENTE%type)
@@ -189,7 +188,7 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
   --Procedimiento que reciba como parámetro el porcentaje que se le quiere subir o bajar el precio a todos los productos de una sucursal.
   PROCEDURE cambiarPreciosTodo(p_porcentajeCambio number) IS
   BEGIN 
-    UPDATE Producto  set PrecioActual = PrecioActual*(1-p_porcentajeCambio);
+    UPDATE Producto  set PrecioActual = PrecioActual*(1+p_porcentajeCambio);
   END cambiarPreciosTodo;
 
   -- Procedimiento para generar un historial de compras para un cliente específico
@@ -421,7 +420,7 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
       FROM
         sucursal
       WHERE
-        estadoSucursal = 1
+        estado = 1
     ) LOOP
       v_index := v_index + 1;
       v_sucursales(v_index).idSucursal := v_sucursal.idsucursal;

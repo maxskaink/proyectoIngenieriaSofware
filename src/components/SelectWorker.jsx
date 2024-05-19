@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 
 const defaultWorker = new Trabajador(['', '', '', '', '', '']);
 
-export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => {
+export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true, disable}) => {
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState('');
 
@@ -25,8 +25,13 @@ export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => 
 
     return (
         <div>
-            <select id="worker" value={selectedWorker} onChange={handleWorkerChange}>
-                <option value="">Selecciona...</option>
+            <select id="worker" 
+                value={selectedWorker} 
+                onChange={handleWorkerChange} 
+                disabled={disable}
+                title={disable ? "Debe seleccionar una sucursal" : ""}
+            >
+                <option value="" >Selecciona...</option>
                 {workers.map((worker = defaultWorker) => (
                     filterWorker(worker) &&
                     <option key={worker.cedulaTrabajador} value={worker.cedulaTrabajador}>
@@ -40,5 +45,6 @@ export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => 
 
 SelectWorker.propTypes = {
     handleSelectWorker: PropTypes.func.isRequired,
-    filterWorker: PropTypes.func
+    filterWorker: PropTypes.func,
+    disable: PropTypes.bool,
 };

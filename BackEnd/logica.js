@@ -58,7 +58,6 @@ export const consultarProductosSucursal = async ({idSucursal}) => {
         element.CANTIDAD
       ])
     });
-    console.log(Productos);
     // Cerrar la conexión
     await connection.close();
   
@@ -131,7 +130,6 @@ export const consultarProductos = async () => {
             element.CANTIDAD
           ])
         });
-        console.log(Productos);
         // Cerrar la conexión
         await connection.close();
       
@@ -235,7 +233,6 @@ export const obtenerCategorias = async () => {
       return element
     });
     
-    console.log(categorias);
     // Cerrar la conexión
     await connection.close();
   
@@ -268,8 +265,6 @@ export const consultarDineroSucursal = async ({idSucursal}) => {
     );
     // Extraer filas del resultado
     const dinero = result.outBinds.ret;
-
-    console.log(dinero);
     // Cerrar la conexión
     await connection.close();
   
@@ -482,7 +477,6 @@ export const obtenerProveedores = async () => {
         element.DIRECCIONPROVEEDOR
       ])
     });
-    console.log(Proveedores);
     // Cerrar la conexión
     await connection.close();
   
@@ -573,7 +567,6 @@ export const obtenerClientes = async () => {
         element.FECHANACCLIENTE
       ])
     });
-    console.log(Clientes);
     // Cerrar la conexión
     await connection.close();  
     return Clientes;
@@ -712,7 +705,6 @@ export const obtenerSucursales = async () => {
        element.ESTADOSUCURSAL
      ])
    });
-   console.log(Sucursal);
    // Cerrar la conexión
    await connection.close();  
    return Sucursales;  
@@ -782,7 +774,6 @@ export const obtenerLotes = async () => {
        element.FECHAVENCIMIENTO
      ])
    });
-   console.log(Lotes);
    // Cerrar la conexión
    await connection.close();  
    return Lotes;    
@@ -906,7 +897,6 @@ export const obtenerTrabajadores = async () => {
        element.ESTADOTRABAJADOR
      ])
    });
-   console.log(Trabajadores);
    // Cerrar la conexión
    await connection.close();  
    return Trabajadores;    
@@ -915,4 +905,122 @@ export const obtenerTrabajadores = async () => {
   }
 }
 
+//#endregion
+
+//#region Funcionalidades
+//TODO descuento cliente
+export const descuentoCliente = async ({idCliente}) => {
+  //  FUNCTION descuentoCliente(p_clienteId CLIENTE.CEDULACLIENTE%type)
+  //RETURN number; 
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'BEGIN :ret := paquete_gestionContable.descuentoCliente(:idCliente); END;';
+    const params = {
+      ret: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
+      idCliente: { val: idCliente, dir: oracledb.BIND_IN, type: oracledb.STRING }
+    };
+    const result = await connection.execute(query, params);
+    // Extraer filas del resultado
+    const descuento = result.outBinds.ret;
+    console.log(descuento);
+    // Cerrar la conexión
+    await connection.close();
+  
+    return descuento;
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+//TODO cambiar precios todo
+export const cambiarPreciosTodo = async ({porcentajeCambio}) => {
+  //  PROCEDURE cambiarPreciosTodo(p_porcentajeCambio number);
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'BEGIN paquete_gestionContable.cambiarPreciosTodo(:porcentajeCambio); END;';
+    const params = {
+      porcentajeCambio: { val: porcentajeCambio, dir: oracledb.BIND_IN, type: oracledb.NUMBER }
+    };
+    await connection.execute(query, params, { autoCommit: true });
+    // Cerrar la conexión
+    await connection.close();
+  
+    return {state: 'OK', message: 'Se ha cambiado el precio con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido cambiar el precio'};
+  }
+}
+//TODO historial compras cliente
+export const obtenerHistorialComprasCliente = async ({idCliente}) => {
+  try {  
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    const comprasTabla =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.COMPRAS_TABLA");
+
+    // Llamar al procedimiento
+    const result = await connection.execute(
+     `BEGIN 
+        paquete_gestionContable.historial_compras_cliente(:idCliente, :ret); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: comprasTabla
+         },
+         idCliente: {
+             dir: oracledb.BIND_IN,
+             type: oracledb.STRING,
+             val: idCliente
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   const historialCompras = Array.from(res);
+   // Cerrar la conexión
+   await connection.close();  
+   return historialCompras;    
+  } catch (err) {
+    console.log(err)
+  }
+}
+//TODO principales clientes
+
+export const obtenerPrincipalesClientesUltimoMes = async () => {
+  try {  
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    const clientesCoreTabla =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.CLIENTESCORE_TABLA");
+
+    // Llamar a la función
+    const result = await connection.execute(
+     `BEGIN 
+       :ret := paquete_gestionContable.principales_clientes_ultimo_mes(); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: clientesCoreTabla
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   let principalesClientes = Array.from(res);
+   // Cerrar la conexión
+   await connection.close();  
+   return principalesClientes;    
+  } catch (err) {
+    console.log(err)
+  }
+}
 //#endregion

@@ -55,7 +55,6 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
     const fetchProducts = async () => {
       try {
         const response = await getProductsBranch(actualOrder.idSucursal);
-  
         setProducts(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -63,11 +62,16 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
     };
     fetchProducts();
   }, [actualOrder, actualProduct, justWithStock]);
-
+  const messageDisable = !actualOrder.idSucursal? "Debe seleccionar una sucursal" : "";
   return (
     <div className="ContendedorCompra">
       <form onSubmit={handleSubmit} className="add-product-form">
-        <select className="select-product" onChange={handleSelectChange} disabled={!actualOrder.idSucursal}>
+        <select 
+          className="select-product" 
+          onChange={handleSelectChange} 
+          disabled={!actualOrder.idSucursal}
+          title={messageDisable}
+        >
           <option value="0">Seleccione un producto</option>
           {products.map((product) => (
             ( (justWithStock)? parseInt(product.cantidad) > 0 : true)&&
@@ -83,6 +87,7 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
           placeholder="Cantidad"
           onChange={handleQuantityChange}
           disabled={!actualOrder.idSucursal}
+          title={messageDisable}
         />
 
         {price && (
