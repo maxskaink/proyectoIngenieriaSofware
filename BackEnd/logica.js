@@ -74,7 +74,6 @@ export const agregarProducto = async ({nombre, descripcion, precio, categoria })
         message: 'La inserción termino de forma exitosa',
     }
     
-
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
 
@@ -85,7 +84,10 @@ export const agregarProducto = async ({nombre, descripcion, precio, categoria })
       precio,
       categoria
     }, { autoCommit: true })
-    .catch( () => {result.state = 'ERROR'; result.message='No se puede hacer la insercion, el nombre ya existe'});
+    .catch( (err) => {
+      result.state = 'ERROR'; result.message='No se puede hacer la insercion, el nombre ya existe'
+      console.log(err)
+    });
     
     if (connection) {
         await connection.close()
