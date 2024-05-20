@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Provider } from '../class/provider';
 import { getProviders } from '../helpers/querys';
 
-
 const defaultProvider = new Provider([]);
 
 
@@ -21,15 +20,12 @@ export const SelectProvider = ({ handleSelectedProvider }) => {
     };
 
     return (
-        <div>
-            <label htmlFor="provider">Selecciona un proveedor:</label>
-            <select id="provider" onChange={handleProviderChange} required>
-                <option value="">Seleccionar proveedor</option>
-                {providers.map((provider = defaultProvider) => (
-                    <option key={provider.nit} value={provider.nit}>{provider.nombre}</option>
-                ))}
-            </select>
-        </div>
+        <select  className="select-product" onChange={handleProviderChange} required>
+            <option value="">Seleccionar proveedor</option>
+            {providers.map((provider = defaultProvider) => (
+                <option key={provider.nit} value={provider.nit}>{provider.nombre}</option>
+            ))}
+        </select>
     );
 };
 

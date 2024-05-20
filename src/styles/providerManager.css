@@ -1,0 +1,23 @@
+.contenidoProvider{
+    width: 90vh;
+    height: 100vh;
+    border-radius: 2%;
+    padding: 3vh;
+    background-color: #ffffff;
+    transition: .5s;
+}
+
+.contenedor-Porvier{
+    display: flex;
+    font-family: "Encode Sans Expanded", Encode Sans Expanded;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+.contenedorAgregarProvider{
+
+}
+.contenedorActualizaeProvider{
+
+}

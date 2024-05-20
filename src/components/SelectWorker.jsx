@@ -25,8 +25,8 @@ export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => 
 
     return (
         <div>
-            <select id="worker" value={selectedWorker} onChange={handleWorkerChange}>
-                <option value="">Selecciona...</option>
+            <select className="select-product" id="worker" value={selectedWorker} onChange={handleWorkerChange}>
+                <option value="">Selecciona un trabajador</option>
                 {workers.map((worker = defaultWorker) => (
                     filterWorker(worker) &&
                     <option key={worker.cedulaTrabajador} value={worker.cedulaTrabajador}>

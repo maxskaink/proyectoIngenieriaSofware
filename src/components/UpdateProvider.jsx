@@ -48,20 +48,20 @@ export function UpdateProvider() {
 
                 <label>
                     Nombre:
-                    <input type="text" name="nombre" value={formData.name} onChange={handleChange} />
+                    <input className='price-input' type="text" name="nombre" value={formData.name} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
                     Teléfono:
-                    <input type="number" name="telefono" value={formData.phone} onChange={handleChange} />
+                    <input className='price-input' type="number" name="telefono" value={formData.phone} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
                     Dirección:
-                    <input type="text" name="direccion" value={formData.address} onChange={handleChange} />
+                    <input className='price-input' type="text" name="direccion" value={formData.address} onChange={handleChange} />
                 </label>
                 <br />
-                <button type="submit">Enviar</button>
+                <button className= "add-button" type="submit">Enviar</button>
             </form>
         </div>
     );

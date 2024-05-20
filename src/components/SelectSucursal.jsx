@@ -26,8 +26,7 @@ export const SelectSucursal = ({handleSelectedSucursal}) => {
     };
 
     return (
-        <label>
-            <select value={selectedSucursal} onChange={handleSelectChange} required>
+            <select className="select-product"  value={selectedSucursal} onChange={handleSelectChange} required>
                 <option value="">Selecciona una sucursal</option>
                 {sucursales.map((sucursal) => (
                     <option key={sucursal.idsucursal} value={sucursal.idsucursal}>
@@ -35,7 +34,6 @@ export const SelectSucursal = ({handleSelectedSucursal}) => {
                     </option>
                 ))}
             </select>
-        </label>
     );
 };
 

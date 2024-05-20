@@ -23,14 +23,12 @@ export const SelectLot = ({handleSelectLot, disabled}) => {
     };
 
     return (
-        <div>
-            <select value={selectedLot} onChange={handleLotChange} required disabled={disabled}>
+            <select  className="select-product" value={selectedLot} onChange={handleLotChange} required disabled={disabled}>
                 <option value="">Seleccione un lote</option>
                 {lots.map(lot => (
                     <option key={`select-lot-${lot.idLote}`} value={lot.idLote}>{lot.fechaProduccion + " - " + lot.fechaVencimiento}</option>
                 ))}
             </select>
-        </div>
     );
 };
 

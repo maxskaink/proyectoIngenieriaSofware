@@ -27,7 +27,7 @@ export const SelectClient = ({ handleSelectedClient }) => {
 
     return (
         <div>
-            <select id="client" value={selectedClient} onChange={handleClientChange} required>
+            <select className="select-product" id="client" value={selectedClient} onChange={handleClientChange} required>
                 <option value="">Seleccione un cliente</option>
                 {clients.map((client) => (
                     <option key={client.cedula} value={client.cedula}>

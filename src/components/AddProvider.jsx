@@ -51,25 +51,25 @@ export const AddProvider = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     NIT:
-                    <input type="number" name="nit" value={providerData.nit} onChange={handleChange} required />
+                    <input className='price-input' type="number" name="nit" value={providerData.nit} onChange={handleChange} required />
                 </label>
                 <br />
                 <label>
                     Name:
-                    <input type="text" name="nombre" value={providerData.name} onChange={handleChange} required />
+                    <input className= "price-input" type="text" name="nombre" value={providerData.name} onChange={handleChange} required />
                 </label>
                 <br />
                 <label>
                     Phone:
-                    <input type="number" name="telefono" value={providerData.phone} onChange={handleChange} required />
+                    <input className='price-input' type="number" name="telefono" value={providerData.phone} onChange={handleChange} required />
                 </label>
                 <br />
                 <label>
                     Address:
-                    <input type="text" name="direccion" value={providerData.address} onChange={handleChange} required />
+                    <input className='price-input' type="text" name="direccion" value={providerData.address} onChange={handleChange} required />
                 </label>
                 <br />
-                <button type="submit">Submit</button>
+                <button className='add-button' type="submit">Submit</button>
             </form>
         </div>
     );
