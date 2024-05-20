@@ -1,0 +1,42 @@
+.containerAddMoney{
+    background: white;
+    width: 45vh;
+    height: 20vh;
+    border-radius: 3%;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100vh;
+    height: 100vh;
+}
+.price-input {
+    width: 100%;
+    padding: 2vh;
+    margin-bottom: 10px;
+    margin-top: 10PX;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.bttEnviar {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #3bca88;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}

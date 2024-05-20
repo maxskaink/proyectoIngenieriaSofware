@@ -50,7 +50,7 @@ export const ManageProduct = ({
       setStateForm({
         isValid: false,
         message:
-          "Ingrese al menos una descripcion, precio y nombre del producto",
+          "Los datos del producto no están completos.Falta datos del producto.",
         className: "manageProduct-message-error",
       });
       return;
@@ -66,7 +66,7 @@ export const ManageProduct = ({
       if (response.data.state === "OK")
         setStateForm({
           isValid: true,
-          message: "Se ha agregado el producto",
+          message: "El producto se registró correctamente",
           className: "manageProduct-message",
         });
     } catch (error) {

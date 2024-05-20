@@ -1,10 +1,17 @@
 .cont-inform-semana{
-    width: 40vh;
-    padding: 10px; 
-    border-radius: 2%; 
-    color: #333; 
+    width: 74vh;
+    padding: 10px;
+    border-radius: 2%;
+    color: #333;
+    overflow: auto;
+    height: 77vh;
+  
 }
 .cont-inform-semana p{
-    padding: 1vh;
+    border-radius: 10px;
     font-size: 2vh;
+    background-color: #eff4f5;
+    margin-top: 1vh;
+    padding: 1vh;
+    width: 71vh;
 }

@@ -36,19 +36,21 @@ export const AddMoney = () => {
     }
 
     return (
-        <div>
-            <h2>Agregar Dinero</h2>
-            <form onSubmit={handleSubmit}>
-                <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
-                <input
-                    type="number"
-                    value={info.dinero}
-                    onChange={handleInputChange}
-                    placeholder="Ingrese la cantidad"
-                    required
-                />
-                <button type="submit">Agregar</button>
-            </form>
+        <div className='container'>
+            <div className='containerAddMoney'>
+                <h2>Agregar Dinero</h2>
+                <form onSubmit={handleSubmit}>
+                    <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
+                    <input
+                        type="number"
+                        value={info.dinero}
+                        onChange={handleInputChange}
+                        placeholder="Ingrese la cantidad"
+                        required
+                    />
+                    <button type="submit">Agregar</button>
+                </form>
+            </div>
         </div>
     );
 };
