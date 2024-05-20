@@ -17,6 +17,7 @@ export function CatalogoManager() {
     e.preventDefault();
     return await deleteProduct(productSelected).then((res) => {
       setProductSelected(undefined);
+      window.alert("La eliminación fue exitosa");
       return res;
     });
   };
@@ -31,6 +32,7 @@ export function CatalogoManager() {
   const handleUpdateProduct = async (producto) => {
     return await updateProduct(producto).then((res) => {
       setProductSelected(undefined);
+      window.alert("La modificación fue exitosa.");
       return res;
     });
   };
