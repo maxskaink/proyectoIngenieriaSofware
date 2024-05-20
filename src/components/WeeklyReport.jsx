@@ -23,7 +23,7 @@ export const WeeklyReport = () => {
 
     return (
         <div>
-            <h1>Reportes Semanales</h1>
+            <h1 className='title-stock'>Reportes Semanales</h1>
             {reports.length > 0 ? (
                 <div>
                      <select className='selectFecha' name="reportSelect" id="reportSelect" onChange={handleSelectChange}>
