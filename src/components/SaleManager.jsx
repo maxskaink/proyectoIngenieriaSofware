@@ -80,7 +80,12 @@ export const SaleManager = () => {
         //window.location.reload();
       } else window.alert("Error al realizar la venta");
 
-      setOrder({ products: [], medioPago: "" });
+      setOrder({
+        products: [],
+        idSucursal: undefined,
+        cedulaTrabajador : undefined,
+        estado: "Entregado"
+      });
     } catch (error) {
       console.error(error);
       window.alert("Error al realizar la venta");
@@ -109,7 +114,7 @@ export const SaleManager = () => {
             <form>
               <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
               <SelectClient handleSelectedClient={handleSelectClient} />
-              <SelectWorker handleSelectWorker={handleSelectWorker} filterWorker={filterWorker}/>
+              <SelectWorker handleSelectWorker={handleSelectWorker} filterWorker={filterWorker} disable={!order.idSucursal}/>
               <button className= "bttEnviar" type="button" onClick={handleSubmit}>
                 <p>Enviar</p>
               </button>

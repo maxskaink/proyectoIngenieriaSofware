@@ -4,7 +4,8 @@
   display: grid;
   grid-template-columns: 20% 1fr;
   grid-gap: 20px;
-  background-image: radial-gradient(ellipse farthest-corner at 45px 30px , #7ed56fcc    50%,  50%, rgba(40, 180, 131) 50% );  
+  background-image: radial-gradient(ellipse farthest-corner at 45px 30px, #7ed56fcc 50%, 50%, rgba(40, 180, 131) 50%);
+
 }
 
 html,

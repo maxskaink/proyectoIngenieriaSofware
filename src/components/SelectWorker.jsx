@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 
 const defaultWorker = new Trabajador(['', '', '', '', '', '']);
 
-export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => {
+export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true, disable}) => {
     const [workers, setWorkers] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState('');
 
@@ -40,5 +40,6 @@ export const SelectWorker = ({handleSelectWorker, filterWorker = ()=> true}) => 
 
 SelectWorker.propTypes = {
     handleSelectWorker: PropTypes.func.isRequired,
-    filterWorker: PropTypes.func
+    filterWorker: PropTypes.func,
+    disable: PropTypes.bool,
 };

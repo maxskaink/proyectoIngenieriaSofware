@@ -23,7 +23,11 @@ import {agregarProducto,
         consultarProductosSucursal,
         obtenerTrabajadores, 
         agregarTrabajador,
-        actualizarTrabajador
+        actualizarTrabajador,
+        descuentoCliente,
+        cambiarPreciosTodo,
+        obtenerHistorialComprasCliente,
+        obtenerPrincipalesClientesUltimoMes
       } from '../BackEnd/logica.js';
 import cors from 'cors';
 import express from 'express';
@@ -315,6 +319,50 @@ app.put('/actualizar-trabajador', async (req, res) => {
       res.status(500).json(result);
 });
 
+app.get('/obtener-descuento-cliente', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los descuentos de un cliente
+    const descuento = await descuentoCliente(req.query);
+
+    // Enviar los descuentos como respuesta
+    res.json(descuento);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar descuentos' });
+  }
+});
+
+app.put('/cambiar-precios-todo', async (req, res) => {
+  const result = await cambiarPreciosTodo(req.body)
+  .catch(err => console.log(err))
+  if(result?.state === 'OK')
+      res.json(result);
+  else
+      res.status(500).json(result);
+});
+
+app.get('/obtener-historial-compras-cliente', async (req, res) => {
+  try {
+    // Llamar a la función que consulta el historial de compras de un cliente
+    const historial = await obtenerHistorialComprasCliente(req.query);
+
+    // Enviar el historial como respuesta
+    res.json(historial);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar historial' });
+  }
+});
+
+app.get('/obtener-principales-clientes-ultimo-mes', async (req, res) => {
+  try {
+    // Llamar a la función que consulta los principales clientes del último mes
+    const clientes = await obtenerPrincipalesClientesUltimoMes();
+
+    // Enviar los clientes como respuesta
+    res.json(clientes);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al consultar clientes' });
+  }
+});
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor Express escuchando en http://localhost:${PORT}`);

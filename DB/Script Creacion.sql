@@ -239,8 +239,8 @@ BEGIN
         END IF;
     END IF;
 END;
-/
 
+/
 --VISTAS
 
 CREATE OR REPLACE VIEW productos_inventario AS

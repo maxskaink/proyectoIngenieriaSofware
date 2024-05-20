@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
 import { Inform } from "../src/class/inform.js";
@@ -6,6 +7,12 @@ import { Client } from "../src/class/client.js";
 import { Sucursal } from "../src/class/sucursal.js";
 import { Lote } from "../src/class/lote.js";
 import { Trabajador } from "../src/class/trabajador.js";
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const oracledb = require("oracledb");
+ 
 
 const user = 'gestiontotal'
 const  password = 'oracle'
@@ -17,19 +24,46 @@ export const consultarProductosSucursal = async ({idSucursal}) => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+
+    const ProductoSucursal = await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.PRODUCTO_SUCURSAL_TABLA");
+
     // Consulta SELECT
-    const query = 'select * from productos_inventario where idSucursal = :idSucursal OR nvl(idSucursal, 0) = 0';
-    const result = await connection.execute(query, {idSucursal});
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.productos_inventario_sucursal(:idSucursal); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: ProductoSucursal
+          },
+          idSucursal
+      }
+
+    );
+
+
     // Extraer filas del resultado
-    const productos = result.rows.map( (producto) => new Product(producto));
-  
+    const res = result.outBinds.ret;
+
+    let Productos = Array.from(res).map( (element) => {
+      return new Product([
+        element.IDPRODUCTO,
+        element.NOMBREPRODUCTO, 
+        element.DESCRIPCIONPRODUCTO,
+        element.PRECIOACTUAL,
+        element.ACTIVO,
+        element.CATEGORIA,
+        element.IDSUCURSAL,
+        element.CANTIDAD
+      ])
+    });
     // Cerrar la conexión
     await connection.close();
   
-    return productos;
+    return Productos;
   } catch (err) {
-    console.log(err)
+    console.log(err) 
   }
 };
 export const agregarProducto = async ({nombre, descripcion, precio, categoria }) => {
@@ -67,16 +101,39 @@ export const consultarProductos = async () => {
         // Obtener conexión
         const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
     
+        const ProductoActivo = await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.PRODUCTOS_TABLA");
+
         // Consulta SELECT
-        const query = 'select * from PRODUCTO WHERE ACTIVADO = 1';
-        const result = await connection.execute(query);
+        const result = await connection.execute(
+          `BEGIN 
+            :ret := paquete_gestionContable.productos_activos(); 
+            END;`,
+          {
+              ret: {
+                  dir: oracledb.BIND_OUT,
+                  type: ProductoActivo
+              }
+          }    
+        );
         // Extraer filas del resultado
-        const productos = result.rows.map( (producto) => new Product(producto));
-    
+        const res = result.outBinds.ret;
+
+        let Productos = Array.from(res).map( (element) => {
+          return new Product([
+            element.IDPRODUCTO,
+            element.NOMBREPRODUCTO, 
+            element.DESCRIPCIONPRODUCTO,
+            element.PRECIOACTUAL,
+            element.ACTIVO,
+            element.CATEGORIA,
+            element.IDSUCURSAL,
+            element.CANTIDAD
+          ])
+        });
         // Cerrar la conexión
         await connection.close();
-    
-        return productos;
+      
+        return Productos;
       } catch (err) {
         console.log(err)
       }
@@ -115,18 +172,39 @@ export const consultarProductoId = async ({id}) => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+    const Producto = await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.PRODUCTO_DETALLE");
+
     // Consulta SELECT
-    const query = 'select * from PRODUCTO WHERE idProducto = :id';
-    const result = await connection.execute(query, {id});
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.producto_by_id(:id); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: Producto
+          },
+          id
+      }    
+    );
     // Extraer filas del resultado
-    const productos = result.rows.length > 0 && new Product(result.rows[0]);
+    const res = result.outBinds.ret;
+    
+    let productos =  new Product([
+        res.IDPRODUCTO,
+        res.NOMBREPRODUCTO, 
+        res.DESCRIPCIONPRODUCTO,
+        res.PRECIOACTUAL,
+        res.ACTIVO,
+        res.CATEGORIA
+      ]);
     // Cerrar la conexión
     await connection.close();
   
     return productos;
   } catch (err) {
-    console.log(err)
+    console.log("No se encontro ningun dato coincidente");
+    return false;
   }
 }
 
@@ -134,12 +212,27 @@ export const obtenerCategorias = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+    const categoria = await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.CATEGORIAS_TABLA");
+
     // Consulta SELECT
-    const query = 'select categoria from producto group by categoria;';
-    const result = await connection.execute(query);
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.categorias_productos(); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: categoria
+          }
+      }    
+    );
     // Extraer filas del resultado
-    const categorias = result.rows;
+    const res = result.outBinds.ret;
+
+    let categorias = Array.from(res).map( (element) => {
+      return element
+    });
+    
     // Cerrar la conexión
     await connection.close();
   
@@ -158,11 +251,20 @@ export const consultarDineroSucursal = async ({idSucursal}) => {
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
   
     // Consulta SELECT
-    const query = 'select capital from sucursal where idSucursal = :idSucursal';
-    const result = await connection.execute(query, {idSucursal}, { autoCommit: true });
-  
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.capital_sucursal(:idSucursal); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: oracledb.DB_TYPE_NUMBER
+          },
+          idSucursal
+      }    
+    );
     // Extraer filas del resultado
-    const dinero = result.rows[0][0];
+    const dinero = result.outBinds.ret;
     // Cerrar la conexión
     await connection.close();
   
@@ -178,9 +280,19 @@ export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
     if(dinero < 0 ) return {state: 'ERROR', message: 'No se puede agregar dinero negativo'};
     
     //Obtenemos el dinero actual de la sucursal
-    const query = 'select capital from sucursal where idSucursal = :idSucursal';
-    const result = await connection.execute(query, {idSucursal}, { autoCommit: true });
-    const dineroActual = result.rows[0][0];
+    const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.capital_sucursal(:idSucursal); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: oracledb.DB_TYPE_NUMBER
+          },
+          idSucursal
+      }    
+    );
+    const dineroActual = result.outBinds.ret;
     //Sumamos el dinero actual con el dinero que se va a agregar
     const dineroTotal = parseInt(dineroActual) + parseInt(dinero);
 
@@ -231,7 +343,7 @@ export const crearCompra = async ({nitProveedor, idSucursal , products = []}) =>
   }
 }
 
-export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado, products = []}) => {
+export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado= 'Entregado', products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
 
@@ -339,16 +451,36 @@ export const obtenerProveedores = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
-    // Consulta SELECT
-    const query = 'select * from proveedor';
-    const result = await connection.execute(query);
+    const proveedor =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.PROVEEDORES_TABLA");
+
+
+     // Consulta SELECT
+     const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.proveedores(); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: proveedor
+          }
+      }    
+    );
     // Extraer filas del resultado
-    const proveedores = result.rows.map( (proveedor) => new Provider(proveedor));
+    const res = result.outBinds.ret;
+
+    let Proveedores = Array.from(res).map( (element) => {
+      return new Provider([
+        element.NIT,
+        element.NOMBREPROVEEDOR, 
+        element.TELEFONOPROVEEDOR,
+        element.DIRECCIONPROVEEDOR
+      ])
+    });
     // Cerrar la conexión
     await connection.close();
   
-    return proveedores;
+    return Proveedores;
   } catch (err) {
     console.log(err)
   }
@@ -410,16 +542,34 @@ export const obtenerClientes = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
-    // Consulta SELECT
-    const query = "select cedulacliente, nombre, correo, to_char(FECHANACIMIENTO, 'DD/MM/YYYYY') from cliente";
-    const result = await connection.execute(query);
+    const cliente =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.CLIENTES_TABLA");
+
+     // Consulta SELECT
+     const result = await connection.execute(
+      `BEGIN 
+        :ret := paquete_gestionContable.clientes(); 
+        END;`,
+      {
+          ret: {
+              dir: oracledb.BIND_OUT,
+              type: cliente
+          }
+      }    
+    );
     // Extraer filas del resultado
-    const clientes = result.rows.map( (cliente) => new Client(cliente));
+    const res = result.outBinds.ret;
+
+    let Clientes = Array.from(res).map( (element) => {
+      return new Client([
+        element.CEDULACLIENTE,
+        element.NOMBRECLIENTE, 
+        element.CORREOCLIENTE,
+        element.FECHANACCLIENTE
+      ])
+    });
     // Cerrar la conexión
-    await connection.close();
-  
-    return clientes;
+    await connection.close();  
+    return Clientes;
   } catch (err) {
     console.log(err)
   }
@@ -528,16 +678,36 @@ export const obtenerSucursales = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+    const sucursal =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.SUCURSALES_TABLA");
+
     // Consulta SELECT
-    const query = 'select * from sucursal';
-    const result = await connection.execute(query);
-    // Extraer filas del resultado
-    const sucursales = result.rows.map( (sucursal) => new Sucursal(sucursal));
-    // Cerrar la conexión
-    await connection.close();
-  
-    return sucursales;
+    const result = await connection.execute(
+     `BEGIN 
+       :ret := paquete_gestionContable.sucursales(); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: sucursal
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   let Sucursales = Array.from(res).map( (element) => {
+     return new Sucursal([
+       element.IDSUCURSAL,
+       element.NOMBRESUCURSAL, 
+       element.TELEFONOSUCURSAL,
+       element.CAPITALSUCURSAL,
+       element.DIRECCIONSUCURSAL,
+       element.ESTADOSUCURSAL
+     ])
+   });
+   // Cerrar la conexión
+   await connection.close();  
+   return Sucursales;  
   } catch (err) {
     console.log(err)
   }
@@ -580,16 +750,33 @@ export const obtenerLotes = async () => {
   try {
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+    const lote =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.LOTES_TABLA");
+
     // Consulta SELECT
-    const query = "select idLote, to_char(fechaProduccion, 'DD-MM-YYYY'), to_char(fechaVencimiento, 'DD-MM-YYYY') from lote";
-    const result = await connection.execute(query);
-    // Extraer filas del resultado
-    const lotes = result.rows.map( (lote) => new Lote(lote));
-    // Cerrar la conexión
-    await connection.close();
-  
-    return lotes;
+    const result = await connection.execute(
+     `BEGIN 
+       :ret := paquete_gestionContable.lotes_producto(); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: lote
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   let Lotes = Array.from(res).map( (element) => {
+     return new Lote([
+       element.IDLOTE,
+       element.FECHAPRODUCCION, 
+       element.FECHAVENCIMIENTO
+     ])
+   });
+   // Cerrar la conexión
+   await connection.close();  
+   return Lotes;    
   } catch (err) {
     console.log(err)
   }
@@ -674,27 +861,166 @@ export const actualizarTrabajador = async ({cedula, idSucursal = "" , nombre = "
       .catch( () => {result.state = 'ERROR'; result.message='No se ha podido cerrar la conexion'});
 
   }
+  
   return result;
 
 };
 
 export const obtenerTrabajadores = async () => {
-  try {
+  try {  
     // Obtener conexión
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  
+    const trabajador =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.TRABAJADORES_TABLA");
+
     // Consulta SELECT
-    const query = "select * from trabajador";
-    const result = await connection.execute(query);
-    // Extraer filas del resultado
-    const trabajadores = result.rows.map( (trabajador) => new Trabajador(trabajador));
-    // Cerrar la conexión
-    await connection.close();
-  
-    return trabajadores;
+    const result = await connection.execute(
+     `BEGIN 
+       :ret := paquete_gestionContable.trabajadores(); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: trabajador
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   let Trabajadores = Array.from(res).map( (element) => {
+     return new Trabajador([
+       element.CEDULATRABAJO,
+       element.IDSUCURSAL, 
+       element.NOMBRETRABAJADOR,
+       element.CARGOTRABAJADOR,
+       element.SALARIOTRABAJADOR,
+       element.ESTADOTRABAJADOR
+     ])
+   });
+   // Cerrar la conexión
+   await connection.close();  
+   return Trabajadores;    
   } catch (err) {
     console.log(err)
   }
 }
 
+//#endregion
+
+//#region Funcionalidades
+//TODO descuento cliente
+export const descuentoCliente = async ({idCliente}) => {
+  //  FUNCTION descuentoCliente(p_clienteId CLIENTE.CEDULACLIENTE%type)
+  //RETURN number; 
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'BEGIN :ret := paquete_gestionContable.descuentoCliente(:idCliente); END;';
+    const params = {
+      ret: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
+      idCliente: { val: idCliente, dir: oracledb.BIND_IN, type: oracledb.STRING }
+    };
+    const result = await connection.execute(query, params);
+    // Extraer filas del resultado
+    const descuento = result.outBinds.ret;
+    console.log(descuento);
+    // Cerrar la conexión
+    await connection.close();
+  
+    return descuento;
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+//TODO cambiar precios todo
+export const cambiarPreciosTodo = async ({porcentajeCambio}) => {
+  //  PROCEDURE cambiarPreciosTodo(p_porcentajeCambio number);
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'BEGIN paquete_gestionContable.cambiarPreciosTodo(:porcentajeCambio); END;';
+    const params = {
+      porcentajeCambio: { val: porcentajeCambio, dir: oracledb.BIND_IN, type: oracledb.NUMBER }
+    };
+    await connection.execute(query, params, { autoCommit: true });
+    // Cerrar la conexión
+    await connection.close();
+  
+    return {state: 'OK', message: 'Se ha cambiado el precio con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido cambiar el precio'};
+  }
+}
+//TODO historial compras cliente
+export const obtenerHistorialComprasCliente = async ({idCliente}) => {
+  try {  
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    const comprasTabla =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.COMPRAS_TABLA");
+
+    // Llamar al procedimiento
+    const result = await connection.execute(
+     `BEGIN 
+        paquete_gestionContable.historial_compras_cliente(:idCliente, :ret); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: comprasTabla
+         },
+         idCliente: {
+             dir: oracledb.BIND_IN,
+             type: oracledb.STRING,
+             val: idCliente
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   const historialCompras = Array.from(res);
+   // Cerrar la conexión
+   await connection.close();  
+   return historialCompras;    
+  } catch (err) {
+    console.log(err)
+  }
+}
+//TODO principales clientes
+
+export const obtenerPrincipalesClientesUltimoMes = async () => {
+  try {  
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    const clientesCoreTabla =  await connection.getDbObjectClass("PAQUETE_GESTIONCONTABLE.CLIENTESCORE_TABLA");
+
+    // Llamar a la función
+    const result = await connection.execute(
+     `BEGIN 
+       :ret := paquete_gestionContable.principales_clientes_ultimo_mes(); 
+       END;`,
+     {
+         ret: {
+             dir: oracledb.BIND_OUT,
+             type: clientesCoreTabla
+         }
+     }    
+   );
+   // Extraer filas del resultado
+   const res = result.outBinds.ret;
+
+   let principalesClientes = Array.from(res);
+   // Cerrar la conexión
+   await connection.close();  
+   return principalesClientes;    
+  } catch (err) {
+    console.log(err)
+  }
+}
 //#endregion

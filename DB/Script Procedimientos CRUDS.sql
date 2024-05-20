@@ -71,11 +71,9 @@ BEGIN
         COMMIT;
     EXCEPTION
         WHEN OTHERS THEN
-            -- Manejar las excepciones aqu�
-            DBMS_OUTPUT.PUT_LINE('Ocurri� un error: ' || SQLERRM);
-            -- Deshacer la transacci�n hasta el SAVEPOINT
-            ROLLBACK TO inicio_transaccion;
-    END;
+            ROLLBACK TO inicio_transaccion;    
+            RAISE_APPLICATION_ERROR(-20004,SQLERRM);
+        END;
 END InsertProductoVenta;
 /
 --INSERTAR PRODUCTO EN COMPRA
@@ -83,9 +81,14 @@ CREATE OR REPLACE PROCEDURE insertProductoCompra(
     p_CODIGOCOMPRA IN NUMBER,
     p_idProducto IN NUMBER,
     p_cantidad  IN NUMBER,
+<<<<<<< HEAD
+    p_idLote IN NUMBER,
+    p_precioUnitario IN NUMBER
+=======
     p_precioUnitario IN NUMBER,
     p_idLote IN NUMBER
 
+>>>>>>> 6060289b9e78a79148c698006ca5fd0a826d95a6
 )
 IS
     capitalSucursal Sucursal.Capital%TYPE;
@@ -148,6 +151,7 @@ EXCEPTION
     END;
 END insertProductoCompra;
 /
+
 --CRUD COMPRA
 --INSERTAR
 CREATE OR REPLACE PROCEDURE insertCompra(
