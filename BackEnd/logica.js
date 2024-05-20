@@ -313,28 +313,24 @@ export const agregarDineroSucursal = async ({idSucursal, dinero}) => {
 export const crearCompra = async ({nitProveedor, idSucursal , products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-
-
-    const query = `BEGIN INSERTCOMPRA(:nitProveedor,:idSucursal) ; END;`
-    await connection.execute(query, {nitProveedor,idSucursal}, { autoCommit: true });
-
-
-    const query2 = `select codigoCompra from compra order by fecha desc FETCH FIRST ROW ONLY`;
-    const result = await connection.execute(query2);
-    const idCompra = result.rows[0][0];
-
-    for (let i = 0; i < products.length; i++) {
-      const producto = products[i];
-      const query3 = `BEGIN insertProductoCompra(:idCompra,:idProducto, :cantidad, :precioUnitario, :idLote); END;`;
-      await connection.execute(query3, {
-        idProducto: producto.product.id,
-        idCompra,
-        cantidad: producto.quantity,
-        precioUnitario: producto.price,
-        idLote: producto.idLote
-      }, { autoCommit: true });
-    }
-
+    const productosCompra = await connection.getDbObjectClass("TRANSACCIONES.PRODUCTOS_TABLA");
+    const query = `BEGIN TRANSACCIONES.INSERTCOMPRA(:nitProveedor,:idSucursal, :productos) ; END;`
+    const binds= {
+      productos:{
+        dir: oracledb.BIND_IN,
+        type: productosCompra,
+        val: products.map((item)=>({
+          IDPRODUCTO: item.product.id,
+          CANTIDAD: parseInt(item.quantity),
+          PRECIOUNITARIO: parseInt(item.price),
+          IDLOTE: parseInt(item.idLote)
+        }))
+      },
+      nitProveedor,
+      idSucursal
+    };
+    
+    await connection.execute(query, binds, { autoCommit: true });
     await connection.close();
     return {state: 'OK', message: 'Se ha creado la compra con éxito'};
   }catch(err){
@@ -346,10 +342,26 @@ export const crearCompra = async ({nitProveedor, idSucursal , products = []}) =>
 export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, estado= 'Entregado', products = []}) => {
   try{
     const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-
-    const query = `BEGIN INSERTPEDIDO(:cedulaCliente, :idSucursal, :cedulaTrabajador, :estado); END;`;
-    await connection.execute(query, {cedulaCliente, idSucursal, cedulaTrabajador, estado}, { autoCommit: true });
-
+    const productosVenta = await connection.getDbObjectClass("TRANSACCIONES.PRODUCTOS_TABLA");
+    const query = `BEGIN TRANSACCIONES.INSERTPEDIDO(:cedulaCliente, :idSucursal, :cedulaTrabajador, :estado, :productos); END;`;
+    const binds ={
+      productos:{
+        dir: oracledb.BIND_IN,
+        type: productosVenta,
+        val: products.map((item)=>({
+          IDPRODUCTO: item.product.id,
+          CANTIDAD: parseInt(item.quantity),
+          PRECIOUNITARIO: 0,
+          IDLOTE: 0
+        }))
+      },
+      cedulaCliente, 
+      idSucursal, 
+      cedulaTrabajador, 
+      estado
+    }
+    await connection.execute(query, binds, { autoCommit: true });
+/* 
     const query2 = `select codigoPedido from pedido order by fecha desc FETCH FIRST ROW ONLY`;
     const result = await connection.execute(query2);
     const idVenta = result.rows[0][0];
@@ -362,7 +374,7 @@ export const crearVenta = async ({cedulaCliente, idSucursal, cedulaTrabajador, e
         idVenta,
         cantidad: producto.quantity
       }, { autoCommit: true });
-    }
+    } */
 
     await connection.close();
     return {state: 'OK', message: 'Se ha creado la venta con éxito'};

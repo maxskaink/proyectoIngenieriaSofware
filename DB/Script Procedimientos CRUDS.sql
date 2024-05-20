@@ -1,9 +1,10 @@
---INSERTAR PRODUCTO EN VENTA
 --ESTEBAN SANTIAGO ESCANDON CAUSAYA
 --ISABELA MOSQUERA FERNANDEZ
 --JULIAN DAVID MENESES DAZA
 --Isabela Sánchez Saavedra
 --MIGUEL ANGEL CALAMBAS VIVAS 
+
+--INSERTAR PRODUCTO EN VENTA
 CREATE OR REPLACE PROCEDURE InsertProductoVenta(
     p_idProducto IN NUMBER,
     p_codigoVenta IN NUMBER,
@@ -14,66 +15,54 @@ IS
     v_idsucursal PEDIDO.idsucursal%TYPE;
     capitalSucursal SUCURSAL.Capital%TYPE;
     v_count NUMBER;
-BEGIN
-    -- Iniciar la transacci�n con un SAVEPOINT
-    SAVEPOINT inicio_transaccion;
-
-    BEGIN
+BEGIN    
+    -- Verificar si la venta existe
+    SELECT COUNT(*) INTO v_count FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El c�digo de venta no es v�lido');
+    END IF;
     
-        -- Verificar si la venta existe
-        SELECT COUNT(*) INTO v_count FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta;
-        IF v_count = 0 THEN
-            RAISE_APPLICATION_ERROR(-20003, 'El c�digo de venta no es v�lido');
-        END IF;
+    SELECT IDSUCURSAL INTO V_IDSUCURSAL  FROM PEDIDO WHERE CODIGOPEDIDO = p_codigoVenta;
+    -- Verificar si el producto existe
+    SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = p_idProducto;
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El c�digo del producto no es v�lido');
+    END IF;
+    
+        -- Si el producto no existe en el inventario de la sucursal , crear una nueva entrada
+    IF v_count = 0 THEN
+        INSERT INTO InventarioSucursal (IDSUCURSAL, IDPRODUCTO, CANTIDAD)
+        VALUES (V_IDSUCURSAL, p_idProducto, 0);
+    END IF;
         
-        SELECT IDSUCURSAL INTO V_IDSUCURSAL  FROM PEDIDO WHERE CODIGOPEDIDO = p_codigoVenta;
-        -- Verificar si el producto existe
-        SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = p_idProducto;
-        IF v_count = 0 THEN
-            RAISE_APPLICATION_ERROR(-20002, 'El c�digo del producto no es v�lido');
-        END IF;
-        
-         -- Si el producto no existe en el inventario de la sucursal , crear una nueva entrada
-        IF v_count = 0 THEN
-            INSERT INTO InventarioSucursal (IDSUCURSAL, IDPRODUCTO, CANTIDAD)
-            VALUES (V_IDSUCURSAL, p_idProducto, 0);
-        END IF;
-            
-        -- Verificar si hay suficiente stock para la venta
-        SELECT cantidad INTO v_count FROM InventarioSucursal WHERE idProducto = p_idProducto  AND IDSUCURSAL = V_IDSUCURSAL;
-        IF (v_count - p_cantidad) < 0 THEN
-            RAISE_APPLICATION_ERROR(-20004, 'No se pueden vender una cantidad inexistente');
-        END IF;
-        
+    -- Verificar si hay suficiente stock para la venta
+    SELECT cantidad INTO v_count FROM InventarioSucursal WHERE idProducto = p_idProducto  AND IDSUCURSAL = V_IDSUCURSAL;
+    IF (v_count - p_cantidad) < 0 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'No se pueden vender una cantidad inexistente');
+    END IF;
+    
 
-        -- Obtener el precio actual del producto
-        SELECT PrecioActual INTO precioProducto FROM Producto WHERE idProducto = p_idProducto;
+    -- Obtener el precio actual del producto
+    SELECT PrecioActual INTO precioProducto FROM Producto WHERE idProducto = p_idProducto;
 
-        -- Obtener el capital de la sucursal
-        SELECT Capital INTO capitalSucursal FROM Sucursal WHERE IDSUCURSAL = (SELECT IDSUCURSAL FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta);
+    -- Obtener el capital de la sucursal
+    SELECT Capital INTO capitalSucursal FROM Sucursal WHERE IDSUCURSAL = (SELECT IDSUCURSAL FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta);
 
-        -- Insertar el producto en la t	abla ProductoVenta
-        INSERT INTO ProductoVenta (codigoventa, idproducto, cantidad, preciounitario) 
-        VALUES (p_codigoVenta, p_idProducto, p_cantidad, precioProducto);
+    -- Insertar el producto en la t	abla ProductoVenta
+    INSERT INTO ProductoVenta (codigoventa, idproducto, cantidad, preciounitario) 
+    VALUES (p_codigoVenta, p_idProducto, p_cantidad, precioProducto);
 
-        -- Actualizar el capital de la sucursal
-        UPDATE Sucursal SET Capital = capitalSucursal + (precioProducto * p_cantidad) WHERE IDSUCURSAL = (SELECT IDSUCURSAL FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta);
+    -- Actualizar el capital de la sucursal
+    UPDATE Sucursal SET Capital = capitalSucursal + (precioProducto * p_cantidad) WHERE IDSUCURSAL = (SELECT IDSUCURSAL FROM Pedido WHERE CODIGOPEDIDO = p_codigoVenta);
 
-        -- Actualizar el inventario de la sucursal en la tabla InventarioSucursal
-        UPDATE InventarioSucursal
-        SET cantidad = cantidad - p_cantidad
-        WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
-        
-        -- Actualizar el precio total de la venta
-        UPDATE Pedido SET PRECIOTOTAL = PRECIOTOTAL + (precioProducto * p_cantidad) WHERE CODIGOPEDIDO = p_codigoVenta;
+    -- Actualizar el inventario de la sucursal en la tabla InventarioSucursal
+    UPDATE InventarioSucursal
+    SET cantidad = cantidad - p_cantidad
+    WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
+    
+    -- Actualizar el precio total de la venta
+    UPDATE Pedido SET PRECIOTOTAL = PRECIOTOTAL + (precioProducto * p_cantidad) WHERE CODIGOPEDIDO = p_codigoVenta;
 
-        -- Confirmar la transacci�n
-        COMMIT;
-    EXCEPTION
-        WHEN OTHERS THEN
-            ROLLBACK TO inicio_transaccion;    
-            RAISE_APPLICATION_ERROR(-20004,SQLERRM);
-        END;
 END InsertProductoVenta;
 /
 --INSERTAR PRODUCTO EN COMPRA
@@ -81,25 +70,16 @@ CREATE OR REPLACE PROCEDURE insertProductoCompra(
     p_CODIGOCOMPRA IN NUMBER,
     p_idProducto IN NUMBER,
     p_cantidad  IN NUMBER,
-<<<<<<< HEAD
-    p_idLote IN NUMBER,
-    p_precioUnitario IN NUMBER
-=======
     p_precioUnitario IN NUMBER,
     p_idLote IN NUMBER
 
->>>>>>> 6060289b9e78a79148c698006ca5fd0a826d95a6
 )
 IS
     capitalSucursal Sucursal.Capital%TYPE;
     v_idsucursal Compra.idsucursal%TYPE;
     v_count NUMBER;
 
-BEGIN
-    -- Iniciar la transacci�n con un SAVEPOINT
-    SAVEPOINT inicio_transaccion;
-    BEGIN
-    
+BEGIN    
     SELECT IDSUCURSAL INTO V_IDSUCURSAL  FROM Compra WHERE CODIGOCOMPRA = p_CODIGOCOMPRA;
     -- Verificar si el producto existe
     SELECT COUNT(*) INTO v_count FROM Producto WHERE idProducto = p_idProducto;
@@ -113,7 +93,8 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, 'El c�digo de compra no es v�lido');
     END IF;
 
-    SELECT COUNT(*) INTO v_count FROM INVENTARIOSUCURSAL WHERE idProducto = p_idProducto;
+    SELECT COUNT(*) INTO v_count FROM INVENTARIOSUCURSAL 
+    WHERE idProducto = p_idProducto AND V_IDSUCURSAL = IDSUCURSAL;
         -- Si el producto no existe en el inventario de la sucursal , crear una nueva entrada
     IF v_count = 0 THEN
         INSERT INTO InventarioSucursal (IDSUCURSAL, IDPRODUCTO, CANTIDAD)
@@ -144,30 +125,52 @@ BEGIN
     UPDATE InventarioSucursal
     SET cantidad = cantidad + p_cantidad
     WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK TO inicio_transaccion;    
-        RAISE_APPLICATION_ERROR(-20004,SQLERRM);
-    END;
 END insertProductoCompra;
 /
 
 --CRUD COMPRA
 --INSERTAR
+
 CREATE OR REPLACE PROCEDURE insertCompra(
     p_nitProveedor in COMPRA.NIT%TYPE,
-    p_idSucursal in COMPRA.IDSUCURSAL%TYPE
+    p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
+    p_productos in TRANSACCIONES.PRODUCTOS_TABLA
 )
 IS
     v_idSucursal COMPRA.IDSUCURSAL%TYPE;
+    v_idCompra NUMBER;
 BEGIN
+    SAVEPOINT inicio_transaccion;
+
     SELECT Sucursal.idsucursal
     INTO v_idSucursal
     FROM sucursal
     WHERE estado = 1 AND IDSUCURSAL = p_idSucursal;
-    
-    INSERT INTO COMPRA (NIT, IDSUCURSAL, FECHA, PRECIOTOTAL) VALUES(p_nitProveedor, v_idSucursal, SYSDATE, 0);
 
+    SELECT SEQ_COMPRA.NEXTVAL 
+    INTO v_idCompra
+    FROM DUAL;
+
+    IF p_productos.count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20006, 'Ingrese al menos un producto');
+    END IF;
+
+    INSERT INTO COMPRA (CODIGOCOMPRA,NIT, IDSUCURSAL, FECHA, PRECIOTOTAL) VALUES(v_idCompra, p_nitProveedor, v_idSucursal, SYSDATE, 0);
+    
+    FOR i IN p_productos.FIRST.. p_productos.LAST LOOP
+        insertProductoCompra(
+            v_idCompra, 
+            p_productos(i).idProducto, 
+            p_productos(i).cantidad, 
+            p_productos(i).precioUnitario, 
+            p_productos(i).idLote);
+    END LOOP;
+
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK TO inicio_transaccion;
+        RAISE;
 END insertCompra;
 /
 --ACTUALIZAR
@@ -188,12 +191,15 @@ CREATE OR REPLACE PROCEDURE insertPedido(
     p_cedulaCliente in COMPRA.NIT%TYPE,
     p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
     p_cedulaTrabajador in trabajador.CEDULATRABAJo%TYPE,
-    p_estado in PEDIDO.ESTADO%TYPE
+    p_estado in PEDIDO.ESTADO%TYPE,
+    p_productos in TRANSACCIONES.PRODUCTOS_TABLA
 )
 IS
     v_idSucursal COMPRA.IDSUCURSAL%TYPE;
     v_idTrabajador trabajador.CEDULATRABAJo%TYPE;
+    v_idPedido NUMBER;
 BEGIN
+    SAVEPOINT inicio_transaccion;
     SELECT Sucursal.idsucursal
     INTO v_idSucursal
     FROM sucursal
@@ -204,14 +210,29 @@ BEGIN
     FROM trabajador
     WHERE estado = 1 AND cedulatrabajo = p_cedulaTrabajador;
     
+    SELECT SEQ_PEDIDO.NEXTVAL
+    INTO v_idPedido
+    FROM DUAL;
+
     IF(NOT (p_estado) IN ('Entregado', 'Pendiente')) THEN 
         RAISE_APPLICATION_ERROR(-20006, 'Ingrese un estado valido (Entregado o Pendiente)');
     END IF;
     
-    INSERT INTO PEDIDO (CEDULACLIENTE, IDSUCURSAL, cedulatrabajor,FECHA, PRECIOTOTAL, ESTADO) 
-    VALUES(p_cedulacliente, v_idSucursal, v_idtrabajador,SYSDATE, 0, p_estado);
+    INSERT INTO PEDIDO (CODIGOPEDIDO,CEDULACLIENTE, IDSUCURSAL, cedulatrabajor,FECHA, PRECIOTOTAL, ESTADO) 
+    VALUES(v_idPedido, p_cedulacliente, v_idSucursal, v_idtrabajador,SYSDATE, 0, p_estado);
 
-END;
+    FOR i IN p_productos.FIRST.. p_productos.LAST LOOP
+        InsertProductoVenta(
+            p_productos(i).idProducto, 
+            v_idPedido, 
+            p_productos(i).cantidad);
+    END LOOP;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK TO inicio_transaccion;
+        RAISE;
+END insertPedido;
+
 /
 --ACTUALIZAR
 

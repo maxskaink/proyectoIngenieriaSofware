@@ -166,6 +166,7 @@ CREATE OR REPLACE PACKAGE paquete_gestionContable AS
     RETURN trabajadores_tabla;
 END paquete_gestionContable;
 /
+
 CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
   --Función que reciba como parámetro el id del cliente y devuelva el porcentaje de descuento total que se le puede hacer por fidelización
   FUNCTION descuentoCliente(p_clienteId CLIENTE.CEDULACLIENTE%type)
@@ -482,5 +483,119 @@ CREATE OR REPLACE PACKAGE BODY paquete_gestionContable AS
   END trabajadores;
 
 END paquete_gestionContable;
-
+/
 --Hacer triger de pedido para calcular el descuento si la compra se realizo en el cumple del cliente
+
+CREATE OR REPLACE PACKAGE TRANSACCIONES AS
+
+  TYPE PRODUCTO_R IS RECORD (
+    idProducto NUMBER,
+    cantidad NUMBER,
+    precioUnitario NUMBER,
+    idLote NUMBER
+  );
+
+  TYPE PRODUCTOS_TABLA IS TABLE OF PRODUCTO_R INDEX BY PLS_INTEGER;
+
+  PROCEDURE insertCompra(
+    p_nitProveedor in COMPRA.NIT%TYPE,
+    p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
+    p_productos in TRANSACCIONES.PRODUCTOS_TABLA
+  );
+  PROCEDURE insertPedido(
+    p_cedulaCliente in COMPRA.NIT%TYPE,
+    p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
+    p_cedulaTrabajador in trabajador.CEDULATRABAJo%TYPE,
+    p_estado in PEDIDO.ESTADO%TYPE,
+    p_productos in TRANSACCIONES.PRODUCTOS_TABLA
+  );
+END TRANSACCIONES;
+
+CREATE OR REPLACE PACKAGE BODY TRANSACCIONES AS
+  PROCEDURE insertCompra(
+      p_nitProveedor in COMPRA.NIT%TYPE,
+      p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
+      p_productos in TRANSACCIONES.PRODUCTOS_TABLA
+  )
+  IS
+      v_idSucursal COMPRA.IDSUCURSAL%TYPE;
+      v_idCompra NUMBER;
+  BEGIN
+      SAVEPOINT inicio_transaccion;
+
+      SELECT Sucursal.idsucursal
+      INTO v_idSucursal
+      FROM sucursal
+      WHERE estado = 1 AND IDSUCURSAL = p_idSucursal;
+
+      SELECT SEQ_COMPRA.NEXTVAL 
+      INTO v_idCompra
+      FROM DUAL;
+
+      IF p_productos.count = 0 THEN
+          RAISE_APPLICATION_ERROR(-20006, 'Ingrese al menos un producto');
+      END IF;
+
+      INSERT INTO COMPRA (CODIGOCOMPRA,NIT, IDSUCURSAL, FECHA, PRECIOTOTAL) VALUES(v_idCompra, p_nitProveedor, v_idSucursal, SYSDATE, 0);
+      
+      FOR i IN p_productos.FIRST.. p_productos.LAST LOOP
+          insertProductoCompra(
+              v_idCompra, 
+              p_productos(i).idProducto, 
+              p_productos(i).cantidad, 
+              p_productos(i).precioUnitario, 
+              p_productos(i).idLote);
+      END LOOP;
+
+      COMMIT;
+  EXCEPTION
+      WHEN OTHERS THEN
+          ROLLBACK TO inicio_transaccion;
+          RAISE;
+  END insertCompra;
+  PROCEDURE insertPedido(
+      p_cedulaCliente in COMPRA.NIT%TYPE,
+      p_idSucursal in COMPRA.IDSUCURSAL%TYPE,
+      p_cedulaTrabajador in trabajador.CEDULATRABAJo%TYPE,
+      p_estado in PEDIDO.ESTADO%TYPE,
+      p_productos in TRANSACCIONES.PRODUCTOS_TABLA
+  )
+  IS
+      v_idSucursal COMPRA.IDSUCURSAL%TYPE;
+      v_idTrabajador trabajador.CEDULATRABAJo%TYPE;
+      v_idPedido NUMBER;
+  BEGIN
+      SAVEPOINT inicio_transaccion;
+      SELECT Sucursal.idsucursal
+      INTO v_idSucursal
+      FROM sucursal
+      WHERE estado = 1 AND IDSUCURSAL = p_idSucursal;
+      
+      SELECT Trabajador.cedulaTrabajo
+      INTO v_idTrabajador
+      FROM trabajador
+      WHERE estado = 1 AND cedulatrabajo = p_cedulaTrabajador;
+      
+      SELECT SEQ_PEDIDO.NEXTVAL
+      INTO v_idPedido
+      FROM DUAL;
+
+      IF(NOT (p_estado) IN ('Entregado', 'Pendiente')) THEN 
+          RAISE_APPLICATION_ERROR(-20006, 'Ingrese un estado valido (Entregado o Pendiente)');
+      END IF;
+      
+      INSERT INTO PEDIDO (CODIGOPEDIDO,CEDULACLIENTE, IDSUCURSAL, cedulatrabajor,FECHA, PRECIOTOTAL, ESTADO) 
+      VALUES(v_idPedido, p_cedulacliente, v_idSucursal, v_idtrabajador,SYSDATE, 0, p_estado);
+
+      FOR i IN p_productos.FIRST.. p_productos.LAST LOOP
+          InsertProductoVenta(
+              p_productos(i).idProducto, 
+              v_idPedido, 
+              p_productos(i).cantidad);
+      END LOOP;
+  EXCEPTION
+      WHEN OTHERS THEN
+          ROLLBACK TO inicio_transaccion;
+          RAISE;
+  END insertPedido;
+END TRANSACCIONES;
