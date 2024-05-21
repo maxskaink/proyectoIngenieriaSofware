@@ -537,8 +537,9 @@ CREATE OR REPLACE PACKAGE BODY TRANSACCIONES AS
       END IF;
 
       INSERT INTO COMPRA (CODIGOCOMPRA,NIT, IDSUCURSAL, FECHA, PRECIOTOTAL) VALUES(v_idCompra, p_nitProveedor, v_idSucursal, SYSDATE, 0);
-      
+
       FOR i IN p_productos.FIRST.. p_productos.LAST LOOP
+          DBMS_OUTPUT.PUT_LINE('Producto: ' || p_productos(i).idProducto || ' Cantidad: ' || p_productos(i).cantidad || ' Precio: ' || p_productos(i).precioUnitario || ' Lote: ' || p_productos(i).idLote);
           insertProductoCompra(
               v_idCompra, 
               p_productos(i).idProducto, 
@@ -547,6 +548,7 @@ CREATE OR REPLACE PACKAGE BODY TRANSACCIONES AS
               p_productos(i).idLote);
       END LOOP;
 
+      DBMS_OUTPUT.PUT_LINE('Compra registrada con exito');
       COMMIT;
   EXCEPTION
       WHEN OTHERS THEN

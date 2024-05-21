@@ -34,3 +34,24 @@ BEGIN
   END LOOP;
 END;
 /
+set SERVEROUT on;
+DECLARE
+  -- Declarar variables para los parámetros
+  v_nitProveedor COMPRA.NIT%TYPE := 987654321;  -- Reemplaza con un valor válido
+  v_idSucursal COMPRA.IDSUCURSAL%TYPE := 1;  -- Reemplaza con un valor válido
+
+  -- Declarar la tabla de productos
+  v_productos TRANSACCIONES.PRODUCTOS_TABLA;
+
+BEGIN
+  -- Inicializar la tabla de productos
+  v_productos := TRANSACCIONES.PRODUCTOS_TABLA();
+
+  v_productos(1).idProducto := 2;  -- Reemplaza con un valor válido
+  v_productos(1).cantidad := 10;  -- Reemplaza con un valor válido
+  v_productos(1).precioUnitario := 100;  -- Reemplaza con un valor válido
+  v_productos(1).idLote := 1;  -- Reemplaza con un valor válido
+
+  -- Llamar al procedimiento
+  TRANSACCIONES.insertCompra(v_nitProveedor, v_idSucursal, v_productos);
+END;

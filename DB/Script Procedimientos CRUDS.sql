@@ -95,6 +95,7 @@ BEGIN
 
     SELECT COUNT(*) INTO v_count FROM INVENTARIOSUCURSAL 
     WHERE idProducto = p_idProducto AND V_IDSUCURSAL = IDSUCURSAL;
+    DBMS_OUTPUT.PUT_LINE('Cantidad: ' || v_count|| ' Producto: ' || p_idProducto || ' Sucursal: ' || V_IDSUCURSAL);
         -- Si el producto no existe en el inventario de la sucursal , crear una nueva entrada
     IF v_count = 0 THEN
         INSERT INTO InventarioSucursal (IDSUCURSAL, IDPRODUCTO, CANTIDAD)
@@ -125,6 +126,11 @@ BEGIN
     UPDATE InventarioSucursal
     SET cantidad = cantidad + p_cantidad
     WHERE IDSUCURSAL = V_IDSUCURSAL AND IDPRODUCTO = p_idProducto;
+    
+    IF SQL%ROWCOUNT = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('No se pudo actualizar el inventario de la sucursal: ' || SQL%ROWCOUNT);
+        RAISE_APPLICATION_ERROR(-20005, 'no se pudo actualizar el inventario de la sucursal');
+    END IF;
 END insertProductoCompra;
 /
 
