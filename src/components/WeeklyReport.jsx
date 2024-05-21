@@ -6,6 +6,8 @@ export const WeeklyReport = () => {
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
 
+    const [sizeText, setSizeText] = useState("small");
+
     useEffect(() => {
         getInforms().then((res) => {
             setReports(res.data);
@@ -34,7 +36,7 @@ export const WeeklyReport = () => {
                         ))}
                     </select>
                     {selectedReport ? (
-                        <Report infoReport={selectedReport} />
+                        <Report infoReport={selectedReport} sizeText={sizeText} />
                     ) : (
                         <p>No hay informes disponibles.</p>
                     )}
@@ -44,6 +46,11 @@ export const WeeklyReport = () => {
             ) : (
                 <p>No hay informes disponibles.</p>
             )}
+            <div>
+                <button className='button-size' onClick={() => setSizeText("small")}>Normal</button>
+                <button className='button-size' onClick={() => setSizeText("medium")}>Grande</button>
+                <button className='button-size' onClick={() => setSizeText("large")}>Extra Grande</button>
+            </div>
         </div>
     );
 };
