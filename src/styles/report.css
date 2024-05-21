@@ -3,8 +3,10 @@
     padding: 10px;
     border-radius: 2%;
     color: #333;
+    height: 77vh;  
     overflow: auto;
-    height: 77vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   
 }
 .cont-inform-semana p{
@@ -23,4 +25,7 @@
 }
 .cont-inform-semana.large p{
     font-size: 4vh;
+}
+.container-buttons{
+    display: flex;
 }

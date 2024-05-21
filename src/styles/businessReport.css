@@ -6,7 +6,7 @@
 
 .containerReports {
 
-    height: 91vh;
+    height: 93vh;
     width: 135vh;
     display: grid;
     grid-template-columns: 1fr 45%;
@@ -18,13 +18,13 @@
 
 .title-stock{
     height: 2vh;
-    padding: 3vh;
+    padding: 2vh;
     text-align: center;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);    
     align-content: center;
     background-color: #faf9f9;
     margin-bottom: 2vh;
-    font-size: 2vh;
+    font-size: 2vh; 
     border-radius: 0%;
 }
 .containerReports-stocks {
@@ -108,4 +108,9 @@
     border-color: #007BFF; /* Cambia el color del borde cuando está en foco */
     outline: none; /* Elimina el contorno por defecto */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra cuando está en foco */
+}
+.add-button{
+    background-color: #02586f;
+    padding: 1vh;
+    height: 40px;
 }

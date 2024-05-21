@@ -26,6 +26,12 @@ export const WeeklyReport = () => {
     return (
         <div>
             <h1 className='title-stock'>Reportes Semanales</h1>
+            <div className='container-buttons'>
+                <button className='add-button' onClick={() => setSizeText("small")}>Normal</button>
+                <button className='add-button' onClick={() => setSizeText("medium")}>Grande</button>
+                <button className='add-button' onClick={() => setSizeText("large")}>Extra Grande</button>
+            </div>
+        
             {reports.length > 0 ? (
                 <div>
                      <select className='selectFecha' name="reportSelect" id="reportSelect" onChange={handleSelectChange}>
@@ -46,11 +52,7 @@ export const WeeklyReport = () => {
             ) : (
                 <p>No hay informes disponibles.</p>
             )}
-            <div>
-                <button className='button-size' onClick={() => setSizeText("small")}>Normal</button>
-                <button className='button-size' onClick={() => setSizeText("medium")}>Grande</button>
-                <button className='button-size' onClick={() => setSizeText("large")}>Extra Grande</button>
-            </div>
+    
         </div>
     );
 };
