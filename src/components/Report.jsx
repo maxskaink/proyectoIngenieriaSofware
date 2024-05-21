@@ -4,9 +4,9 @@ import "../styles/report.css";
 
 const informDefault = new Inform([]);
 
-export const Report = ({ infoReport = informDefault }) => {
+export const Report = ({ infoReport = informDefault, sizeText}) => {
     return (
-        <div className="cont-inform-semana">
+        <div className={`cont-inform-semana ${sizeText}`}>
             <p>Semana: {infoReport.SEMANA}</p>
             <p>Ingresos por ventas: {infoReport.INGRESOS_VENTAS}</p>
             <p>Número de ventas: {infoReport.NUMERO_VENTAS}</p>
@@ -26,5 +26,6 @@ export const Report = ({ infoReport = informDefault }) => {
 
 
 Report.propTypes = {
-    infoReport: PropTypes.instanceOf(Inform)
+    infoReport: PropTypes.object,
+    sizeText: PropTypes.string
 }

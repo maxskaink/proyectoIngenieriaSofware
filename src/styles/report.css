@@ -15,3 +15,12 @@
     padding: 1vh;
     width: 71vh;
 }
+.cont-inform-semana.small p{
+    font-size: 2vh;
+}
+.cont-inform-semana.medium p{
+    font-size: 3vh;
+}
+.cont-inform-semana.large p{
+    font-size: 4vh;
+}
