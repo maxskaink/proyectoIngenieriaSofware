@@ -1,10 +1,11 @@
 .contenidoProvider{
     width: 90vh;
-    height: 100vh;
+    height: 92vh;
     border-radius: 2%;
     padding: 3vh;
     background-color: #ffffff;
     transition: .5s;
+  
 }
 
 .contenedor-Porvier{
@@ -16,8 +17,14 @@
     flex-direction: column;
 }
 .contenedorAgregarProvider{
-
+    margin-bottom: 2vh;
 }
 .contenedorActualizaeProvider{
 
+}
+.price-input{
+    padding: 1vh;
+}
+.Tittle-Agregar-Sucursal{
+    margin-bottom: 10px;
 }

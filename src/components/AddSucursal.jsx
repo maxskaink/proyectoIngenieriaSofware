@@ -33,7 +33,7 @@ export const AddSucursal = () => {
 
     return (
         <>
-        <h2>Agregar Sucursal</h2>
+        <h2 className='Tittle-Agregar-Sucursal'>Agregar Sucursal</h2>
         <form onSubmit={handleSubmit}>
             <label>
                 Nombre:
@@ -67,7 +67,7 @@ export const AddSucursal = () => {
                     required
                 />
             </label>
-            <button type="submit">Guardar</button>
+            <button className  = "bttEnviar"type="submit">Guardar</button>
         </form>
         </>
     );

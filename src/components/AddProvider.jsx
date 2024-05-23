@@ -47,7 +47,7 @@ export const AddProvider = () => {
 
     return (
         <div>
-            <h2>Add Provider</h2>
+            <h2 className='Tittle-Agregar-Sucursal'>Add Provider</h2>
             <form onSubmit={handleSubmit}>
                 <label>
                     NIT:
@@ -69,7 +69,7 @@ export const AddProvider = () => {
                     <input className='price-input' type="text" name="direccion" value={providerData.address} onChange={handleChange} required />
                 </label>
                 <br />
-                <button className='add-button' type="submit">Submit</button>
+                <button className='bttEnviar' type="submit">Agregar</button>
             </form>
         </div>
     );

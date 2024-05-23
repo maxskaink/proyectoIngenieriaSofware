@@ -72,7 +72,7 @@ export const UpdateSucursal = () => {
                         onChange={handleChange}
                     />
                 </label>
-                <button type="submit">Guardar</button>
+                <button className= "bttEnviar" type="submit">Guardar</button>
             </form>
         </>
     );

@@ -110,10 +110,11 @@ export const SaleManager = () => {
         <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
         
         <div className="contendorMedioPago">
+        <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
+        <SelectClient handleSelectedClient={handleSelectClient} />
         <SelectProductOrder onAddProduct={addProduct} actualOrder={order} justWithStock/>
             <form>
-              <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
-              <SelectClient handleSelectedClient={handleSelectClient} />
+        
               <SelectWorker handleSelectWorker={handleSelectWorker} filterWorker={filterWorker} disable={!order.idSucursal}/>
               <button className= "bttEnviar" type="button" onClick={handleSubmit}>
                 <p>Enviar</p>

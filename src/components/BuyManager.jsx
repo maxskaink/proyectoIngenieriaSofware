@@ -97,17 +97,19 @@ export const BuyManager = () => {
     <div className="boardManageBuy">
       <div className="manageBuy">
         <div className="Columna-1">
+          
           <ProductsOrder order={order} onDeleteProduct={deleteProduct} showActualMoney />
         </div>
         <div className="Columna-2">
           <h1 className="compras-titulo">Compras </h1>
+          <SelectProvider handleSelectedProvider={handelSelectProvider}/>
+          <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
           <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} showLote/>
 
           <div >
             <form className="contendorProveedor">
 
-              <SelectProvider handleSelectedProvider={handelSelectProvider}/>
-              <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
+ 
               <button className="buttonA" type="button" onClick={handleSubmit}>
                 Enviar
               </button>
