@@ -43,12 +43,12 @@ export const AddWorker = () => {
                 <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <label>
                     Nombre:
-                    <input type="text" name="nombre" value={worker.name} onChange={handleChange} required />
+                    <input className='price-input' type="text" name="nombre" value={worker.name} onChange={handleChange} required />
                 </label>
                 <br />
                 <label>
                     Puesto:
-                    <select name="puesto" value={worker.position} onChange={handleChange} required>
+                    <select className='price-input' name="puesto" value={worker.position} onChange={handleChange} required>
                         <option value="">Seleccione un puesto</option>
                         <option value="Administrador">Administrador</option>
                         <option value="Empleado">Empleado</option>
@@ -57,15 +57,15 @@ export const AddWorker = () => {
                 <br />
                 <label>
                     Salario:
-                    <input type="number" name="salario" value={worker.salary} onChange={handleChange} required/>
+                    <input  className='price-input' type="number" name="salario" value={worker.salary} onChange={handleChange} required/>
                 </label>
                 <br />
                 <label>
                     Cédula:
-                    <input type="text" name="cedulaTrabajador" value={worker.id} onChange={handleChange} required/>
+                    <input className='price-input' type="text" name="cedulaTrabajador" value={worker.id} onChange={handleChange} required/>
                 </label>
                 <br />
-                <button type="submit">Agregar</button>
+                <button className= "bttEnviar" type="submit">Agregar</button>
             </form>
         </div>
     );

@@ -37,7 +37,7 @@ export const AddSucursal = () => {
         <form onSubmit={handleSubmit}>
             <label>
                 Nombre:
-                <input
+                <input className='price-input'
                     type="text"
                     name="nombre"
                     value={formData.nombre}
@@ -48,7 +48,7 @@ export const AddSucursal = () => {
             <br />
             <label>
                 Teléfono:
-                <input
+                <input className='price-input'
                     type="number"
                     name="telefono"
                     value={formData.telefono}
@@ -59,7 +59,7 @@ export const AddSucursal = () => {
             <br />
             <label>
                 Dirección:
-                <input
+                <input className='price-input'
                     type="text"
                     name="direccion"
                     value={formData.direccion}

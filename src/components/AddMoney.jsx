@@ -41,7 +41,7 @@ export const AddMoney = () => {
                 <h2>Agregar Dinero</h2>
                 <form onSubmit={handleSubmit}>
                     <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
-                    <input
+                    <input className='price-input'
                         type="number"
                         value={info.dinero}
                         onChange={handleInputChange}

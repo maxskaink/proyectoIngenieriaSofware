@@ -110,7 +110,7 @@ export const BuyManager = () => {
             <form className="contendorProveedor">
 
  
-              <button className="buttonA" type="button" onClick={handleSubmit}>
+              <button className="bttEnviar" type="button" onClick={handleSubmit}>
                 Enviar
               </button>
             </form>

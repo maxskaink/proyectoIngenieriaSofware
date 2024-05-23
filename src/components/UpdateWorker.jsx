@@ -60,7 +60,7 @@ export const UpdateWorker = () => {
                 <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <label>
                     Nombre:
-                    <input
+                    <input className='price-input'
                         type="text"
                         name="nombre"
                         value={workerData.name}
@@ -70,7 +70,7 @@ export const UpdateWorker = () => {
                 <br />
                 <label>
                     Puesto:
-                    <select
+                    <select  className='price-input'
                         name="puesto"
                         value={workerData.position}
                         onChange={handleInputChange}
@@ -83,7 +83,7 @@ export const UpdateWorker = () => {
                 <br />
                 <label>
                     Salario:
-                    <input
+                    <input  className='price-input'
                         type="number"
                         name="salario"
                         value={workerData.salary}
@@ -91,8 +91,8 @@ export const UpdateWorker = () => {
                     />
                 </label>
                 <br />
-                <button type="submit">Guardar</button>
-                <button onClick={handleDeleate}> Eliminar Trabajador</button>
+                <button className= "bttEnviar"type="submit">Guardar</button>
+                <button className='bttEnviar' onClick={handleDeleate}> Eliminar Trabajador</button>
             </form>
         </div>
     );
