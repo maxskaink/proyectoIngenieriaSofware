@@ -27,9 +27,9 @@ export const WeeklyReport = () => {
         <div>
             <h1 className='title-stock'>Reportes Semanales</h1>
             <div className='container-buttons'>
-                <button className='add-button' onClick={() => setSizeText("small")}>Normal</button>
-                <button className='add-button' onClick={() => setSizeText("medium")}>Grande</button>
-                <button className='add-button' onClick={() => setSizeText("large")}>Extra Grande</button>
+                <button className='buttons-informe' onClick={() => setSizeText("small")}>Normal</button>
+                <button className='buttons-informe' onClick={() => setSizeText("medium")}>Grande</button>
+                <button className='buttons-informe' onClick={() => setSizeText("large")}>Extra Grande</button>
             </div>
         
             {reports.length > 0 ? (

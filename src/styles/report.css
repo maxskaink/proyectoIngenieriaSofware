@@ -29,3 +29,18 @@
 .container-buttons{
     display: flex;
 }
+.buttons-informe{
+    align-items: center;
+    padding: 5px;
+    font-size: 18px;
+    background-color: #a2a6aa;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    height: 25px;
+}
+
+.container-buttons :hover{
+    background-color: #1a677c  ;
+}
