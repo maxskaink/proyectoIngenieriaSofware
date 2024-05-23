@@ -16,3 +16,11 @@ body,
   margin: 0;
   padding: 0;
 }
+.contenedorGeneral{
+  display: flex;
+  font-family: "Encode Sans Expanded", Encode Sans Expanded;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+}

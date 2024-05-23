@@ -5,10 +5,9 @@ import '../styles/providerManager.css';
 
 export const ProviderManager = () => {
     return (
-        <div className="contenedor-Porvier">
-                        
+        <div className="contenedorGeneral">
             <div className="contenidoProvider">
-            <h1>Gestionar Proveedor</h1>
+                <h1>Gestionar Proveedor</h1>
                 <div className="contenedorAgregarProvider">
                     <AddProvider/>
                 </div>
