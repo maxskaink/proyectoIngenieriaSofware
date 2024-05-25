@@ -54,6 +54,7 @@ export function CatalogoManager() {
               title="Actualizar producto"
               product={productSelected}
               key={productSelected.id}
+              disableName
             >
               <button
                 className="manageProduct-button-eliminar"

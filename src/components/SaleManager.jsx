@@ -1,10 +1,10 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { createSale } from "../helpers/querys";
-import { useState } from "react";
 import "../styles/salManager.css";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 export const SaleManager = () => {
-  const [order, setOrder] = useState({ products: [], medioPago: "" });
+  const [order, setOrder] = useLocalStorage("orderSale", { products: [], medioPago: "" });
 
   const addProduct = async (newItem) => {
 

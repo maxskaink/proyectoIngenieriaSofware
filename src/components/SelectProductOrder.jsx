@@ -49,7 +49,6 @@ export const SelectProductOrder = ({ onAddProduct, price, justWithStock, actualO
     const fetchProducts = async () => {
       try {
         const response = await getProducts();
-        console.log(response.data);
         setProducts(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
