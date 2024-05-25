@@ -1,16 +1,23 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { getActualMoney, createBuy } from "../helpers/querys";
-import { useState} from "react";
 import "../styles/buyManager.css";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const BuyManager = () => {
-  const [order, setOrder] = useState({
+/*   const [order, setOrder] = useState({
     products: [],
     providerName: "",
     contact: "",
     address: "",
   });
+ */
+  const [order, setOrder] = useLocalStorage("orderBuy", {
+    products: [],
+    providerName: "",
+    contact: "",
+    address: "",
+  })
 
   const addProduct = async (newItem) => {
     if (newItem.product.id === 0) return window.alert("Seleccione un producto");
@@ -92,7 +99,8 @@ export const BuyManager = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setOrder((prevOrder) => ({ ...prevOrder, [name]: value }));
+    console.log(order)
+    setOrder({ ...order, [name]: value });
   };
 
   return (
@@ -110,6 +118,7 @@ export const BuyManager = () => {
               <input
                 type="text"
                 name="providerName"
+                value={order.providerName.length === 0 ? "" : order.providerName}
                 placeholder="Nombre del proveedor"
                 onChange={handleInputChange}
               />
@@ -117,11 +126,13 @@ export const BuyManager = () => {
                 type="text"
                 name="contact"
                 placeholder="Contacto"
+                value={order.contact.length === 0 ? "" : order.contact}
                 onChange={handleInputChange}
               />
               <input
                 type="text"
                 name="address"
+                value={order.address.length === 0 ? "" : order.address}
                 placeholder="Dirección"
                 onChange={handleInputChange}
               />
