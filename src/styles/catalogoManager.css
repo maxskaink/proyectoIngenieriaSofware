@@ -52,11 +52,11 @@
 }
 
 .container-crud {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  width: -webkit-fill-available;
+      display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+    align-items: center;
+    width: -webkit-fill-available;
 }
 
 /* Animación de entrada */

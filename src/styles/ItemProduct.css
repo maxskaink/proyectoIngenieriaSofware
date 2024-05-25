@@ -1,4 +1,5 @@
 .catalogo-producto {
+  height: 10vh;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ddd;
@@ -6,17 +7,17 @@
   background-color: #dde7e9;
   transition: 0.5s;
   text-align: center;
+  width: 71vh;
 }
 
 .catalogo-producto:hover {
-  padding: 15px;
   background-color: #799ea8;
   color: #ffffff;
   font-weight: bold;
 }
 .contenedor {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(151px, 15%));
   gap: 10px;
 
 }

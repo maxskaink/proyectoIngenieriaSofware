@@ -11,9 +11,9 @@
   overflow: auto;
   transition: 0.5s;
   font-family: "Encode Sans Expanded", Encode Sans Expanded;
-  min-width: 106vh;
-  width: -webkit-fill-available;
+  min-width: 74vh;
   min-height: -webkit-fill-available;
+
   
 }
 .catalogo::-webkit-scrollbar {
@@ -36,15 +36,16 @@
 }
 .columnaHeader {
   background-color: #02586f;
-  border-radius: 10px;
-  color: #fff;
-  text-align: center;
-  height: 30px;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    width: 20vh;  
 }
 
 .cabecera {
