@@ -6,13 +6,22 @@
     justify-content: center;
 }
 .columnaManager{
-    width: 70vh;
-    height: 92vh;
-    border-radius: 2%;
+    width: 150vh;
+    height: 100vh;
     padding: 3vh;
     background-color: #ffffff;
     transition: .5s;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .container{
     display: none;
+}
+.contenedorOverflow{
+    overflow: auto;
+}
+.divisor{
+    margin-top: 2vh;
+    margin-bottom: 1vh;
 }

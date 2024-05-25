@@ -40,8 +40,8 @@ export const UpdateSucursal = () => {
 
     return (
         <>
-        <h2>Actualizar Sucursal</h2>
-            <form onSubmit={handleSubmit}>
+            <h2 className='Tittle-Agregar-Sucursal'> Actualizar Sucursal</h2>
+            <form className='divisor' onSubmit={handleSubmit}>
                 <SelectSucursal handleSelectedSucursal={handleSelectedSucursal} />
                 <label>
                     Nombre:

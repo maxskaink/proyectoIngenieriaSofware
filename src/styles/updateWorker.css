@@ -1,0 +1,16 @@
+.contenedorBotones{ 
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+   
+}
+.botonRojo{
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #ca3b3b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}

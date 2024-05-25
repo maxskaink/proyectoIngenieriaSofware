@@ -34,7 +34,7 @@ export const AddSucursal = () => {
     return (
         <>
         <h2 className='Tittle-Agregar-Sucursal'>Agregar Sucursal</h2>
-        <form onSubmit={handleSubmit}>
+        <form className='divisor' onSubmit={handleSubmit}>
             <label>
                 Nombre:
                 <input className='price-input'

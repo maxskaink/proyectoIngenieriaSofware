@@ -2,7 +2,7 @@ import  { useState } from 'react';
 import { SelectWorker } from './SelectWorker';
 import { SelectSucursal } from './SelectSucursal';
 import { updateWorker } from '../helpers/querys';
-
+import '../styles/updateWorker.css';
 export const UpdateWorker = () => {
     const [workerData, setWorkerData] = useState({
         nombre: '',
@@ -53,9 +53,9 @@ export const UpdateWorker = () => {
             idSucursal
         }));
     return (
-        <div>
+        <div >
             <h2>Actualizar Empleado</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='divisor' onSubmit={handleSubmit}>
                 <SelectWorker handleSelectWorker={handleSelectWorker} />
                 <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <label>
@@ -91,8 +91,11 @@ export const UpdateWorker = () => {
                     />
                 </label>
                 <br />
-                <button className= "bttEnviar"type="submit">Guardar</button>
-                <button className='bttEnviar' onClick={handleDeleate}> Eliminar Trabajador</button>
+                <div className='contenedorBotones'>
+                    <button className= "add-button"type="submit">Guardar</button>
+                    <button className='botonRojo' onClick={handleDeleate}> Eliminar Trabajador</button>
+                </div>
+                
             </form>
         </div>
     );

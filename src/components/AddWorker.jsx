@@ -38,8 +38,8 @@ export const AddWorker = () => {
 
     return (
         <div>
-            <h2>Agregar Trabajador</h2>
-            <form onSubmit={handleSubmit}>
+            <h2 >Agregar Trabajador</h2>
+            <form className='divisor' onSubmit={handleSubmit}>
                 <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <label>
                     Nombre:

@@ -6,7 +6,7 @@ import '../styles/sucursalManager.css';
 
 export const SucursalManager = () => {
     return (
-        <div className='contenedorGrid'>
+        <div className='contenedorOverflow'>
             <div className='columnaManager'>
                 <h1>Gestionador de sucursales</h1>
                 <AddSucursal />
