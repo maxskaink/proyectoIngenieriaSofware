@@ -1,7 +1,7 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { getActualMoney, createBuy } from "../helpers/querys";
-import { useState } from "react";
+import { useState} from "react";
 import "../styles/buyManager.css";
 
 export const BuyManager = () => {

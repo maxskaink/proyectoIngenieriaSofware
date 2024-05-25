@@ -11,6 +11,7 @@ export const ManageProduct = ({
   product = defaultProduct,
   title,
   children,
+  disableName = false,
 }) => {
   const [infoNewProduct, setInfoNewProducto] = useState(product && product);
 
@@ -91,6 +92,7 @@ export const ManageProduct = ({
             name="nombre"
             value={infoNewProduct.nombre}
             onChange={handleChange}
+            disabled={disableName}
           />
         </label>
 
