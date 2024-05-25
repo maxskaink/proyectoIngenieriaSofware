@@ -36,7 +36,7 @@ export const AddMoney = () => {
     }
 
     return (
-        <div className='container'>
+        <div>
             <div className='containerAddMoney'>
                 <h2>Agregar Dinero</h2>
                 <form onSubmit={handleSubmit}>

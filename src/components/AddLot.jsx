@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { addLot } from '../helpers/querys';
-
+import "../styles/addLot.css";
 export const AddLot = () => {
     const [lotData, setLotData] = useState({
         fechaCreacion: '',
@@ -31,30 +31,37 @@ export const AddLot = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Fecha de Creación:
-                <input
-                    type="date"
-                    name="fechaCreacion"
-                    value={lotData.fechaCreacion}
-                    onChange={handleInputChange}
-                    required
-                />
-            </label>
-            <br />
-            <label>
-                Fecha de Vencimiento:
-                <input
-                    type="date"
-                    name="fechaVencimiento"
-                    value={lotData.fechaVencimiento}
-                    onChange={handleInputChange}
-                    required
-                />
-            </label>
-            <br />
-            <button type="submit">Guardar</button>
-        </form>
+        <div className='contenedorGeneral'>
+            <div className='contendeor-addLot'>
+                
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Fecha de Creación:
+                        <input className='price-input'
+                            type="date"
+                            name="fechaCreacion"
+                            value={lotData.fechaCreacion}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Fecha de Vencimiento:
+                        <input className='price-input'
+                            type="date"
+                            name="fechaVencimiento"
+                            value={lotData.fechaVencimiento}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                    <br />
+                    <button className='bttEnviar' type="submit">Guardar</button>
+                </form>
+            </div>
+           
+        </div>
+        
     );
 };

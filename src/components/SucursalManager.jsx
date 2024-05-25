@@ -13,10 +13,10 @@ export const SucursalManager = () => {
                 <UpdateSucursal />
                 <AddMoney />
             </div>
-            <div className='columnaManager' >3
+            <div className='columnaManager' >
             <h1>Gestionador de trabajadores</h1>
                 <WorkerManager />
-        
+
             </div>
             
         </div>

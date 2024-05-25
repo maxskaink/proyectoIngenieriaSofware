@@ -1,0 +1,11 @@
+.contendeor-addLot{
+    background-color: white;
+    height: 40vh;
+    width: 50vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: nowrap;
+    border-radius: 2%;
+    justify-content: center;
+    align-items: center;
+}
