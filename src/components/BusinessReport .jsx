@@ -18,7 +18,7 @@ export const BusinessReport = () => {
         <div className="total"> 
             <div className="containerReports">
                 <div className="containerInforme">
-                    <h2 className="title-stock">Informe de compras</h2>
+                    <h2 className="title-stock">Lista de compras</h2>
                     <BuysClients />
                 </div>
                 <div className="containerReports-stocks">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SelectClient } from './SelectClient';
 import { getHistoryClient } from '../helpers/querys';
-
+import "../styles/report.css";
 export const BuysClients = () => {
 
     const [buys, setBuys] = useState([]);
@@ -19,18 +19,21 @@ export const BuysClients = () => {
 
     return (
         <div>
-            <h1>Lista de Compras</h1>
-            <SelectClient handleSelectedClient={handleSelectedClient}/>
-            <ul>
+           
+            <div className='serarch-bar'>
+                < SelectClient handleSelectedClient={handleSelectedClient}/>
+            </div>
+            
+            <ul className='contenedor-semana'>
                 {buys.length > 0 ? 
                 buys.map((buy, index) => (
-                    <li key={index}>
+                    <li key={index}  className='cont-inform-semana'>
                         <p>Producto: {buy.NOMBREPRODUCTO}</p>
                         <p>Fecha de compra: {buy.FECHACOMPRA}</p>
                         <p>Cantidad: {buy.CANTIDAD}</p>
                         <p>Precio unitario: {buy.PRECIOUNITARIO}</p>
                     </li>
-                )) : <p>No hay compras</p>}
+                )) : <p className='letrero-sinCompras'>No hay compras</p>}
             </ul>
         </div>
     );

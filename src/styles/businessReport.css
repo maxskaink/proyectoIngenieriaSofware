@@ -48,6 +48,7 @@
     }
     .columnaHeader {
         border-radius: 0%;
+        width: 23vh;
     }
     .columna {
         padding: 0px;
