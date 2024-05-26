@@ -30,6 +30,7 @@ export const BusinessReport = () => {
                             hidePrice
                             //hideSearch
                             hideTitle 
+                            sortByStock
                         />
                     </div>
                     <div className="container-stock">
