@@ -1,6 +1,6 @@
 import { Catalogo } from "./Catalogo";
+import { BuysClients } from "./BuysClients.jsx";
 import { Product } from "../class/product";
-import { WeeklyReport } from "./WeeklyReport.jsx";
 import '../styles/businessReport.css';
 
 const defaultProduct = new Product([]);
@@ -18,7 +18,8 @@ export const BusinessReport = () => {
         <div className="total"> 
             <div className="containerReports">
                 <div className="containerInforme">
-                    <WeeklyReport />
+                    <h2 className="title-stock">Informe de compras</h2>
+                    <BuysClients />
                 </div>
                 <div className="containerReports-stocks">
                     <div className="container-bajoStock">

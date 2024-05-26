@@ -106,3 +106,19 @@ export const getWorkers = async () => await axios.get(API.obtenerTrabajadores).t
 export const addWorker = async (worker) => await axios.post(API.agregarTrabajador, worker);
 
 export const updateWorker = async (worker) => await axios.put(API.actualizarTrabajador, worker);
+
+export const getDiscount = async (idCliente) => {
+  return await axios
+    .get(API.obtenerDescuento, { params: { idCliente } })
+    .then((res) => res.data);
+};
+
+export const getHistoryClient = async (idCliente) => {
+  return await axios
+    .get(API.obtenerHistorialCliente, { params: { idCliente } })
+    .then((res) => res.data);
+}
+
+export const getMainClients = async () => {
+  return await axios.get(API.obtenerPrincipalesClientes).then((res) => res.data);
+}

@@ -80,6 +80,12 @@ export const ProductsOrder = ({ order, onDeleteProduct, showActualMoney }) => {
 
       <div className="dinero">
         <p>Total: {totalPrice}</p>
+        {order.discount >0 &&
+         <p>Descuento: {order.discount + "%x"}</p>
+        }
+        {order.discount >0 &&
+          <p>Total con descuento: {totalPrice* (1-order.discount)}</p>
+        }
           -----------------------------------------------------------------------------------------------------------
         {showActualMoney && <p>Dinero actual en caja: {actualMoney}</p>}
       </div>

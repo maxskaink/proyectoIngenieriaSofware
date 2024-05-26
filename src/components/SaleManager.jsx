@@ -1,11 +1,10 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { SelectSucursal } from "./SelectSucursal";
-//import { SelectWorker } from "./SelectWorker";
 import { SelectClient} from "./SelectClient";
 import { ProductsOrder } from "./ProductsOrder";
 import { SelectWorker } from "./SelectWorker";
-import { createSale } from "../helpers/querys";
-import { useState } from "react";
+import { createSale, getDiscount } from "../helpers/querys";
+import { useState, useEffect } from "react";
 import { Trabajador } from "../class/trabajador";
 import "../styles/salManager.css";
 
@@ -15,9 +14,19 @@ export const SaleManager = () => {
   const [order, setOrder] = useState({
     products: [],
     idSucursal: undefined,
+    cedulaCliente: undefined,
     cedulaTrabajador : undefined,
-    estado: "Entregado"
+    estado: "Entregado",
+    discount: 0
   });
+
+  useEffect(() => {
+    if (order.cedulaCliente === undefined) return;
+    getDiscount(order.cedulaCliente).then((res) => {
+      setOrder((prevOrder) => ({ ...prevOrder, discount: res }));
+    });
+    
+  }, [order.cedulaCliente]);
 
   const addProduct = async (newItem) => {
 
