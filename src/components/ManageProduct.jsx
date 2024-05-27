@@ -42,10 +42,17 @@ export const ManageProduct = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const infoNewProductParse = {
+      ...infoNewProduct,
+      nombre:infoNewProduct.nombre.trim().replace(/\s+/g, ' '),
+      descripcion:infoNewProduct.descripcion.trim().replace(/\s+/g, ' '),
+      precio: infoNewProduct.precio.trim().replace(/\s+/g, ' ') 
+    };
+
     if (
-      infoNewProduct.nombre === "" ||
-      infoNewProduct.descripcion === "" ||
-      infoNewProduct.precio === ""
+      infoNewProductParse.nombre === "" ||
+      infoNewProductParse.descripcion === "" ||
+      infoNewProductParse.precio === ""
     ) {
       setStateForm({
         isValid: false,
@@ -58,11 +65,7 @@ export const ManageProduct = ({
 
     let response;
     try {
-      const formatedProducto = {
-        ...infoNewProduct,
-        nombre: infoNewProduct.nombre.trim(),
-      };
-      response = await handleManagement(formatedProducto);
+      response = await handleManagement(infoNewProductParse);
       if (response.data.state === "OK")
         setStateForm({
           isValid: true,
