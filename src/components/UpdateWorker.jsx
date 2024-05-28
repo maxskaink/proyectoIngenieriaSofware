@@ -2,7 +2,7 @@ import  { useState } from 'react';
 import { SelectWorker } from './SelectWorker';
 import { SelectSucursal } from './SelectSucursal';
 import { updateWorker } from '../helpers/querys';
-
+import '../styles/updateWorker.css';
 export const UpdateWorker = () => {
     const [workerData, setWorkerData] = useState({
         nombre: '',
@@ -53,14 +53,14 @@ export const UpdateWorker = () => {
             idSucursal
         }));
     return (
-        <div>
+        <div >
             <h2>Actualizar Empleado</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='divisor' onSubmit={handleSubmit}>
                 <SelectWorker handleSelectWorker={handleSelectWorker} />
                 <SelectSucursal handleSelectedSucursal={handleSelectSucursal} />
                 <label>
                     Nombre:
-                    <input
+                    <input className='price-input'
                         type="text"
                         name="nombre"
                         value={workerData.name}
@@ -70,7 +70,7 @@ export const UpdateWorker = () => {
                 <br />
                 <label>
                     Puesto:
-                    <select
+                    <select  className='price-input'
                         name="puesto"
                         value={workerData.position}
                         onChange={handleInputChange}
@@ -83,7 +83,7 @@ export const UpdateWorker = () => {
                 <br />
                 <label>
                     Salario:
-                    <input
+                    <input  className='price-input'
                         type="number"
                         name="salario"
                         value={workerData.salary}
@@ -91,8 +91,11 @@ export const UpdateWorker = () => {
                     />
                 </label>
                 <br />
-                <button type="submit">Guardar</button>
-                <button onClick={handleDeleate}> Eliminar Trabajador</button>
+                <div className='contenedorBotones'>
+                    <button className= "add-button"type="submit">Guardar</button>
+                    <button className='botonRojo' onClick={handleDeleate}> Eliminar Trabajador</button>
+                </div>
+                
             </form>
         </div>
     );

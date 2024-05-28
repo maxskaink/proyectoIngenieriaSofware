@@ -139,3 +139,6 @@ body {
 .fa-solid, .fa-cash-register{
   padding: 1vh;
 }
+.containerMenu-nav-link{
+ align-items: center;
+}

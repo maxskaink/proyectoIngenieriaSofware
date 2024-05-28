@@ -1,0 +1,8 @@
+.contenedor-Manager{
+    width: 90vh;
+    height: 82vh;
+    border-radius: 2%;
+    padding: 3vh;
+    background-color: #ffffff;
+    transition: .5s;
+}

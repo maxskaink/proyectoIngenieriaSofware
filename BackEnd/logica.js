@@ -991,7 +991,7 @@ export const obtenerHistorialComprasCliente = async ({idCliente}) => {
          idCliente: {
              dir: oracledb.BIND_IN,
              type: oracledb.STRING,
-             val: idCliente
+             val: idCliente.toString()
          }
      }    
    );
@@ -1000,7 +1000,7 @@ export const obtenerHistorialComprasCliente = async ({idCliente}) => {
 
    const historialCompras = Array.from(res);
    // Cerrar la conexión
-   await connection.close();  
+   await connection.close();
    return historialCompras;    
   } catch (err) {
     console.log(err)

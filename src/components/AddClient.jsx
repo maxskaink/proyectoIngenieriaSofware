@@ -29,7 +29,7 @@ export const AddClient = () => {
         <form onSubmit={handleSubmit}>
             <label>
                 Cédula:
-                <input
+                <input className='price-input'
                     type="number"
                     name="cedula"
                     value={formData.cedula}
@@ -40,7 +40,7 @@ export const AddClient = () => {
             <br />
             <label>
                 Nombre:
-                <input
+                <input  className='price-input'
                     type="text"
                     name="nombre"
                     value={formData.nombre}
@@ -51,7 +51,7 @@ export const AddClient = () => {
             <br />
             <label>
                 Correo Electrónico:
-                <input
+                <input  className='price-input'
                     type="email"
                     name="correo"
                     value={formData.correo}
@@ -62,7 +62,7 @@ export const AddClient = () => {
             <br />
             <label>
                 Fecha de Nacimiento:
-                <input
+                <input  className='price-input'
                     type="date"
                     name="fechaNacimiento"
                     value={formData.fechaNacimiento}
@@ -71,7 +71,7 @@ export const AddClient = () => {
                 />
             </label>
             <br />
-            <button type="submit">Guardar</button>
+            <button className= "bttEnviar" type="submit">Guardar</button>
         </form>
     );
 };

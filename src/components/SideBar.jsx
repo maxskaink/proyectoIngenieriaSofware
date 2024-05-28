@@ -33,6 +33,7 @@ export const SideBar = () => {
               className={`containerMenu-nav-link ${location.pathname === "/gestionar-clientes" && "active"}`}
               to="/gestionar-clientes"
             >
+              <i className="fa-solid fa-user"></i>
               Gestionar Clientes
             </Link>
             <Link

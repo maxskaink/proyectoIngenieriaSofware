@@ -27,5 +27,8 @@ export const API = {
   consultarProductosSucursal: "http://localhost:3001/consultar-productos-sucursal",
   obtenerTrabajadores: "http://localhost:3001/obtener-trabajadores",
   agregarTrabajador: "http://localhost:3001/agregar-trabajador",
-  actualizarTrabajador: "http://localhost:3001/actualizar-trabajador",  
+  actualizarTrabajador: "http://localhost:3001/actualizar-trabajador",
+  obtenerDescuento: "http://localhost:3001/obtener-descuento-cliente",
+  obtenerHistorialCliente: "http://localhost:3001/obtener-historial-compras-cliente",
+  obtenerPrincipalesClientes: "http://localhost:3001/obtener-principales-clientes-ultimo-mes",  
 };

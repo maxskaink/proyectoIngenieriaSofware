@@ -33,11 +33,11 @@ export const AddSucursal = () => {
 
     return (
         <>
-        <h2>Agregar Sucursal</h2>
-        <form onSubmit={handleSubmit}>
+        <h2 className='Tittle-Agregar-Sucursal'>Agregar Sucursal</h2>
+        <form className='divisor' onSubmit={handleSubmit}>
             <label>
                 Nombre:
-                <input
+                <input className='price-input'
                     type="text"
                     name="nombre"
                     value={formData.nombre}
@@ -48,7 +48,7 @@ export const AddSucursal = () => {
             <br />
             <label>
                 Teléfono:
-                <input
+                <input className='price-input'
                     type="number"
                     name="telefono"
                     value={formData.telefono}
@@ -59,7 +59,7 @@ export const AddSucursal = () => {
             <br />
             <label>
                 Dirección:
-                <input
+                <input className='price-input'
                     type="text"
                     name="direccion"
                     value={formData.direccion}
@@ -67,7 +67,7 @@ export const AddSucursal = () => {
                     required
                 />
             </label>
-            <button type="submit">Guardar</button>
+            <button className  = "bttEnviar"type="submit">Guardar</button>
         </form>
         </>
     );

@@ -1,0 +1,27 @@
+.contenedorGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+    align-items: center;
+    justify-content: center;
+}
+.columnaManager{
+    width: 150vh;
+    height: 100vh;
+    padding: 3vh;
+    background-color: #ffffff;
+    transition: .5s;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.container{
+    display: none;
+}
+.contenedorOverflow{
+    overflow: auto;
+}
+.divisor{
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+}

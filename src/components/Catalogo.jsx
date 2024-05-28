@@ -82,17 +82,18 @@ export const Catalogo = ({
             <strong> PRECIO </strong>
           </div>
           } 
-          {
-            cantidadStock && 
-            <div className="columnaHeader">
-              <strong> STOCK </strong>
-            </div>
-          }
+      
           {
             hideCategoria ||
               <div className="columnaHeader">
                 <strong> CATEGORIA </strong>
               </div>
+          }
+              {
+            cantidadStock && 
+            <div className="columnaHeader">
+              <strong> STOCK </strong>
+            </div>
           }
         </div>
       </div>

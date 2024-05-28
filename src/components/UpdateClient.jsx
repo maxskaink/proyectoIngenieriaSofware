@@ -30,14 +30,14 @@ export const UpdateClient = () => {
 
     return (
         <div>
-            <h2>Actualizar Cliente</h2>
+            <h1 >Actualizar Cliente</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <SelectClient handleSelectedClient={handleSelectedClient}/>
                 </div>
                 <div>
                     <label>Nombre:</label>
-                    <input
+                    <input className='price-input'
                         type="text"
                         name="nombre"
                         value={clientData.nombre}
@@ -47,7 +47,7 @@ export const UpdateClient = () => {
                 </div>
                 <div>
                     <label>Correo:</label>
-                    <input
+                    <input className= 'price-input'
                         type="email"
                         name="correo"
                         value={clientData.correo}
@@ -55,7 +55,7 @@ export const UpdateClient = () => {
                         required
                     />
                 </div>
-                <button type="submit">Guardar</button>
+                <button  className='bttEnviar'    type="submit">Guardar</button>
             </form>
         </div>
     );

@@ -42,7 +42,7 @@ export function UpdateProvider() {
 
     return (
         <div>
-            <h2>Actualizar proveedor</h2>
+            <h2 className='Tittle-Agregar-Sucursal'>Actualizar proveedor</h2>
             <form onSubmit={handleSubmit}>
                 <SelectProvider handleSelectedProvider={handleSelectedProvider} />
 
@@ -61,7 +61,7 @@ export function UpdateProvider() {
                     <input className='price-input' type="text" name="direccion" value={formData.address} onChange={handleChange} />
                 </label>
                 <br />
-                <button className= "add-button" type="submit">Enviar</button>
+                <button className= "bttEnviar" type="submit">Actualizar</button>
             </form>
         </div>
     );
