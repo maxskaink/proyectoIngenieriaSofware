@@ -55,3 +55,43 @@ BEGIN
   -- Llamar al procedimiento
   TRANSACCIONES.insertCompra(v_nitProveedor, v_idSucursal, v_productos);
 END;
+
+
+
+--Pruebas cursores paqueteGestionContable
+set SERVEROUT on;
+DECLARE
+  v_producto paquete_gestionContable.c_productos%ROWTYPE;
+BEGIN
+  OPEN paquete_gestionContable.c_productos(1); 
+  LOOP
+    FETCH paquete_gestionContable.c_productos INTO v_producto;
+    EXIT WHEN paquete_gestionContable.c_productos%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('ID Producto: ' || v_producto.idProducto || ', ID Sucursal: ' || v_producto.idSucursal || ', Cantidad: ' || v_producto.cantidad);
+  END LOOP;
+  CLOSE paquete_gestionContable.c_productos;
+END;
+
+DECLARE
+  v_compra paquete_gestionContable.c_compras%ROWTYPE;
+BEGIN
+  OPEN paquete_gestionContable.c_compras(987654); 
+  LOOP
+    FETCH paquete_gestionContable.c_compras INTO v_compra;
+    EXIT WHEN paquete_gestionContable.c_compras%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Código Compra: ' || v_compra.CODIGOCOMPRA || ', NIT: ' || v_compra.NIT || ', Fecha: ' || v_compra.FECHA || ', Precio Total: ' || v_compra.PRECIOTOTAL);
+  END LOOP;
+  CLOSE paquete_gestionContable.c_compras;
+END;
+
+DECLARE
+  v_cliente paquete_gestionContable.c_clientes%ROWTYPE;
+BEGIN
+  OPEN paquete_gestionContable.c_clientes(TO_DATE('2000-01-01', 'YYYY-MM-DD'))
+  LOOP
+    FETCH paquete_gestionContable.c_clientes INTO v_cliente;
+    EXIT WHEN paquete_gestionContable.c_clientes%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Cédula Cliente: ' || v_cliente.cedulaCliente || ', Nombre: ' || v_cliente.NOMBRE || ', Fecha Nacimiento: ' || v_cliente.FECHANACIMIENTO);
+  END LOOP;
+  CLOSE paquete_gestionContable.c_clientes;
+END;

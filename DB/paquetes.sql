@@ -1,4 +1,22 @@
 CREATE OR REPLACE PACKAGE paquete_gestionContable AS
+
+  --Cursores de prueba para el paquete
+  CURSOR c_productos(p_idSucursal SUCURSAL.IDSUCURSAL%TYPE) IS
+    SELECT idProducto, idSucursal, cantidad
+    FROM InventarioSucursal
+    WHERE idSucursal = p_idSucursal;
+
+  CURSOR c_compras(p_nit NUMBER) IS
+    SELECT CODIGOCOMPRA, NIT, FECHA, PRECIOTOTAL
+    FROM Compra
+    WHERE NIT = p_nit;
+
+  CURSOR c_clientes(p_FECHA DATE) IS
+    SELECT cedulaCliente, NOMBRE, FECHANACIMIENTO
+    FROM Cliente
+    WHERE FECHANACIMIENTO > p_FECHA;
+
+
   --Función que reciba como parámetro el id del cliente y devuelva el porcentaje de descuento total que se le puede hacer por fidelización
   FUNCTION descuentoCliente(p_clienteId CLIENTE.CEDULACLIENTE%type)
     RETURN number;
