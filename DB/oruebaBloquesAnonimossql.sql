@@ -22,10 +22,10 @@ BEGIN
 END;
 /
 DECLARE
-  v_clientes paquete_gestionContable.clientes_tabla;
+  v_clientes paquete_gestionContable.clientesCore_tabla;
   v_index PLS_INTEGER;
 BEGIN
-  v_clientes := paquete_gestionContable.principales_clientes_ultimo_mes;
+  v_clientes := paquete_gestionContable.principales_clientes_ultimo_mes();
 
   v_index := v_clientes.FIRST;
   WHILE v_index IS NOT NULL LOOP
@@ -94,4 +94,88 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Cédula Cliente: ' || v_cliente.cedulaCliente || ', Nombre: ' || v_cliente.NOMBRE || ', Fecha Nacimiento: ' || v_cliente.FECHANACIMIENTO);
   END LOOP;
   CLOSE paquete_gestionContable.c_clientes;
+END;
+
+-- PRUEBA FUNCIONALIDADES
+set SERVEROUT on;
+
+-- calcular el descuento del cliente
+DECLARE
+  v_descuento number;
+BEGIN
+  v_descuento := paquete_gestionContable.descuentoCliente(1059234957);
+  DBMS_OUTPUT.PUT_LINE('Descuento: ' || v_descuento);
+END;
+
+--Cambiar precio todo, sube o baja el precio de los productos con cierto porcentaje
+
+BEGIN
+  paquete_gestionContable.cambiarPreciosTodo(0.1);
+END;
+
+-- Obtiene el historial de compras de cierto cliente
+
+DECLARE
+  v_historial paquete_gestionContable.compras_tabla;
+BEGIN
+  paquete_gestionContable.historial_compras_cliente( 1059234957, v_historial);
+  FOR i IN 1..v_historial.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('Producto: ' || v_historial(i).nombreProducto || ', Fecha: ' || v_historial(i).fechaCompra);
+  END LOOP;
+END;
+
+--Obtiene la cantidad de productos en cada sucursal
+
+DECLARE
+  v_productos paquete_gestionContable.producto_sucursal_tabla;
+BEGIN
+  v_productos := paquete_gestionContable.productos_inventario_sucursal(1);
+  FOR i IN 1..v_productos.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('Producto: ' || v_productos(i).nombreProducto || ', Cantidad: ' || v_productos(i).cantidad);
+  END LOOP;
+END;
+
+-- Obtenemos un producto por su Id
+
+DECLARE
+  v_producto paquete_gestionContable.producto_detalle;
+BEGIN
+  v_producto := paquete_gestionContable.producto_by_id(1);
+  DBMS_OUTPUT.PUT_LINE('Producto: ' || v_producto.nombreProducto);
+END;
+
+--Obtenemos la capital que hay en una sucursal por su Id
+
+DECLARE
+  v_capital SUCURSAL.CAPITAL%TYPE;
+BEGIN
+  v_capital := paquete_gestionContable.capital_sucursal(1);
+  DBMS_OUTPUT.PUT_LINE('Capital: ' || v_capital);
+END;
+
+--Obtenemos las categorias de los productos
+DECLARE
+  v_categorias paquete_gestionContable.categorias_tabla;
+BEGIN
+  v_categorias := paquete_gestionContable.categorias_productos;
+  FOR i IN 1..v_categorias.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('Categoría: ' || v_categorias(i));
+  END LOOP;
+END;
+
+BEGIN
+  insertTrabajador(
+    123789, 
+    1, 
+    'Manuela catillo',
+    'Administrador',
+    1500000
+  );
+END;
+set SERVEROUT on;
+BEGIN 
+  updatePedido(
+    62,
+    'Entregado'
+  );
 END;
