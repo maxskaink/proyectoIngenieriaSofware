@@ -23,6 +23,7 @@ export const Catalogo = ({
   hideDescription,
   hidePrice,
   hanldeValition = () => true,
+  sortByStock = false,
 }) => {
   /* Array de todos los prodcutos de la base de datos */
   const [productos, setProductos] = useState([]);
@@ -43,13 +44,16 @@ export const Catalogo = ({
     const fetchProductos = async () => {
       try {
         const response = await getProducts();
+        if (sortByStock) 
+          response.data.sort((a, b) => a.cantidadStock - b.cantidadStock);
+
         setProductos(response.data);
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
     };
     fetchProductos();
-  }, [search, productSelected]);
+  }, [search, productSelected, sortByStock]);
 
   return (
     <div className="catalogo">
@@ -114,4 +118,5 @@ Catalogo.propTypes = {
   hideSearch: PropTypes.bool,
   hideDescription: PropTypes.bool,
   hidePrice: PropTypes.bool,
+  sortByStock: PropTypes.bool,
 };
