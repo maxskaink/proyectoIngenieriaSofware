@@ -28,9 +28,11 @@
 }
 
 .catalogo-lista {
+  height: 67vh;
   list-style: none;
   padding: 0;
   transition: 0.5s;
+  overflow: auto;
 
   
 }
