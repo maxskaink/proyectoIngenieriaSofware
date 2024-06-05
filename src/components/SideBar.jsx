@@ -6,7 +6,7 @@ export const SideBar = () => {
     <div>
       <div className="Container-Menu">
         <div className="sidebar">
-          <h1 className="titulo">Control Total</h1>
+          <h1 className="titulo">Gestion Total</h1>
           <nav>
          
               <Link
