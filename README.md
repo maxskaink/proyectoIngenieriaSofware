@@ -43,4 +43,4 @@ Este es un proyecto de prueba para practicar los principios de la Ingenieria de 
 		Si todo ha funcionado correctamente deberia de aparecer un mensaje diciendo lo siguiente:
 	`Servidor Express escuchando en http://localhost:3001`
 
-	Por ultimo para abrir y utilizar el proyecto debera de abrir la URL dada por la primera terminal y podra acceder a todas las funcionalidades.
+	Por ultimo para abrir y utilizar el proyecto debera de abrir la URL dada por la primera terminal y podra acceder a todas las funcionalidades.c
