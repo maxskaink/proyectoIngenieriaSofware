@@ -8,12 +8,12 @@
 .containerManagment {
   align-items: center;
   padding: 1em;
-  background-color: #fff;
   border-radius: 10px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  overflow: auto;
+  
 }
 
 .home-container {

@@ -17,13 +17,14 @@ export function CatalogoManager() {
     e.preventDefault();
     return await deleteProduct(productSelected).then((res) => {
       setProductSelected(undefined);
+      window.alert("La eliminación fue exitosa");
       return res;
     });
   };
   /* Definimos la accion cuando presiona el boton para agregar un producto */
   const handleAddProduct = async (producto) => {
-    return await addProduct(producto).then((res) => {
-      setProductSelected(undefined);
+    return await addProduct(producto).then( (res) => {
+       setProductSelected(undefined);
       return res;
     });
   };
@@ -31,6 +32,7 @@ export function CatalogoManager() {
   const handleUpdateProduct = async (producto) => {
     return await updateProduct(producto).then((res) => {
       setProductSelected(undefined);
+      window.alert("La modificación fue exitosa.");
       return res;
     });
   };
@@ -52,6 +54,7 @@ export function CatalogoManager() {
               title="Actualizar producto"
               product={productSelected}
               key={productSelected.id}
+              disableName
             >
               <button
                 className="manageProduct-button-eliminar"

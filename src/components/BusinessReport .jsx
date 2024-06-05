@@ -1,5 +1,6 @@
 import { Catalogo } from "./Catalogo";
 import { Product } from "../class/product";
+import { WeeklyReport } from "./WeeklyReport.jsx";
 import '../styles/businessReport.css';
 
 const defaultProduct = new Product([]);
@@ -14,20 +15,35 @@ export const BusinessReport = () => {
     }
 
     return (
-        <div className="containerReports">
-            <div>
-                <h2>Informes semanales</h2>
-                <p>Ni idea de como se va a manejar los informes semanales</p>
-            </div>
-            <div className="containerReports-stocks">
-                <div>
-                    <h2>Informe de falta de stock o bajo stock</h2>
-                    <Catalogo cantidadStock hanldeValition={hanldeValition} />
+        <div className="total"> 
+            <div className="containerReports">
+                <div className="containerInforme">
+                    <WeeklyReport />
                 </div>
-                <div>
-                    <h2>Informe de stock</h2>
-                    <Catalogo cantidadStock />
-                </div>                                          
+                <div className="containerReports-stocks">
+                    <div className="container-bajoStock">
+                        <h2 className="title-stock">Informe de falta de stock o bajo stock</h2>
+                        <Catalogo 
+                            cantidadStock 
+                            hanldeValition={hanldeValition}
+                            hideDescription
+                            hidePrice
+                            //hideSearch
+                            hideTitle 
+                            sortByStock
+                        />
+                    </div>
+                    <div className="container-stock">
+                        <h2 className="title-stock">Informe de stock</h2>
+                        <Catalogo 
+                            cantidadStock 
+                            hideDescription
+                            hidePrice
+                            //hideSearch
+                            hideTitle
+                        />
+                    </div>                                          
+                </div>
             </div>
         </div>
     );

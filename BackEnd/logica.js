@@ -1,18 +1,11 @@
 import { getConnection } from "oracledb";
 import { Product } from "../src/class/product.js";
+import { Inform } from "../src/class/inform.js";
 
 const user = 'BDDII'
 const  password = 'oracle'
 const connectionString = 'localhost/xe'
 
-const checkExistingProductAndDesactivaded = async (nombre) => {
-  const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
-  const query = 'SELECT COUNT(*) FROM PRODUCTO WHERE (nombre = :nombre) AND (activado = 0)';
-  const result = await connection.execute(query, { nombre });
-  const count = result.rows[0][0];
-  await connection.close();
-  return count > 0;
-};
 
 export const agregarProducto = async ({nombre, descripcion, precio }) => {
     let connection;
@@ -25,10 +18,8 @@ export const agregarProducto = async ({nombre, descripcion, precio }) => {
     connection = await getConnection({ user: user, password: password, connectionString: connectionString })
     .catch( err => console.log(err));
 
-    const existingProduct = await checkExistingProductAndDesactivaded(nombre);
-    const query = (existingProduct)
-      ? 'UPDATE PRODUCTO SET activado = 1, nombre = :nombre, DESCRIPCION = :descripcion, PrecioActual = :precio WHERE nombre = :nombre'
-      : 'INSERT INTO PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) VALUES (:nombre, :descripcion, :precio, 1, 0)';
+    //const existingProduct = await checkExistingProductAndDesactivaded(nombre);
+    const query = 'INSERT INTO PRODUCTO (nombre, DESCRIPCION, PrecioActual, activado, CANTIDADSTOCK) VALUES (:nombre, :descripcion, :precio, 1, 0)';
 
     await connection.execute(query, {
       nombre,
@@ -190,5 +181,39 @@ export const crearVenta = async ({medioPago = "", products = []}) => {
   }catch(err){
     console.log(err);
     return {state: 'ERROR', message: 'No se ha podido crear la venta'};
+  }
+}
+
+export const agregarDineroCaja = async ({dinero}) => {
+  try{
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+    if(dinero < 0 ) return {state: 'ERROR', message: 'No se puede agregar dinero negativo'};
+    const query = `UPDATE CAJA SET dineroTotal = dineroTotal + :dinero WHERE codigocaja = 1`;
+    await connection.execute(query, {dinero}, { autoCommit: true });
+
+    await connection.close();
+    return {state: 'OK', message: 'Se ha agregado el dinero con éxito'};
+  }catch(err){
+    console.log(err);
+    return {state: 'ERROR', message: 'No se ha podido agregar el dinero'};
+  }
+}
+
+export const consultarInformes = async () => {
+  try {
+    // Obtener conexión
+    const connection = await getConnection({ user: user, password: password, connectionString: connectionString });
+  
+    // Consulta SELECT
+    const query = 'select * from Vista_Resumen_Semanal';
+    const result = await connection.execute(query);
+    // Extraer filas del resultado
+    const informes = result.rows.map( (informeArray) => new Inform(informeArray));
+    // Cerrar la conexión
+    await connection.close();
+  
+    return informes;
+  } catch (err) {
+    console.log(err)
   }
 }

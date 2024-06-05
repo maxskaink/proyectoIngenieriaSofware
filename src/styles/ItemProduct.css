@@ -16,10 +16,15 @@
 }
 .contenedor {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* Divide el contenedor en tres columnas de igual tamaño */
-  gap: 10px; /* Espacio entre las columnas */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+
 }
 
 .columna {
   padding: 20px;
+  text-align: center;
+  height: 100px;
+  overflow: hidden; 
+  text-overflow: ellipsis
 }

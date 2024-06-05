@@ -13,6 +13,8 @@
 .main-menu {
   background-color: #f5f5f5; /* Tono claro y neutro */
   color: #333; /* Texto oscuro y legible */
+  margin-left: 20%;
+  
 }
 
 .main-menu ul {
@@ -34,4 +36,14 @@
 
 .main-menu a:hover {
   background-color: #ddd; /* Resaltar enlaces al pasar el mouse */
+}
+.contenedor-menu{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.contenedor-menu h1{
+  color: #f0fdfdba;
 }

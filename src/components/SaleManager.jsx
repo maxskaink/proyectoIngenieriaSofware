@@ -1,10 +1,10 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { createSale } from "../helpers/querys";
-import { useState } from "react";
-
+import "../styles/salManager.css";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 export const SaleManager = () => {
-  const [order, setOrder] = useState({ products: [], medioPago: "" });
+  const [order, setOrder] = useLocalStorage("orderSale", { products: [], medioPago: "" });
 
   const addProduct = async (newItem) => {
 
@@ -67,6 +67,8 @@ export const SaleManager = () => {
         window.alert("Venta realizada con éxito");
         //window.location.reload();
       } else window.alert("Error al realizar la venta");
+
+      setOrder({ products: [], medioPago: "" });
     } catch (error) {
       console.error(error);
       window.alert("Error al realizar la venta");
@@ -74,27 +76,32 @@ export const SaleManager = () => {
   };
 
   return (
-    <div>
-      <h1>ventas</h1>
-      <SelectProductOrder onAddProduct={addProduct} />
+    <div className="boardSalManager"> 
+      <div className="contenedorSalManager">
+        <div className="contenido">
 
-      <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
-
-      <div>
-        <form>
-          <label>
-            Medio de Pago:
-            <select value={order.medioPago} onChange={handleMedioPagoChange}>
-              <option value="">Seleccione un medio de pago</option>
-              <option value="tarjeta">Tarjeta</option>
-              <option value="efectivo">Efectivo</option>
-              <option value="transferencia">Transferencia</option>
-            </select>
-          </label>
-          <button type="button" onClick={handleSubmit}>
-            Enviar
-          </button>
-        </form>
+        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
+        
+        <div className="contendorMedioPago">
+        <SelectProductOrder onAddProduct={addProduct} justWithStock/>
+            <form>
+              <label >
+                <p>Medio de Pago:</p>
+                <select className="cmbxOption" value={order.medioPago} onChange={handleMedioPagoChange}>
+                  <option value="">Seleccione un medio de pago</option>
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="efectivo">Efectivo</option>
+                  <option value="transferencia">Transferencia</option>
+                </select>
+              </label>
+              <button className= "bttEnviar" type="button" onClick={handleSubmit}>
+                <p>Enviar</p>
+              </button>
+            </form>
+           
+          </div>
+    
+        </div>
       </div>
     </div>
   );

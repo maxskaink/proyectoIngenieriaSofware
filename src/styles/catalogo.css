@@ -6,16 +6,15 @@
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-height: 90vh;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  max-height: 35vh;
   overflow: auto;
   transition: 0.5s;
-  font-family:
-    "Encode Sans Expanded",
-    Encode Sans Expanded;
-  min-width: 90vh;
+  font-family: "Encode Sans Expanded", Encode Sans Expanded;
+  min-width: 106vh;
   width: -webkit-fill-available;
   min-height: -webkit-fill-available;
+  
 }
 .catalogo::-webkit-scrollbar {
   display: none; /* Oculta la barra de desplazamiento */
@@ -32,6 +31,8 @@
   list-style: none;
   padding: 0;
   transition: 0.5s;
+
+  
 }
 .columnaHeader {
   background-color: #02586f;

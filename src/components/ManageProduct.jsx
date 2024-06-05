@@ -11,6 +11,7 @@ export const ManageProduct = ({
   product = defaultProduct,
   title,
   children,
+  disableName = false,
 }) => {
   const [infoNewProduct, setInfoNewProducto] = useState(product && product);
 
@@ -41,15 +42,22 @@ export const ManageProduct = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const infoNewProductParse = {
+      ...infoNewProduct,
+      nombre:infoNewProduct.nombre.trim().replace(/\s+/g, ' '),
+      descripcion:infoNewProduct.descripcion.trim().replace(/\s+/g, ' '),
+      precio: infoNewProduct.precio.trim().replace(/\s+/g, ' ') 
+    };
+
     if (
-      infoNewProduct.nombre === "" ||
-      infoNewProduct.descripcion === "" ||
-      infoNewProduct.precio === ""
+      infoNewProductParse.nombre === "" ||
+      infoNewProductParse.descripcion === "" ||
+      infoNewProductParse.precio === ""
     ) {
       setStateForm({
         isValid: false,
         message:
-          "Ingrese al menos una descripcion, precio y nombre del producto",
+          "Los datos del producto no están completos.Falta datos del producto.",
         className: "manageProduct-message-error",
       });
       return;
@@ -57,15 +65,11 @@ export const ManageProduct = ({
 
     let response;
     try {
-      const formatedProducto = {
-        ...infoNewProduct,
-        nombre: infoNewProduct.nombre.trim(),
-      };
-      response = await handleManagement(formatedProducto);
+      response = await handleManagement(infoNewProductParse);
       if (response.data.state === "OK")
         setStateForm({
           isValid: true,
-          message: "Se ha agregado el producto",
+          message: "El producto se registró correctamente",
           className: "manageProduct-message",
         });
     } catch (error) {
@@ -91,6 +95,7 @@ export const ManageProduct = ({
             name="nombre"
             value={infoNewProduct.nombre}
             onChange={handleChange}
+            disabled={disableName}
           />
         </label>
 

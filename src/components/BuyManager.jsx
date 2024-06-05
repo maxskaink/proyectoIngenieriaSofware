@@ -1,16 +1,23 @@
 import { SelectProductOrder } from "./SelectProductOrder";
 import { ProductsOrder } from "./ProductsOrder";
 import { getActualMoney, createBuy } from "../helpers/querys";
-import { useState } from "react";
 import "../styles/buyManager.css";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const BuyManager = () => {
-  const [order, setOrder] = useState({
+/*   const [order, setOrder] = useState({
     products: [],
     providerName: "",
     contact: "",
     address: "",
   });
+ */
+  const [order, setOrder] = useLocalStorage("orderBuy", {
+    products: [],
+    providerName: "",
+    contact: "",
+    address: "",
+  })
 
   const addProduct = async (newItem) => {
     if (newItem.product.id === 0) return window.alert("Seleccione un producto");
@@ -82,6 +89,7 @@ export const BuyManager = () => {
       await createBuy(order);
 
       window.alert("Compra realizada exitosamente");
+      setOrder({ products: [], providerName: "", contact: "", address: "" });
       //window.location.reload();
     } catch (error) {
       console.error(error);
@@ -91,42 +99,50 @@ export const BuyManager = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setOrder((prevOrder) => ({ ...prevOrder, [name]: value }));
+    console.log(order)
+    setOrder({ ...order, [name]: value });
   };
 
   return (
     <div className="boardManageBuy">
       <div className="manageBuy">
-        <h1 className="compras-titulo">Compras </h1>
-        <SelectProductOrder onAddProduct={addProduct} price />
-
-        <ProductsOrder order={order} onDeleteProduct={deleteProduct} />
-
-        <div>
-          <form>
-            <input
-              type="text"
-              name="providerName"
-              placeholder="Nombre del proveedor"
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="contact"
-              placeholder="Contacto"
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="address"
-              placeholder="Dirección"
-              onChange={handleInputChange}
-            />
-            <button className="buttonA" type="button" onClick={handleSubmit}>
-              Enviar
-            </button>
-          </form>
+        <div className="Columna-1">
+          <ProductsOrder order={order} onDeleteProduct={deleteProduct} showActualMoney />
         </div>
+        <div className="Columna-2">
+          <h1 className="compras-titulo">Compras </h1>
+          <SelectProductOrder onAddProduct={addProduct} price actualOrder = {order} />
+
+          <div >
+            <form className="contendorProveedor">
+              <input
+                type="text"
+                name="providerName"
+                value={order.providerName.length === 0 ? "" : order.providerName}
+                placeholder="Nombre del proveedor"
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="contact"
+                placeholder="Contacto"
+                value={order.contact.length === 0 ? "" : order.contact}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="address"
+                value={order.address.length === 0 ? "" : order.address}
+                placeholder="Dirección"
+                onChange={handleInputChange}
+              />
+              <button className="buttonA" type="button" onClick={handleSubmit}>
+                Enviar
+              </button>
+            </form>
+          </div>
+        </div>
+        
       </div>
     </div>
   );
